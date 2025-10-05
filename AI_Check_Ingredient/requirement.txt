@@ -1,0 +1,16 @@
+# Core scientific stack
+pandas
+numpy
+scikit-learn
+tqdm
+
+# Embedding model & search
+sentence-transformers
+faiss-cpu
+rapidfuzz
+
+# Jupyter environment
+ipykernel
+notebook
+
+

@@ -1,0 +1,57 @@
+# ========================================
+# Python cache and build
+# ========================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+build/
+dist/
+*.egg-info/
+
+# ========================================
+# Jupyter checkpoints
+# ========================================
+.ipynb_checkpoints/
+
+# ========================================
+# Virtual environments
+# ========================================
+venv/
+.env/
+env/
+.venv/
+
+# ========================================
+# OS and IDE files
+# ========================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ========================================
+# Large cache/model files
+# ========================================
+# Ignore all embeddings and FAISS by default
+*.npy
+*.faiss
+*_lookup.csv
+*_meta.json
+
+# ========================================
+# But keep canonical embedding space
+# (so users can run immediately)
+# ========================================
+!data/embeddings_canonical.npy
+!data/index_canonical.faiss
+!data/index_lookup_canonical.csv
+!data/index_meta_canonical.json
+
+# ========================================
+# Logs / temp files
+# ========================================
+*.log
+*.tmp
+*.bak
