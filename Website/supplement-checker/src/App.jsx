@@ -3,6 +3,7 @@ import './App.css';
 import AuthModal from './components/AuthModal';
 import ManualLabelModal from './components/ManualLabelModal';
 import ManualLabelsDisplay from './components/ManualLabelsDisplay';
+import LavaLampBackground from './components/LavaLampBackground';
 import { supabase, getCurrentUser, signOut, getManualLabels } from './supabaseClient';
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
   const [labelingIngredient, setLabelingIngredient] = useState(null);
   const [editingLabel, setEditingLabel] = useState(null);
   const [manualLabelsCache, setManualLabelsCache] = useState(new Map());
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState({ step: '', current: 0, total: 0 });
 
   // Common safe minerals/vitamins that may not be in the pharmaceutical database
   // but are standard approved nutritional ingredients
@@ -50,8 +53,11 @@ function App() {
     setIngredientsList(e.target.value);
     // Reset height to auto to get the correct scrollHeight
     e.target.style.height = 'auto';
-    // Set height to scrollHeight to fit content
-    e.target.style.height = e.target.scrollHeight + 'px';
+    // Set height to scrollHeight to fit content (with max of 400px)
+    const newHeight = Math.min(e.target.scrollHeight, 400);
+    e.target.style.height = newHeight + 'px';
+    // Show scrollbar only when max height is reached
+    e.target.style.overflowY = e.target.scrollHeight > 400 ? 'auto' : 'hidden';
   };
 
   // Check for user session
@@ -105,15 +111,105 @@ function App() {
     setShowLabelModal(true)
   }
 
-  const handleLabelSuccess = async () => {
-    // Refresh manual labels for this ingredient
-    if (labelingIngredient) {
-      const normalizedName = labelingIngredient.name.toLowerCase().trim()
-      const labels = await getManualLabels(labelingIngredient.name)
-      setManualLabelsCache(prev => new Map(prev).set(normalizedName, labels))
+  // Refresh a single ingredient's status after label changes
+  const refreshIngredientStatus = async (ingredientName) => {
+    const normalizedName = ingredientName.toLowerCase().trim()
 
-      // Re-analyze to update the display
-      analyzeIngredients()
+    // Reload labels for this ingredient
+    const labels = await getManualLabels(ingredientName)
+    setManualLabelsCache(prev => new Map(prev).set(normalizedName, labels))
+
+    // Update the analyzed ingredients list
+    setAnalyzedIngredients(prev => prev.map(ing => {
+      if (ing.name.toLowerCase().trim() !== normalizedName) {
+        return ing // Keep other ingredients unchanged
+      }
+
+      // Recalculate status for this ingredient
+      const topLabel = labels.length > 0 ? labels[0] : null
+      const hasManualLabel = labels.length > 0
+
+      let status = ing.status
+      let statusText = ing.statusText
+      let details = ing.details
+
+      if (topLabel) {
+        // Community label exists - override automatic results
+        status = topLabel.status
+        statusText = topLabel.status === 'safe'
+          ? 'Approved (Community Override)'
+          : topLabel.status === 'danger'
+            ? 'Non-Approved (Community Override)'
+            : 'Unknown (Community Label)'
+        details = {
+          source: 'community',
+          topLabel,
+          databaseMatches: ing.details?.matches || ing.details?.databaseMatches
+        }
+      } else if (ing.details?.databaseMatches) {
+        // No community label anymore - revert to automatic database results
+        const allMatches = ing.details.databaseMatches
+        const pharmaMatch = allMatches.pharma?.find(m => m.result.item.is_medicine)
+        const safePharmaMatch = allMatches.pharma?.find(m => !m.result.item.is_medicine)
+
+        if (pharmaMatch) {
+          status = 'danger'
+          statusText = 'Non-Approved (Pharmaceutical Medicine)'
+          details = { source: 'multiple', matches: allMatches, primaryMatch: pharmaMatch }
+        } else if (safePharmaMatch) {
+          if (allMatches.novel?.length > 0) {
+            const novelStatus = allMatches.novel[0].result.item.novel_food_status
+            const isActuallyNovel = novelStatus === 'Novel food'
+            const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                 novelStatus === 'Not novel in food' ||
+                                 novelStatus === 'Not novel in food supplements'
+
+            if (isActuallyNovel) {
+              status = 'danger'
+              statusText = 'Non-Approved (Novel Food - Requires Authorization)'
+            } else if (isAuthorized) {
+              status = 'safe'
+              statusText = 'Approved'
+            } else {
+              status = 'unknown'
+              statusText = 'Unknown (Novel Food Under Review)'
+            }
+          } else {
+            status = 'safe'
+            statusText = 'Approved'
+          }
+          details = { source: 'multiple', matches: allMatches, primaryMatch: safePharmaMatch }
+        } else if (allMatches.novel?.length > 0) {
+          const novelStatus = allMatches.novel[0].result.item.novel_food_status
+          const isActuallyNovel = novelStatus === 'Novel food'
+
+          if (isActuallyNovel) {
+            status = 'danger'
+            statusText = 'Non-Approved (Novel Food - Requires Authorization)'
+          } else {
+            status = 'unknown'
+            statusText = 'Unknown (Not in Substance Guide)'
+          }
+          details = { source: 'multiple', matches: allMatches, primaryMatch: allMatches.novel[0] }
+        }
+      }
+
+      return {
+        ...ing,
+        status,
+        statusText,
+        details,
+        hasManualLabel,
+        manualLabels: labels,
+        topLabel
+      }
+    }))
+  }
+
+  const handleLabelSuccess = async () => {
+    // Refresh manual labels for this ingredient without re-analyzing
+    if (labelingIngredient) {
+      await refreshIngredientStatus(labelingIngredient.name)
     }
   }
 
@@ -262,6 +358,8 @@ function App() {
 
     // Clear selected ingredient when re-analyzing
     setSelectedIngredient(null);
+    setAnalyzing(true);
+    setAnalysisProgress({ step: 'Preparing analysis...', current: 0, total: 0 });
 
     const startTime = performance.now();
 
@@ -298,7 +396,10 @@ function App() {
       ingredients.push(current.trim());
     }
 
-    const analyzed = await Promise.all(ingredients.map(async ingredient => {
+    setAnalysisProgress({ step: 'Parsing ingredients...', current: 0, total: ingredients.length });
+
+    const analyzed = await Promise.all(ingredients.map(async (ingredient, index) => {
+      setAnalysisProgress({ step: 'Analyzing ingredients...', current: index + 1, total: ingredients.length });
       // Parse ingredient to extract main name and parenthetical name
       const match = ingredient.match(/^([^(]+)(?:\(([^)]+)\))?/);
       const mainName = match ? match[1].trim() : ingredient;
@@ -413,74 +514,132 @@ function App() {
       const topLabel = manualLabels.length > 0 ? manualLabels[0] : null
       const hasManualLabel = manualLabels.length > 0;
 
-      // Determine overall status based on flowchart logic:
-      // 1. Check Substance Guide (pharma) - if medicine → NOT APPROVED
-      // 2. If Substance Guide OK → Check Novel Food - if found → NOT APPROVED
-      // 3. If both OK (pharma approved + no novel food) → APPROVED
-      // 4. If no database info, use top-voted community label if available
+      // IMPORTANT: Community labels ALWAYS override automatic results
+      // If there's a community label, use it regardless of database matches
       let status = 'unknown';
       let statusText = 'No information';
       let details = null;
 
-      const pharmaMatch = allMatches.pharma.find(m => m.result.item.is_medicine);
-      const safePharmaMatch = allMatches.pharma.find(m => !m.result.item.is_medicine);
-
-      // Step 1: Substance Guide Check
-      if (pharmaMatch) {
-        // Found as pharmaceutical medicine → NOT APPROVED (RED)
-        status = 'danger';
-        statusText = 'Non-Approved (Pharmaceutical Medicine)';
-        details = {
-          source: 'multiple',
-          matches: allMatches,
-          primaryMatch: pharmaMatch
-        };
-      }
-      else if (safePharmaMatch) {
-        // Step 2: Found in Substance Guide as safe, now check Novel Food
-        if (allMatches.novel.length > 0) {
-          // Found in Novel Food → NOT APPROVED (RED)
-          status = 'danger';
-          statusText = 'Non-Approved (Novel Food)';
-          details = {
-            source: 'multiple',
-            matches: allMatches,
-            primaryMatch: safePharmaMatch
-          };
-        } else {
-          // Passed both checks → APPROVED (GREEN)
-          status = 'safe';
-          statusText = 'Approved';
-          details = {
-            source: 'multiple',
-            matches: allMatches,
-            primaryMatch: safePharmaMatch
-          };
-        }
-      }
-      else if (allMatches.novel.length > 0) {
-        // Not in Substance Guide but found in Novel Food → NOT APPROVED (RED)
-        status = 'danger';
-        statusText = 'Non-Approved (Novel Food, not in Substance Guide)';
-        details = {
-          source: 'multiple',
-          matches: allMatches,
-          primaryMatch: allMatches.novel[0]
-        };
-      }
-      else if (topLabel) {
-        // No database information, but we have a community label
-        // Use the top-voted label's status
+      if (topLabel) {
+        // Community label exists - use it and override any automatic results
         status = topLabel.status;
         statusText = topLabel.status === 'safe'
-          ? 'Approved (Community Label)'
+          ? 'Approved (Community Override)'
           : topLabel.status === 'danger'
-            ? 'Non-Approved (Community Label)'
+            ? 'Non-Approved (Community Override)'
             : 'Unknown (Community Label)';
         details = {
           source: 'community',
-          topLabel
+          topLabel,
+          databaseMatches: allMatches // Keep database matches for reference
         };
+      } else {
+        // No community label - use automatic flowchart logic:
+        // 1. Check Substance Guide (pharma) - if medicine → NOT APPROVED
+        // 2. If Substance Guide OK → Check Novel Food - if found → NOT APPROVED
+        // 3. If both OK (pharma approved + no novel food) → APPROVED
+        const pharmaMatch = allMatches.pharma.find(m => m.result.item.is_medicine);
+        const safePharmaMatch = allMatches.pharma.find(m => !m.result.item.is_medicine);
+
+        // Step 1: Substance Guide Check
+        if (pharmaMatch) {
+          // Found as pharmaceutical medicine → NOT APPROVED (RED)
+          status = 'danger';
+          statusText = 'Non-Approved (Pharmaceutical Medicine)';
+          details = {
+            source: 'multiple',
+            matches: allMatches,
+            primaryMatch: pharmaMatch
+          };
+        }
+        else if (safePharmaMatch) {
+          // Step 2: Found in Substance Guide as safe, now check Novel Food
+          if (allMatches.novel.length > 0) {
+            // Check the novel food status - not all novel food entries mean "not approved"
+            const novelStatus = allMatches.novel[0].result.item.novel_food_status;
+            const isActuallyNovel = novelStatus === 'Novel food';
+            const needsConsultation = novelStatus === 'Subject to a consultation request';
+            const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                 novelStatus === 'Not novel in food' ||
+                                 novelStatus === 'Not novel in food supplements';
+
+            if (isActuallyNovel) {
+              // Truly novel food requiring authorization → NOT APPROVED (RED)
+              status = 'danger';
+              statusText = 'Non-Approved (Novel Food - Requires Authorization)';
+              details = {
+                source: 'multiple',
+                matches: allMatches,
+                primaryMatch: safePharmaMatch
+              };
+            } else if (isAuthorized) {
+              // Authorized or not actually novel → APPROVED (GREEN)
+              status = 'safe';
+              statusText = 'Approved';
+              details = {
+                source: 'multiple',
+                matches: allMatches,
+                primaryMatch: safePharmaMatch
+              };
+            } else if (needsConsultation || !novelStatus) {
+              // Under consultation or unknown status → UNKNOWN
+              status = 'unknown';
+              statusText = 'Unknown (Novel Food Under Review)';
+              details = {
+                source: 'multiple',
+                matches: allMatches,
+                primaryMatch: safePharmaMatch
+              };
+            }
+          } else {
+            // Passed both checks → APPROVED (GREEN)
+            status = 'safe';
+            statusText = 'Approved';
+            details = {
+              source: 'multiple',
+              matches: allMatches,
+              primaryMatch: safePharmaMatch
+            };
+          }
+        }
+        else if (allMatches.novel.length > 0) {
+          // Not in Substance Guide but found in Novel Food
+          const novelStatus = allMatches.novel[0].result.item.novel_food_status;
+          const isActuallyNovel = novelStatus === 'Novel food';
+          const needsConsultation = novelStatus === 'Subject to a consultation request';
+          const isAuthorized = novelStatus === 'Authorised novel food' ||
+                               novelStatus === 'Not novel in food' ||
+                               novelStatus === 'Not novel in food supplements';
+
+          if (isActuallyNovel) {
+            // Novel food requiring authorization → NOT APPROVED (RED)
+            status = 'danger';
+            statusText = 'Non-Approved (Novel Food - Requires Authorization)';
+            details = {
+              source: 'multiple',
+              matches: allMatches,
+              primaryMatch: allMatches.novel[0]
+            };
+          } else if (isAuthorized) {
+            // Authorized or not novel → UNKNOWN (not in pharma guide, but novel food says OK)
+            status = 'unknown';
+            statusText = 'Unknown (Not in Substance Guide)';
+            details = {
+              source: 'multiple',
+              matches: allMatches,
+              primaryMatch: allMatches.novel[0]
+            };
+          } else {
+            // Under consultation or unknown
+            status = 'unknown';
+            statusText = 'Unknown (Novel Food Under Review)';
+            details = {
+              source: 'multiple',
+              matches: allMatches,
+              primaryMatch: allMatches.novel[0]
+            };
+          }
+        }
       }
 
       return {
@@ -494,11 +653,14 @@ function App() {
       };
     }));
 
+    setAnalysisProgress({ step: 'Finalizing results...', current: ingredients.length, total: ingredients.length });
+
     const endTime = performance.now();
     const timeTaken = ((endTime - startTime) / 1000).toFixed(3); // Convert to seconds
 
     setAnalyzedIngredients(analyzed);
     setAnalysisTime(timeTaken);
+    setAnalyzing(false);
   };
 
   // Safely strip HTML tags without using innerHTML (prevents XSS)
@@ -510,9 +672,10 @@ function App() {
 
   return (
     <div className="app-container">
+      <LavaLampBackground />
       <div className="max-width">
-        {/* Header */}
-        <div className="card header">
+        {/* Header and Input Combined */}
+        <div className="card header-input-combined">
           <div className="header-content">
             <div>
               <h1>Ingredient Safety Checker</h1>
@@ -548,6 +711,47 @@ function App() {
                 title="Help - Color Guide"
               >
                 ?
+              </button>
+            </div>
+          </div>
+
+          <div className="input-section">
+            <label className="label">
+              Enter Ingredients List
+            </label>
+            <textarea
+              placeholder="Paste ingredients list here... (e.g., NAC, Vitamin C, Spirulina, Melatonin)"
+              value={ingredientsList}
+              onChange={handleTextareaChange}
+              className="textarea"
+              rows="1"
+            />
+            <div className="input-footer">
+              <div className="status-text">
+                {loading ? (
+                  <span>⏳ Loading databases...</span>
+                ) : loadError ? (
+                  <span style={{ color: '#ef4444' }}>❌ {loadError}</span>
+                ) : (
+                  <span>
+                    <strong>{novelFoods.length}</strong> novel foods and <strong>{pharmaceuticals.length}</strong> pharmaceutical ingredients loaded
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={analyzeIngredients}
+                disabled={loading || !ingredientsList.trim() || analyzing}
+                className="btn-analyze"
+              >
+                {analyzing ? (
+                  <span className="analyzing-text">
+                    <span className="spinner"></span>
+                    {analysisProgress.step}
+                    {analysisProgress.total > 0 && ` (${analysisProgress.current}/${analysisProgress.total})`}
+                  </span>
+                ) : (
+                  'Analyze'
+                )}
               </button>
             </div>
           </div>
@@ -646,43 +850,9 @@ function App() {
           </div>
         )}
 
-        {/* Ingredients Input */}
-        <div className="card">
-          <label className="label">
-            Enter Ingredients List
-          </label>
-          <textarea
-            placeholder="Paste ingredients list here... (e.g., NAC, Vitamin C, Spirulina, Melatonin)"
-            value={ingredientsList}
-            onChange={handleTextareaChange}
-            className="textarea"
-            rows="1"
-          />
-          <div className="input-footer">
-            <div className="status-text">
-              {loading ? (
-                <span>⏳ Loading databases...</span>
-              ) : loadError ? (
-                <span style={{ color: '#ef4444' }}>❌ {loadError}</span>
-              ) : (
-                <span>
-                  <strong>{novelFoods.length}</strong> novel foods and <strong>{pharmaceuticals.length}</strong> pharmaceutical ingredients loaded
-                </span>
-              )}
-            </div>
-            <button
-              onClick={analyzeIngredients}
-              disabled={loading || !ingredientsList.trim()}
-              className="btn-analyze"
-            >
-              Analyze
-            </button>
-          </div>
-        </div>
-
         {/* Results */}
         {analyzedIngredients.length > 0 && (
-          <div className="card">
+          <div className="card results-card">
             <h2 className="results-header">
               Analysis Results ({analyzedIngredients.length} ingredients{analysisTime ? ` in ${analysisTime}s` : ''})
             </h2>
@@ -875,11 +1045,8 @@ function App() {
                     labels={analyzedIngredients[selectedIngredient].manualLabels}
                     user={user}
                     onVoteUpdate={async () => {
-                      // Refresh manual labels
-                      const labels = await getManualLabels(analyzedIngredients[selectedIngredient].name)
-                      const normalizedName = analyzedIngredients[selectedIngredient].name.toLowerCase().trim()
-                      setManualLabelsCache(prev => new Map(prev).set(normalizedName, labels))
-                      analyzeIngredients()
+                      // Refresh this ingredient's status without re-analyzing everything
+                      await refreshIngredientStatus(analyzedIngredients[selectedIngredient].name)
                     }}
                     onEditLabel={(label) => handleEditLabel(label, analyzedIngredients[selectedIngredient])}
                   />
@@ -924,6 +1091,38 @@ function App() {
             onSuccess={handleLabelSuccess}
           />
         )}
+
+        {/* Footer */}
+        <footer className="footer">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h3>About This Project</h3>
+              <p>
+                This project improves how dietary supplements are checked for safety and compliance.
+                Today, food inspectors must manually compare ingredients and health claims against EU and Swedish databases,
+                which is slow and means only a small number of supplements are reviewed.
+              </p>
+            </div>
+            <div className="footer-section">
+              <h3>The Solution</h3>
+              <p>
+                This tool automatically analyzes ingredient lists from e-commerce sites and cross-checks them with official databases.
+                It helps inspectors save time, reduce unsafe supplements on the market, and simplify their work.
+                Developed as part of a hackathon with <strong>UU AI Society</strong> for <strong>Uppsala Municipality</strong>.
+              </p>
+            </div>
+            <div className="footer-section">
+              <h3>Disclaimer</h3>
+              <p>
+                This tool is for informational purposes only. Always consult official regulatory
+                sources for final compliance decisions.
+              </p>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} UU AI Society Hackathon Project | Uppsala Municipality</p>
+          </div>
+        </footer>
       </div>
     </div>
   );

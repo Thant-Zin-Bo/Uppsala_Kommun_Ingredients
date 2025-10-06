@@ -80,7 +80,8 @@ function ManualLabelsDisplay({ labels, user, onVoteUpdate, onEditLabel }) {
                   disabled={loading || !user}
                   title="Thumbs up"
                 >
-                  👍 {label.upvotes}
+                  <span className="material-symbols-rounded">thumb_up</span>
+                  {label.upvotes}
                 </button>
                 <button
                   className={`vote-btn ${userVotes[label.id] === -1 ? 'vote-active' : ''}`}
@@ -88,7 +89,8 @@ function ManualLabelsDisplay({ labels, user, onVoteUpdate, onEditLabel }) {
                   disabled={loading || !user}
                   title="Thumbs down"
                 >
-                  👎 {label.downvotes}
+                  <span className="material-symbols-rounded">thumb_down</span>
+                  {label.downvotes}
                 </button>
               </div>
             </div>
@@ -101,8 +103,7 @@ function ManualLabelsDisplay({ labels, user, onVoteUpdate, onEditLabel }) {
 
             <div className="label-footer">
               <div className="label-meta">
-                Created by {label.creator?.email || 'Anonymous'} •
-                {new Date(label.created_at).toLocaleDateString()}
+                Created by {label.creator?.email || 'Anonymous'} • {new Date(label.created_at).toLocaleDateString()}
                 {label.updated_at !== label.created_at && ' (edited)'}
               </div>
 
