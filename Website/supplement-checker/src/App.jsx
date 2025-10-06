@@ -77,6 +77,19 @@ function App() {
     }
   }, [])
 
+  // Disable body scroll when modal is open
+  useEffect(() => {
+    if (showHelp || showAuthModal || showLabelModal) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [showHelp, showAuthModal, showLabelModal])
+
   // Load manual labels for an ingredient
   const loadManualLabelsForIngredient = async (ingredientName) => {
     const normalizedName = ingredientName.toLowerCase().trim()
