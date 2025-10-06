@@ -64,14 +64,24 @@ function ManualLabelsDisplay({ labels, user, onVoteUpdate, onEditLabel }) {
         return (
           <div key={label.id} className="manual-label-card">
             <div className="label-header">
-              <span className={`label-status-badge ${
-                label.status === 'safe' ? 'status-safe' :
-                label.status === 'danger' ? 'status-danger' :
-                'status-unknown'
-              }`}>
-                {label.status === 'safe' ? '🟢 Approved' :
-                 label.status === 'danger' ? '🔴 Non-Approved' :
-                 '⚪ Unknown'}
+              <span
+                className={`label-status-badge ${
+                  label.status === 'safe' ? 'status-safe' :
+                  label.status === 'danger' ? 'status-danger' :
+                  label.status === 'unknown' ? 'status-unknown' :
+                  'status-custom'
+                }`}
+                style={label.custom_status_label ? {
+                  backgroundColor: label.custom_status_color + '20',
+                  color: label.custom_status_color,
+                  borderColor: label.custom_status_color
+                } : {}}
+              >
+                {label.custom_status_label ?
+                  `✨ ${label.custom_status_label}` :
+                  label.status === 'safe' ? '🟢 Approved' :
+                  label.status === 'danger' ? '🔴 Non-Approved' :
+                  '⚪ Unknown'}
               </span>
               <div className="vote-controls">
                 <button

@@ -60,7 +60,7 @@ export const getManualLabels = async (ingredientName) => {
   })).sort((a, b) => b.netVotes - a.netVotes)
 }
 
-export const createManualLabel = async (ingredientName, status, notes, userId) => {
+export const createManualLabel = async (ingredientName, status, notes, userId, customStatusLabel = null, customStatusColor = null) => {
   const normalizedName = ingredientName.toLowerCase().trim()
   const { data, error } = await supabase
     .from('manual_labels')
@@ -70,7 +70,9 @@ export const createManualLabel = async (ingredientName, status, notes, userId) =
         ingredient_name_normalized: normalizedName,
         status,
         notes,
-        created_by: userId
+        created_by: userId,
+        custom_status_label: customStatusLabel,
+        custom_status_color: customStatusColor
       }
     ])
     .select()
@@ -78,12 +80,14 @@ export const createManualLabel = async (ingredientName, status, notes, userId) =
   return { data, error }
 }
 
-export const updateManualLabel = async (labelId, status, notes) => {
+export const updateManualLabel = async (labelId, status, notes, customStatusLabel = null, customStatusColor = null) => {
   const { data, error } = await supabase
     .from('manual_labels')
     .update({
       status,
       notes,
+      custom_status_label: customStatusLabel,
+      custom_status_color: customStatusColor,
       updated_at: new Date().toISOString()
     })
     .eq('id', labelId)

@@ -871,8 +871,12 @@ html, body {
 /* Manual Label Indicator */
 .manual-label-indicator {
   margin-left: 0.35rem;
-  font-size: 0.75rem;
-  opacity: 0.8;
+  font-size: 22px;
+  opacity: 0.7;
+  vertical-align: text-top;
+  display: inline-flex;
+  align-items: center;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
 }
 
 /* Add Label Section */

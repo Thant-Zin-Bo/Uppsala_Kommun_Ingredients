@@ -890,8 +890,8 @@ function App() {
                   >
                     {ingredient.name}
                     {ingredient.hasManualLabel && (
-                      <span className="manual-label-indicator" title="Has community labels">
-                        👥
+                      <span className="material-symbols-rounded manual-label-indicator" title="Has community labels">
+                        group
                       </span>
                     )}
                   </span>
@@ -939,20 +939,28 @@ function App() {
                 <div className="details-content">
                   {/* Process Flow Visualization */}
                   <div className="process-flow">
-                    {analyzedIngredients[selectedIngredient].details && analyzedIngredients[selectedIngredient].details.source === 'multiple' ? (
+                    {analyzedIngredients[selectedIngredient].details && (analyzedIngredients[selectedIngredient].details.source === 'multiple' || (analyzedIngredients[selectedIngredient].details.source === 'community' && analyzedIngredients[selectedIngredient].details.databaseMatches)) ? (
                       <>
                         {/* Show process for each search term */}
-                        {analyzedIngredients[selectedIngredient].details.matches.pharma.concat(analyzedIngredients[selectedIngredient].details.matches.novel).length > 0 ? (
+                        {(() => {
+                          const matches = analyzedIngredients[selectedIngredient].details.source === 'community'
+                            ? analyzedIngredients[selectedIngredient].details.databaseMatches
+                            : analyzedIngredients[selectedIngredient].details.matches;
+                          return matches && (matches.pharma.concat(matches.novel).length > 0);
+                        })() ? (
                           <div>
                             {/* Group by search term */}
                             {(() => {
+                              const matches = analyzedIngredients[selectedIngredient].details.source === 'community'
+                                ? analyzedIngredients[selectedIngredient].details.databaseMatches
+                                : analyzedIngredients[selectedIngredient].details.matches;
                               const allTerms = new Set();
-                              analyzedIngredients[selectedIngredient].details.matches.pharma.forEach(m => allTerms.add(m.term));
-                              analyzedIngredients[selectedIngredient].details.matches.novel.forEach(m => allTerms.add(m.term));
+                              matches.pharma.forEach(m => allTerms.add(m.term));
+                              matches.novel.forEach(m => allTerms.add(m.term));
 
                               return Array.from(allTerms).map((searchTerm, termIdx) => {
-                                const pharmaForTerm = analyzedIngredients[selectedIngredient].details.matches.pharma.find(m => m.term === searchTerm);
-                                const novelForTerm = analyzedIngredients[selectedIngredient].details.matches.novel.find(m => m.term === searchTerm);
+                                const pharmaForTerm = matches.pharma.find(m => m.term === searchTerm);
+                                const novelForTerm = matches.novel.find(m => m.term === searchTerm);
 
                                 return (
                                   <div key={termIdx} className="term-process" style={{ marginBottom: termIdx < allTerms.size - 1 ? '2rem' : '0' }}>
@@ -991,7 +999,14 @@ function App() {
                                       !pharmaForTerm || pharmaForTerm.result.item.is_medicine
                                         ? 'step-skipped'
                                         : novelForTerm
-                                          ? 'step-failed'
+                                          ? (() => {
+                                              const novelStatus = novelForTerm.result.item.novel_food_status;
+                                              const isActuallyNovel = novelStatus === 'Novel food';
+                                              const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                                                   novelStatus === 'Not novel in food' ||
+                                                                   novelStatus === 'Not novel in food supplements';
+                                              return isActuallyNovel ? 'step-failed' : isAuthorized ? 'step-passed' : 'step-warning';
+                                            })()
                                           : 'step-passed'
                                     }`}>
                                       <div className="step-header">
@@ -1001,7 +1016,14 @@ function App() {
                                           {!pharmaForTerm || pharmaForTerm.result.item.is_medicine
                                             ? '⊘ Skipped'
                                             : novelForTerm
-                                              ? '❌ Found (Non-Approved)'
+                                              ? (() => {
+                                                  const novelStatus = novelForTerm.result.item.novel_food_status;
+                                                  const isActuallyNovel = novelStatus === 'Novel food';
+                                                  const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                                                       novelStatus === 'Not novel in food' ||
+                                                                       novelStatus === 'Not novel in food supplements';
+                                                  return isActuallyNovel ? '❌ Found (Non-Approved)' : isAuthorized ? '✓ Found (Approved)' : '❓ Found (Review Needed)';
+                                                })()
                                               : '✓ Not Found (Approved)'}
                                         </span>
                                       </div>
@@ -1012,7 +1034,18 @@ function App() {
                                             <p><strong>Common name:</strong> {novelForTerm.result.item.common_name}</p>
                                           )}
                                           <p><strong>Status:</strong> {stripHtml(novelForTerm.result.item.novel_food_status_desc)}</p>
-                                          <p className="error-note">❌ Novel Food found → Non-Approved</p>
+                                          {(() => {
+                                            const novelStatus = novelForTerm.result.item.novel_food_status;
+                                            const isActuallyNovel = novelStatus === 'Novel food';
+                                            const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                                                 novelStatus === 'Not novel in food' ||
+                                                                 novelStatus === 'Not novel in food supplements';
+                                            return isActuallyNovel
+                                              ? <p className="error-note">❌ Novel Food found → Non-Approved</p>
+                                              : isAuthorized
+                                                ? <p className="success-note">✓ Not novel / Authorized → Approved</p>
+                                                : <p className="warning-note">❓ Status unclear → Needs review</p>;
+                                          })()}
                                         </div>
                                       )}
                                     </div>
@@ -1022,7 +1055,11 @@ function App() {
                                       pharmaForTerm && pharmaForTerm.result.item.is_medicine
                                         ? 'result-rejected'
                                         : pharmaForTerm && novelForTerm
-                                          ? 'result-rejected'
+                                          ? (() => {
+                                              const novelStatus = novelForTerm.result.item.novel_food_status;
+                                              const isActuallyNovel = novelStatus === 'Novel food';
+                                              return isActuallyNovel ? 'result-rejected' : 'result-approved';
+                                            })()
                                           : pharmaForTerm && !novelForTerm
                                             ? 'result-approved'
                                             : 'result-unknown'
@@ -1031,7 +1068,18 @@ function App() {
                                         pharmaForTerm && pharmaForTerm.result.item.is_medicine
                                           ? '❌ NON-APPROVED (Pharmaceutical Medicine)'
                                           : pharmaForTerm && novelForTerm
-                                            ? '❌ NON-APPROVED (Novel Food)'
+                                            ? (() => {
+                                                const novelStatus = novelForTerm.result.item.novel_food_status;
+                                                const isActuallyNovel = novelStatus === 'Novel food';
+                                                const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                                                     novelStatus === 'Not novel in food' ||
+                                                                     novelStatus === 'Not novel in food supplements';
+                                                return isActuallyNovel
+                                                  ? '❌ NON-APPROVED (Novel Food - Requires Authorization)'
+                                                  : isAuthorized
+                                                    ? '✓ APPROVED'
+                                                    : '❓ UNKNOWN (Novel Food Under Review)';
+                                              })()
                                             : pharmaForTerm && !novelForTerm
                                               ? '✓ APPROVED'
                                               : '❓ UNKNOWN (Not in Substance Guide)'
