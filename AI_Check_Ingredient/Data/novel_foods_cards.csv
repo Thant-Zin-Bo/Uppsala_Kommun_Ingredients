@@ -1,0 +1,1257 @@
+policy_item_id,canonical,entity_text
+677319,"3, 3'-Diindolylmethane (DIM)","[CANON_EN] 3, 3'-Diindolylmethane (DIM)"
+677344,4-hydroxy isoleucine,[CANON_EN] 4-hydroxy isoleucine
+677369,5-hydroxytryptophan,[CANON_EN] 5-hydroxytryptophan
+677449,Abies balsamea,"[CANON_LAT] Abies balsamea
+[SYN_LAT] Abies balsamea f. balsamea"
+677479,Abies pectinata,"[CANON_LAT] Abies pectinata
+[SYN_LAT] Abies alba Mill."
+677504,Acacia arabica,"[CANON_LAT] Acacia arabica
+[SYN_LAT] Acacia nilotioca (L.) Delile"
+677529,Acacia nilotica,"[CANON_LAT] Acacia nilotica
+[SYN_LAT] Acacia arabica"
+677558,Acacia rigidula,"[CANON_LAT] Acacia rigidula
+[SYN_UNK] Blackbrush Acacia"
+677638,Acacia verek,"[CANON_LAT] Acacia verek
+[SYN_LAT] Acacia senegal"
+677663,Acanthopanax senticosus,"[CANON_LAT] Acanthopanax senticosus
+[SYN_LAT] Eleutherococcus senticosus Maxim."
+677688,Acca sellowiana,"[CANON_LAT] Acca sellowiana
+[SYN_LAT] Acca sellowiana var. rugosa (Mattos) Mattos"
+677721,Acer nigrum,[CANON_LAT] Acer nigrum
+677746,Acer rubrum,[CANON_LAT] Acer rubrum
+677771,Acer saccharum,"[CANON_LAT] Acer saccharum
+[SYN_LAT] Acer barbatum f. commune Ashe"
+677809,Acetyl L-carnitine,[CANON_EN] Acetyl L-carnitine
+677846,Achillea millefolium,"[CANON_LAT] Achillea millefolium
+[SYN_LAT] Achillea millefolium f. pannonica (Scheele) J.Weiss"
+677876,Achras zapota,"[CANON_LAT] Achras zapota
+[SYN_LAT] Manilkara zapota (L.) P.Royen"
+677901,Actinidia arguta,[CANON_LAT] Actinidia arguta
+677927,Actinidia chinensis,"[CANON_LAT] Actinidia chinensis
+[SYN_LAT] Actinidia chinensis f. jinggangshanensis C.F.Liang"
+677952,Actinidia deliciosa,"[CANON_LAT] Actinidia deliciosa
+[SYN_LAT] Actinidia chinensis f. chlorocarpa C.F.Liang"
+677991,Adhatoda vasica,[CANON_LAT] Adhatoda vasica
+678027,Aegopodium podagraria,"[CANON_LAT] Aegopodium podagraria
+[SYN_LAT] Aegopodium angelicifolium Salisb."
+678056,Aframomum melegueta,"[CANON_LAT] Aframomum melegueta
+[SYN_LAT] Aframomum melegueta var. violaceum (Ridl.) K.Schum."
+678118,Agaricus blazei,"[CANON_LAT] Agaricus blazei
+[SYN_LAT] Agaricus brasiliensis [SEP] Agaricus subrufescens
+[SYN_UNK] rufotegulis"
+678152,Agathosma betulina,"[CANON_LAT] Agathosma betulina
+[SYN_UNK] Barosma betulina Bartl. & H.L.Wendl."
+678204,Agave sisalana,"[CANON_LAT] Agave sisalana
+[SYN_UNK] Agave amaniensis Trel. & Nowell"
+678239,Agave tequilana,"[CANON_LAT] Agave tequilana
+[SYN_UNK] Agave angustifolia subsp. tequilana (F.A.C.Weber) Valenz.-Zap. & Nabhan"
+678265,Agmatine (4-aminobutyl) guanidine sulfate,[CANON_EN] Agmatine (4-aminobutyl) guanidine sulfate
+678290,Ajuga reptans,"[CANON_LAT] Ajuga reptans
+[SYN_LAT] Ajuga abnormis Rouy"
+678346,Albatrellus ovinus,[CANON_LAT] Albatrellus ovinus
+678377,Albizia julibrissin,[CANON_LAT] Albizia julibrissin
+678407,Allium chinense,[CANON_LAT] Allium chinense
+678432,Allium fistulosum,"[CANON_LAT] Allium fistulosum
+[SYN_LAT] Allium bouddae Debeaux"
+678470,Allium ramosum,[CANON_LAT] Allium ramosum
+678495,Allium scorodoprasum L.,[CANON_LAT] Allium scorodoprasum L.
+678520,Allium tuberosum,[CANON_LAT] Allium tuberosum
+678559,Allium ursinum,[CANON_LAT] Allium ursinum
+678609,Aloe ferox,[CANON_LAT] Aloe ferox
+678650,Aloysia citrodora,[CANON_LAT] Aloysia citrodora
+678675,Alpha-Ketoglutarate Calcium,[CANON_EN] Alpha-Ketoglutarate Calcium
+678710,Alpha–hydroxy-isocaproic Acid,[CANON_EN] Alpha–hydroxy-isocaproic Acid
+678735,Alpinia galanga,"[CANON_LAT] Alpinia galanga
+[SYN_LAT] Alpinia alba (Retz.) Roscoe"
+678805,Althaea officinalis,"[CANON_LAT] Althaea officinalis
+[SYN_UNK] Althaea kragujevacensis Pančić"
+678845,Amaranthus caudatus,"[CANON_LAT] Amaranthus caudatus
+[SYN_LAT] Amaranthus abyssinicus hort. ex L.H.Bailey [SEP] Amaranthus paniculatus"
+678886,Amaranthus cruentus,"[CANON_LAT] Amaranthus cruentus
+[SYN_LAT] Amaranthus anacardana Hook.f."
+678922,Amaranthus edulis,[CANON_LAT] Amaranthus edulis
+678947,Amaranthus flavus,[CANON_LAT] Amaranthus flavus
+678972,Amaranthus hypocondriacus,[CANON_LAT] Amaranthus hypocondriacus
+679008,Amaranthus leucocarpus,[CANON_LAT] Amaranthus leucocarpus
+679033,Amaranthus mantegacianus,[CANON_LAT] Amaranthus mantegacianus
+679058,Amaranthus paniculatus,[CANON_LAT] Amaranthus paniculatus
+679083,Amaranthus tricolor,[CANON_LAT] Amaranthus tricolor
+679108,Ambrosia artemisiifolia,[CANON_LAT] Ambrosia artemisiifolia
+679133,Amelanchier alnifolia,[CANON_LAT] Amelanchier alnifolia
+679219,Anchusa officinalis L.,[CANON_LAT] Anchusa officinalis L.
+679244,Andrographis paniculata,[CANON_LAT] Andrographis paniculata
+679279,Angelica archangelica L.,"[CANON_LAT] Angelica archangelica L.
+[SYN_LAT] Angelica archangelica subsp. norwegica (Rupr.) Nordh."
+679304,Angelica dahurica,[CANON_LAT] Angelica dahurica
+679329,Angelica pubescens,[CANON_LAT] Angelica pubescens
+679354,Angelica sinensis,"[CANON_LAT] Angelica sinensis
+[SYN_LAT] Angelica polymorpha var. sinensis Oliv."
+679424,Annona cherimola,"[CANON_LAT] Annona cherimola
+[SYN_LAT] Annona pubescens Salisb."
+679462,Annona muricata,"[CANON_LAT] Annona muricata
+[SYN_LAT] Annona bonplandiana Kunth"
+679505,Annona reticulata,"[CANON_LAT] Annona reticulata
+[SYN_LAT] Annona excelsa Kunth"
+679542,Annona squamosa,"[CANON_LAT] Annona squamosa
+[SYN_LAT] Annona asiatica L."
+679584,Antennaria dioica,"[CANON_LAT] Antennaria dioica
+[SYN_LAT] Antennaria dioica var. australis Gris"
+679640,Aphanizomenon flosaquae var. flosaquae,[CANON_LAT] Aphanizomenon flosaquae var. flosaquae
+679673,Apis mellifera,[CANON_LAT] Apis mellifera
+679706,Apricot Kernel (Prunus Armeniaca L.),[CANON_EN] Apricot Kernel (Prunus Armeniaca L.)
+679790,Arbutus unedo,"[CANON_LAT] Arbutus unedo
+[SYN_LAT] Arbutus cassinifolia Steud."
+679856,Areca catechu,"[CANON_LAT] Areca catechu
+[SYN_LAT] Areca catechu f. communis Becc."
+679881,Aristotelia chilensis,[CANON_LAT] Aristotelia chilensis
+679986,Artemisia vulgaris L.,[CANON_LAT] Artemisia vulgaris L.
+680011,Arthrospira platensis,"[CANON_LAT] Arthrospira platensis
+[SYN_UNK] Arthrospira jenneri var. platensis (Gomont) Guarrera & Kühnemann 0 [SEP] Oscillatoria platensis (Gomont) Bourrelly 1970 [SEP] Spirulina jenneri var. platensis Nordstedt 1884 [SEP] Spirulina platensis (Gomont) Geitler 1925"
+680147,Artocarpus incisa,[CANON_LAT] Artocarpus incisa
+680172,Artocarpus integrifolius,[CANON_LAT] Artocarpus integrifolius
+680260,Asimina triloba,[CANON_LAT] Asimina triloba
+680296,Asparagus acutifolius L and Asparagus aphyllus L,[CANON_LAT] Asparagus acutifolius L and Asparagus aphyllus L
+680321,Asparagus racemosus,[CANON_LAT] Asparagus racemosus
+680354,Aster tripolium,"[CANON_LAT] Aster tripolium
+[SYN_LAT] Tripolium pannonicum (Jacq.) Dobrocz."
+680420,Atriplex hortensis,[CANON_LAT] Atriplex hortensis
+680460,Auricularia polytricha,"[CANON_LAT] Auricularia polytricha
+[SYN_LAT] Hirneola polytricha"
+680497,Auxenochlorella protothecoides,"[CANON_LAT] Auxenochlorella protothecoides
+[SYN_UNK] Auxenochlorella protothecoides var. galactophila Unknown authority 0 [SEP] Chlorella protothecoides Krüger 1894 [SEP] Chlorella protothecoides var. galactophila Shihira & R.W.Krauss 1965 [SEP] Palmellococcus protothecoides (Krüger) Chodat 1909"
+680522,Auxenochlorella pyrenoidosa,"[CANON_LAT] Auxenochlorella pyrenoidosa
+[SYN_UNK] Chlorella pyrenoidosa H.Chick 1903"
+680547,Avena sativa L.,[CANON_LAT] Avena sativa L.
+680585,Backhousia citriodora,[CANON_LAT] Backhousia citriodora
+680611,Bacopa monnieri,"[CANON_LAT] Bacopa monnieri
+[SYN_LAT] Allocalyx microphylla Cordem."
+680672,Bactris gasipaes,[CANON_LAT] Bactris gasipaes
+680697,Bactris major,[CANON_LAT] Bactris major
+680729,Bambusa vulgaris Schrad. ex J.C.Wendl.,[CANON_LAT] Bambusa vulgaris Schrad. ex J.C.Wendl.
+680754,Barosma betulina,[CANON_LAT] Barosma betulina
+680779,Basella alba,[CANON_LAT] Basella alba
+680817,Basella rubra,[CANON_LAT] Basella rubra
+680842,Bertholletia excelsa,[CANON_LAT] Bertholletia excelsa
+680882,Beta-alanine,[CANON_EN] Beta-alanine
+680907,Beta-hydroxy beta methylbutyrate (HMB),[CANON_EN] Beta-hydroxy beta methylbutyrate (HMB)
+680932,Betula alba,[CANON_LAT] Betula alba
+680957,Betula alleghaniensis,[CANON_LAT] Betula alleghaniensis
+680987,Betula alnoides,"[CANON_LAT] Betula alnoides
+[SYN_LAT] Betula acuminata Wall."
+681018,Betula pendula,"[CANON_LAT] Betula pendula
+[SYN_LAT] Betula alba"
+681049,Betula pubescens,[CANON_LAT] Betula pubescens
+681079,Bignonia lactiflora,[CANON_LAT] Bignonia lactiflora
+681104,Bignonia rigescens,[CANON_LAT] Bignonia rigescens
+681129,Paecilomyces variotii,[CANON_LAT] Paecilomyces variotii
+681191,Borago officinalis L.,[CANON_LAT] Borago officinalis L.
+681216,Borojoa patinoi,[CANON_LAT] Borojoa patinoi
+681241,Borojoa sorbilis,"[CANON_LAT] Borojoa sorbilis
+[SYN_LAT] Alibertia sorbilis Ducke"
+681266,Boswellia serrata,[CANON_LAT] Boswellia serrata
+681299,Bovine lactoferrin,[CANON_LAT] Bovine lactoferrin
+681324,Brassica eruca,[CANON_LAT] Brassica eruca
+681349,Brassica juncea,[CANON_LAT] Brassica juncea
+681387,Brassica nigra,[CANON_LAT] Brassica nigra
+681426,Brewer's spent grain,[CANON_EN] Brewer's spent grain
+681451,Brewer’s spent grain fiber (BSG-F) and brewer’s spent grain protein (BSG-P),[CANON_EN] Brewer’s spent grain fiber (BSG-F) and brewer’s spent grain protein (BSG-P)
+681476,Bulbine natalensis,[CANON_LAT] Bulbine natalensis
+681501,Cajanus cajan,[CANON_LAT] Cajanus cajan
+681539,Cakile maritima Scop.,[CANON_LAT] Cakile maritima Scop.
+681564,Calendula officinalis L.,[CANON_LAT] Calendula officinalis L.
+681589,Calluna vulgaris,[CANON_LAT] Calluna vulgaris
+681619,Camelina sativa,[CANON_LAT] Camelina sativa
+681662,Camellia furfuracea,[CANON_LAT] Camellia furfuracea
+681689,Camelus dromedarius,[CANON_LAT] Camelus dromedarius
+681717,Canarium ovatum Engl.,[CANON_LAT] Canarium ovatum Engl.
+681742,Cannabidiol,[CANON_EN] Cannabidiol
+681792,Cannabis sativa L.,[CANON_LAT] Cannabis sativa L.
+681857,Capparis spinosa,[CANON_LAT] Capparis spinosa
+681897,Capsicum frutescens,[CANON_LAT] Capsicum frutescens
+681937,Caralluma fimbriata,[CANON_LAT] Caralluma fimbriata
+681962,Carduus benedictus,[CANON_LAT] Carduus benedictus
+681987,Carica papaya,[CANON_LAT] Carica papaya
+682024,Carissa carandus,[CANON_LAT] Carissa carandus
+682052,Carnosine,[CANON_EN] Carnosine
+682086,Carthamus tinctorius,"[CANON_LAT] Carthamus tinctorius
+[SYN_LAT] Calcitrapa tinctoria Roehl."
+682126,Carum carvi,[CANON_LAT] Carum carvi
+682165,Castanea crenata,[CANON_LAT] Castanea crenata
+682190,Castanea mollissima Blume,"[CANON_LAT] Castanea mollissima Blume
+[SYN_LAT] Castane sinensis Perr. [SEP] Castanea bungeana Blume"
+682240,Celastrus orbiculatus,[CANON_LAT] Celastrus orbiculatus
+682298,Centella asiatica,"[CANON_LAT] Centella asiatica
+[SYN_LAT] Hydrocotyle asiatica L."
+682336,Centrophorus squamosus,[CANON_LAT] Centrophorus squamosus
+682371,Ceratonia siliqua,[CANON_LAT] Ceratonia siliqua
+682401,Cervus elaphus,[CANON_LAT] Cervus elaphus
+682441,Cetraria islandica,[CANON_LAT] Cetraria islandica
+682481,Chamaemelum nobile,"[CANON_LAT] Chamaemelum nobile
+[SYN_LAT] Anacyclus aureus L. [SEP] Anacyclus nobilis [SEP] Anthemis aurea [SEP] Anthemis nobilis L."
+682522,Chenopodium album L.,[CANON_LAT] Chenopodium album L.
+682572,Chenopodium quinoa,[CANON_LAT] Chenopodium quinoa
+682608,Chioca,[CANON_EN] Chioca
+682633,Chlamydomonas reinhardtii,[CANON_LAT] Chlamydomonas reinhardtii
+682683,Chlorella pyrenoidosa,"[CANON_LAT] Chlorella pyrenoidosa
+[SYN_LAT] Auxenochlorella pyrenoidosa [SEP] Chlorella vulgaris"
+682715,Chlorella sorokiniana,[CANON_LAT] Chlorella sorokiniana
+682740,Chlorella vulgaris,"[CANON_LAT] Chlorella vulgaris
+[SYN_UNK] Chlorella candida Shihira & R.W.Krauss 1965 [SEP] Chlorella communis Artari 1906 [SEP] Chlorella pyrenoidosa var. duplex (Kützing) West null Pleurococcusbeijerinckii Artari 1892 [SEP] Chlorella terricola Gollerbach[Hollerbach] 1936 [SEP] Chlorellavulgaris var. viridis Chodat 1913"
+682765,Chondrus crispus,"[CANON_LAT] Chondrus crispus
+[SYN_UNK] Fucus ceranoides var.lacerus (Linnaeus) Lightfoot 1777 [SEP] Fucus crispus Linnaeus 1767 [SEP] Fucus crispus var. brunneus Goodenough & Woodward 1797 [SEP] Fucus crispus var. filiformis Goodenough & Woodward 1797 [SEP] Fucus crispus var. lacerus Turner1802 [SEP] Fucus crispus var. patens (Goodenough & Woodward) Turner1802 [SEP] Fucus crispus var. planus Turner 1802 [SEP] Fucus crispus var. sarniensis Turner 1802 [SEP] Fucus crispus var. virens Goodenough & Woodward 1797 [SEP] Fucus crispusvar. aequalis Goodenough & Woodward 1797 [SEP] Fucus lacerus Linnaeus 1763 [SEP] Fucus lacerus Stackhouse 1797 [SEP] Fucus norvegicus Gunnerus 1772 [SEP] Fucus patens Goodenough & Woodward 1797 [SEP] Fucus polymorphus J.V.Lamouroux 1803 [SEP] Gigartina heterocarpa (Postels & Ruprecht) D.H.Kim 1976 [SEP] Polymorpha crispa (Stackhouse) Stackhouse 1809 [SEP] Polymorpha norvegicus (Gunnerus) Stackhouse 1809"
+682790,Chrysanthellum americanum,"[CANON_LAT] Chrysanthellum americanum
+[SYN_UNK] Anthemis Americana Mutis ex L."
+682904,Cinnamomum verum,"[CANON_LAT] Cinnamomum verum
+[SYN_LAT] Cinnamomum zeylanicum J. Presl"
+682998,Cistus x incanus,[CANON_LAT] Cistus x incanus
+683086,Citrus junos,"[CANON_LAT] Citrus junos
+[SYN_LAT] Citrus aurantium subsp. junos Makino"
+683137,Clinoptilolite,[CANON_EN] Clinoptilolite
+683169,Clitoria ternatea,[CANON_LAT] Clitoria ternatea
+683198,Cnicus benedictus,"[CANON_LAT] Cnicus benedictus
+[SYN_LAT] Centaurea benedicta (L.) L."
+683228,Cnidium monnieri,[CANON_LAT] Cnidium monnieri
+683260,Codonopsis pilosula,"[CANON_LAT] Codonopsis pilosula
+[SYN_LAT] Conodopsis modesta Nannf."
+683352,Coix lacryma-jobi,[CANON_LAT] Coix lacryma-jobi
+683377,Cola nitida,[CANON_LAT] Cola nitida
+683413,Coleus forskohlii,"[CANON_LAT] Coleus forskohlii
+[SYN_LAT] Plectranthus forskohlii Willd."
+683444,Collagen,[CANON_EN] Collagen
+683469,Colocasia antiquorum,[CANON_LAT] Colocasia antiquorum
+683537,Colostrum,[CANON_EN] Colostrum
+683564,Combretum micranthum,[CANON_LAT] Combretum micranthum
+683595,Commiphora subglauca,[CANON_LAT] Commiphora subglauca
+683620,Conjugated linoleic acid,[CANON_LAT] Conjugated linoleic acid
+683655,Consolida regalis,[CANON_LAT] Consolida regalis
+683705,Corchorus olitorius,[CANON_LAT] Corchorus olitorius
+683756,Ophiocordyceps sinensis,"[CANON_LAT] Ophiocordyceps sinensis
+[SYN_LAT] Cordyceps sinensis (Berk.) Sacc. [SEP] Sphaeria sinensis Berk.
+[SYN_UNK] Hirsutella hepiali C.T. Chen & N.Y. Shen"
+683791,Coriolus versicolor,[CANON_LAT] Coriolus versicolor
+683824,Cortinarius caperatus,[CANON_LAT] Cortinarius caperatus
+683849,Corylus avellana,[CANON_LAT] Corylus avellana
+683902,Coutarea latiflora,[CANON_LAT] Coutarea latiflora
+683927,Crambe maritima L.,[CANON_LAT] Crambe maritima L.
+683952,Crataegus laevigata,"[CANON_LAT] Crataegus laevigata
+[SYN_LAT] Crataegus laevigata subsp. laevigata"
+684015,Crataegus pinnatifida,[CANON_LAT] Crataegus pinnatifida
+684091,Creatine pyruvate,[CANON_LAT] Creatine pyruvate
+684195,Curcuma zedoaria,[CANON_LAT] Curcuma zedoaria
+684220,Curcumin,[CANON_EN] Curcumin
+684245,Curcuminoids,[CANON_EN] Curcuminoids
+684270,Cyclopia sp.,[CANON_EN] Cyclopia sp.
+684298,Cyperus esculentus,[CANON_LAT] Cyperus esculentus
+684365,D-mannose,[CANON_EN] D-mannose
+684390,Dacryodes edulis,[CANON_LAT] Dacryodes edulis
+684416,Daucus carota L.,[CANON_LAT] Daucus carota L.
+684461,Daucus gingidium,[CANON_LAT] Daucus gingidium
+684486,Delphinium consolida L.,"[CANON_LAT] Delphinium consolida L.
+[SYN_LAT] Ceratostanthus consolida Schur"
+684521,Dendrobium nobile,"[CANON_LAT] Dendrobium nobile
+[SYN_LAT] Callista nobilis Kuntze [SEP] Dendrobium coerulescen Wall. ex Lindl."
+684546,Dendrocalamus asper,"[CANON_LAT] Dendrocalamus asper
+[SYN_LAT] Bambusa aspera"
+684583,Dendrocalamus latiflorus,"[CANON_LAT] Dendrocalamus latiflorus
+[SYN_UNK] Bambusa latiflora."
+684619,Deodorised cocoa butter,[CANON_LAT] Deodorised cocoa butter
+684644,Desmodium gangeticum,[CANON_LAT] Desmodium gangeticum
+684673,Desugared fermented orange juice,[CANON_LAT] Desugared fermented orange juice
+684698,DHA and EPA ethyl esters oil from Schizochytrium sp. microalga,[CANON_EN] DHA and EPA ethyl esters oil from Schizochytrium sp. microalga
+684723,Dioscorea alata,"[CANON_LAT] Dioscorea alata
+[SYN_LAT] Dioscorea alata var. globosa (Roxb.) Prain"
+684761,Dioscorea esculenta,"[CANON_LAT] Dioscorea esculenta
+[SYN_LAT] Dioscorea aculeata Roxb."
+684824,Dioscorea rotundata,[CANON_LAT] Dioscorea rotundata
+684860,Dipteryx alata,[CANON_LAT] Dipteryx alata
+684885,Distictis lactiflora,"[CANON_LAT] Distictis lactiflora
+[SYN_LAT] Amphilophium lactiflorum (Vahl) L.G.Lohmann"
+684912,Distictis rigescens,[CANON_LAT] Distictis rigescens
+684937,Dolichos lablab,[CANON_LAT] Dolichos lablab
+684962,Dolichos purpureus,[CANON_LAT] Dolichos purpureus
+685012,Durio zibethinus,[CANON_LAT] Durio zibethinus
+685045,Echinacea purpureae,"[CANON_LAT] Echinacea purpureae
+[SYN_LAT] Brauneria purpurea (L.) Britton"
+685083,Echium vulgare L.,[CANON_LAT] Echium vulgare L.
+685108,Eisenia bicyclis,"[CANON_LAT] Eisenia bicyclis
+[SYN_UNK] Ecklonia bicyclis Kjellman 1885 [SEP] Ecklonia wrightii Harvey 1860 [SEP] Eisenia arborea f. bicyclis (Kjellman) Yendo 1902"
+685187,Eleocharis dulcis,"[CANON_LAT] Eleocharis dulcis
+[SYN_LAT] Eleocharis equisetina
+[SYN_UNK] E. indica [SEP] E. plantaginea [SEP] E. plantaginoides [SEP] E. tuberosa [SEP] E. tumida."
+685266,Emblica officinalis,"[CANON_LAT] Emblica officinalis
+[SYN_LAT] Phyllanthus emblica L."
+685308,Empetrum nigrum,"[CANON_LAT] Empetrum nigrum
+[SYN_LAT] Chamaetaxus nigra (L.) Bubani"
+685340,Emu oil,[CANON_LAT] Emu oil
+685390,Epilobium angustifolium L.,[CANON_LAT] Epilobium angustifolium L.
+685421,Epimedium brevicornum Maxim,[CANON_LAT] Epimedium brevicornum Maxim
+685446,Epimedium grandiflorum,[CANON_LAT] Epimedium grandiflorum
+685506,Epimedium sagitattum,[CANON_LAT] Epimedium sagitattum
+685531,Equisetum arvense,"[CANON_LAT] Equisetum arvense
+[SYN_UNK] Field Horsetail"
+685571,Eragrostis tef,"[CANON_LAT] Eragrostis tef
+[SYN_LAT] Cynodon abyssinicus (Jacq.) Raspail"
+685636,Eruca sativa,[CANON_LAT] Eruca sativa
+685715,Eugenia floribunda,[CANON_LAT] Eugenia floribunda
+685740,Eugenia michelii,[CANON_LAT] Eugenia michelii
+685765,Eugenia uniflora,[CANON_LAT] Eugenia uniflora
+685805,Euphausia superba,[CANON_LAT] Euphausia superba
+685838,Euryale ferox,[CANON_LAT] Euryale ferox
+685863,Eurycoma longifolia,[CANON_LAT] Eurycoma longifolia
+685892,Euterpe edulis,"[CANON_LAT] Euterpe edulis
+[SYN_LAT] Euterpe edulis var. clausa Mattos"
+685917,Euterpe spp.,[CANON_EN] Euterpe spp.
+685952,Eutrema japonicum,[CANON_LAT] Eutrema japonicum
+685977,Evodia lepta,[CANON_LAT] Evodia lepta
+686052,Fallopia japonica,[CANON_LAT] Fallopia japonica
+686077,Feijoa sellowiana,[CANON_LAT] Feijoa sellowiana
+686102,Fermented coconut gel,[CANON_LAT] Fermented coconut gel
+686179,Ferulic acid,[CANON_LAT] Ferulic acid
+686205,Festuca arundinacea,[CANON_LAT] Festuca arundinacea
+686268,Flour from Buckwheat seedlings with a high spermidine content,[CANON_LAT] Flour from Buckwheat seedlings with a high spermidine content
+686293,Foeniculum vulgare,[CANON_LAT] Foeniculum vulgare
+686333,Fragaria x ananassa (Duchesne ex Weston) Duchesne ex Rozier,[CANON_LAT] Fragaria x ananassa (Duchesne ex Weston) Duchesne ex Rozier
+686358,Fraxinus ornus,[CANON_LAT] Fraxinus ornus
+686386,Fucus nodosus,[CANON_LAT] Fucus nodosus
+686411,Fucus serratus,"[CANON_LAT] Fucus serratus
+[SYN_UNK] Halidrys serrata (Linnaeus) Stackhouse 1809 [SEP] Virsodes serratum (Linnaeus) Kuntze 1891"
+686438,Fucus spiralis,"[CANON_LAT] Fucus spiralis
+[SYN_UNK] Fucus areschougii Kjellman 1890 [SEP] Fucus areschougii f. nanus Kjellman 1890 [SEP] Fucus areschougii var. borealis (Kjellman) Kjellman 1890 [SEP] Fucus platycarpus f. spiralis (Linnaeus) Thuret 1878 [SEP] Fucus platycarpus var. spiralis (Linnaeus) Rosenvinge 1897 [SEP] Fucus sherardii f. spiralis (Linnaeus) Areschoug 1868 [SEP] Fucus spiralis f. arenicola Hamel 1939 [SEP] Fucus spiralis f. borealis Kjellman 1883 [SEP] Fucus spiralis f. nanus (Kjellman) Batters 1902 [SEP] Fucus spiralis var. nanus (Kjellman) S.M.Baker & Bohling 1916 [SEP] Fucus spiralis var. nanus (Stackhouse) Batters 1902 [SEP] Fucus spiralis var. typicus Børgesen 1902 [SEP] Fucus vesiculosus f. spiralis (Linnaeus) Batters 1890 [SEP] Fucus vesiculosus var. spiralis (Linnaeus) C.Agardh 1810 [SEP] Fucus vesiculosus var. spiralis (Linnaeus) Roth 1800 [SEP] Halidrys spiralis (Linnaeus) Stackhouse 1809"
+686463,Fucus vesiculosus,"[CANON_LAT] Fucus vesiculosus
+[SYN_UNK] Fucus divaricatus Linnaeus 1753 [SEP] Fucus excisus Forsskål 1775 [SEP] Fucus inflatus Linnaeus 1753 [SEP] Fucus vesiculosus var. divaricatus (Linnaeus) Goodenough & Woodward 1797 [SEP] Fucus vesiculosus var. rigidus Wahlenberg 1812 [SEP] Halidrys vesiculosus (Linnaeus) Stackhouse 1809 [SEP] Virsodes vesiculosum (Linnaeus) Kuntze 1891"
+686519,Galium odoratum L.,[CANON_LAT] Galium odoratum L.
+686544,Galium verum L.,[CANON_LAT] Galium verum L.
+686569,Ganoderma lucidum,[CANON_LAT] Ganoderma lucidum
+686628,Garcinia cambogia,"[CANON_LAT] Garcinia cambogia
+[SYN_LAT] Garcinia gummi-gutta (L.) Roxb"
+686663,Garcinia mangostana,[CANON_LAT] Garcinia mangostana
+686703,Gentianella alborosea,[CANON_LAT] Gentianella alborosea
+686733,Germinated hemp seed produced by malting,[CANON_LAT] Germinated hemp seed produced by malting
+686794,Gigantochloa levis,"[CANON_LAT] Gigantochloa levis
+[SYN_LAT] Bambusa levis"
+686830,Ginkgo biloba,[CANON_LAT] Ginkgo biloba
+686868,Glebionis coronaria L.,[CANON_LAT] Glebionis coronaria L.
+686918,Glucomannan (Konjac mannan),[CANON_EN] Glucomannan (Konjac mannan)
+686943,Glucosamine sulphate,[CANON_LAT] Glucosamine sulphate
+686978,Gossypium sp.,[CANON_EN] Gossypium sp.
+687022,Gracilaria verrucosa,[CANON_LAT] Gracilaria verrucosa
+687047,Gracilariopsis longissima,"[CANON_LAT] Gracilariopsis longissima
+[SYN_LAT] Gracilariopsis verrucosa (Hudson) Steentoft
+[SYN_UNK] Ceramium confervoides F.H.Wiggers 1780 [SEP] Ceramium longissimum (S.G.Gmelin) Roth 1800 [SEP] Flagellaria verrucosa (Hudson) Stackhouse 1809 [SEP] Fucus confervoides Linnaeus 1763 [SEP] Fucus longissimus S.G.Gmelin 1768 [SEP] Fucus verrucosus Hudson 1762 [SEP] Gigartina confervoides (Linnaeus) J.V.Lamouroux 1813 [SEP] Gracilaria confervoides (Linnaeus) Greville 1830 [SEP] Gracilaria verrucosa (Hudson) Papenfuss 1950 [SEP] Hypnea confervoides (C.Agardh) J.Agardh 1842 [SEP] L.M.Irvine & Farnham 1995 [SEP] Sphaerococcus confervoides (F.H.Wiggers) Stackhouse 1797 [SEP] Sphaerococcus confervoides var. verrucosus (Hudson) C.Agardh 1822 [SEP] Sphaerococcus verrucosus (Hudson) C.Agardh 1817"
+687072,Griffonia simplicifolia,"[CANON_LAT] Griffonia simplicifolia
+[SYN_UNK] Bandeiraea simplicifolia (Vahl ex DC.) Benth; Schotia simplicifolia Vahl ex DC."
+687097,Grifola frondosa,[CANON_LAT] Grifola frondosa
+687149,Gypsophila struthium,[CANON_LAT] Gypsophila struthium
+687184,Hamamelis virginiana,[CANON_LAT] Hamamelis virginiana
+687213,Harpagophytum procumbens,[CANON_LAT] Harpagophytum procumbens
+687257,Helichrysum italicum,[CANON_LAT] Helichrysum italicum
+687282,Helix aspersa maxima,[CANON_LAT] Helix aspersa maxima
+687307,Hericium erinaceus,"[CANON_LAT] Hericium erinaceus
+[SYN_LAT] Clavaria erinaceus Dryodonerinaceus [SEP] Hydnum erinaceus"
+687332,Hesperidin,[CANON_EN] Hesperidin
+687365,Heterochlorella luteoviridis,[CANON_LAT] Heterochlorella luteoviridis
+687390,Hibiscus esculentus,"[CANON_LAT] Hibiscus esculentus
+[SYN_LAT] Abelmoschus esculentus Moench"
+687437,Hibiscus rosa sinensis,[CANON_LAT] Hibiscus rosa sinensis
+687462,Hibiscus sabdariffa L.,[CANON_LAT] Hibiscus sabdariffa L.
+687512,Himanthalia elongata,"[CANON_LAT] Himanthalia elongata
+[SYN_UNK] Fucus elongatus Linnaeus 1753"
+687541,Hippophaë rhamnoides,[CANON_EN] Hippophaë rhamnoides
+687581,Hirneola polytricha,[CANON_LAT] Hirneola polytricha
+687606,Sargassum fusiforme (Harvey) Setchell 1931,"[CANON_EN] Sargassum fusiforme (Harvey) Setchell 1931
+[SYN_UNK] Cystophyllum fusiforme Harvey 1860 [SEP] Cystophyllum fusiformevar. clavigerum Harvey 1860 [SEP] Hizikia fusiformis (Harvey) Okamura 1932 [SEP] Turbinaria fusiformis (Harvey) Yendo1907"
+687639,Honckenya peploides L.,[CANON_LAT] Honckenya peploides L.
+687664,Hoodia gordonii,"[CANON_LAT] Hoodia gordonii
+[SYN_LAT] Hoodia albispina N.E.Br."
+687696,Hordeum vulgare,"[CANON_LAT] Hordeum vulgare
+[SYN_LAT] Frumentum hordeum E.H.L.Krause"
+687736,Hovenia dulcis,[CANON_LAT] Hovenia dulcis
+687771,Humic acid,[CANON_LAT] Humic acid
+687796,Hydnum repandum,[CANON_LAT] Hydnum repandum
+687825,Hydro-alcoholic extract of Porphyra yezoensis,[CANON_EN] Hydro-alcoholic extract of Porphyra yezoensis
+687875,Hydrolysed bovine cartilage product,[CANON_LAT] Hydrolysed bovine cartilage product
+687900,Hydroxy Citric Acid,[CANON_EN] Hydroxy Citric Acid
+687936,Hygrophorus camarophyllus,[CANON_LAT] Hygrophorus camarophyllus
+687965,Hylocereus megalanthus,[CANON_LAT] Hylocereus megalanthus
+687999,Hylocereus undatus,[CANON_LAT] Hylocereus undatus
+688036,Hypericum perforatum,[CANON_LAT] Hypericum perforatum
+688061,Hypoxis hemerocallidea,[CANON_LAT] Hypoxis hemerocallidea
+688086,Hypoxis rooperi,[CANON_LAT] Hypoxis rooperi
+688117,Hyssopus officinalis,[CANON_LAT] Hyssopus officinalis
+688154,IBalance – killed heat treated microorganisms,[CANON_EN] IBalance – killed heat treated microorganisms
+688179,Ilex asprella,[CANON_LAT] Ilex asprella
+688294,Indole-3-carbinol,[CANON_EN] Indole-3-carbinol
+688319,Inonotus obliquus,"[CANON_LAT] Inonotus obliquus
+[SYN_LAT] Fuscoporia obliqua (Fr.) Aoshima
+[SYN_UNK] Bull. Tokyo Univ. Forests: 200 (1951) [SEP] Hyménomycètes de France: 642 (1928) [SEP] Poria obliquua (Fr.) P. Karst. (1881) [SEP] Xanthochrous obliquus (Fr.) Bourdot & Galzin"
+688348,Ipomoea aquatica,[CANON_LAT] Ipomoea aquatica
+688384,Ipomoea batatas,[CANON_LAT] Ipomoea batatas
+688428,Ipomoea hederacea,[CANON_LAT] Ipomoea hederacea
+688463,Irvingia gabonensis,[CANON_LAT] Irvingia gabonensis
+688488,Jaagichlorella luteoviridis,"[CANON_LAT] Jaagichlorella luteoviridis
+[SYN_LAT] Heterochlorella luteoviridis (Chodat) Neustupa
+[SYN_UNK] Auxenochlorella protothecoides var. communis Unknown authority null Chlorella protothecoides var. communis Shihira & R.W.Krauss 1965 [SEP] Chlorella luteoviridis Chodat 1913 [SEP] Chlorella vulgaris var. luteoviridis (Chodat) Shihira & R.W.Krauss 1965 [SEP] Eliás & Skaloud 2009 [SEP] Nemcova"
+688513,Jessenia bataua,[CANON_LAT] Jessenia bataua
+688543,Juglans regia L.,[CANON_LAT] Juglans regia L.
+688590,Juniperus communis,[CANON_LAT] Juniperus communis
+688629,Kala Namak,[CANON_EN] Kala Namak
+688654,L-alpha glycerylfosforylcholine,[CANON_EN] L-alpha glycerylfosforylcholine
+688679,L-citrulline malate,[CANON_EN] L-citrulline malate
+688704,L-fucose,[CANON_EN] L-fucose
+688729,L-Theanine,[CANON_EN] L-Theanine
+688793,Lactarius deliciosus,[CANON_LAT] Lactarius deliciosus
+688863,Lactarius rufus,[CANON_LAT] Lactarius rufus
+688894,Lactarius torminosus,[CANON_LAT] Lactarius torminosus
+688926,Lactarius trivialis,[CANON_LAT] Lactarius trivialis
+688957,Lactarius utilis,[CANON_LAT] Lactarius utilis
+688982,Lactulose,[CANON_EN] Lactulose
+689015,Laminaria digitata,"[CANON_LAT] Laminaria digitata
+[SYN_UNK] Fucus digitatus Hudson 1762 Ceramium digitatum (Hudson) Stackhouse 1797 Gigantea digitata (Hudson) Stackhouse 1816 Hafgygia digitata (Hudson) Kützing 1843 Saccharina digitata (Hudson) Kuntze 1891"
+689043,Saccharina japonica,"[CANON_LAT] Saccharina japonica
+[SYN_UNK] Hafgygia japonica (Areschoug) Areschoug 1883 [SEP] Laminaria japonica Areschoug 1851 [SEP] Oxyglossum japonicum (Areschoug) Areschoug 1880 [SEP] Phycodendrum japonicum (Areschoug) Kuntze 1898 [SEP] Pleurophycus japonicus (Areschoug) O.C.Schmidt 1938"
+689077,Laminaria longicruris,[CANON_LAT] Laminaria longicruris
+689134,Lamium album L.,[CANON_LAT] Lamium album L.
+689159,Lamium galaeobdolon L.,[CANON_LAT] Lamium galaeobdolon L.
+689184,Lamium purpureum L.,[CANON_LAT] Lamium purpureum L.
+689209,Langermannia gigantea,"[CANON_LAT] Langermannia gigantea
+[SYN_LAT] Calvatia gigantea (Batsch ex Pers.) Lloyd
+[SYN_UNK] Lycoperdon gigantea. The preferred name is however Langermannia gigantea"
+689270,Lathyrus japonicus Willd,[CANON_LAT] Lathyrus japonicus Willd
+689334,Lavandula angustifolia,"[CANON_LAT] Lavandula angustifolia
+[SYN_LAT] Lavandula officinalis var. delphinensis (Jord. ex Billot) Rouy"
+689359,Lavandula officinalis,[CANON_LAT] Lavandula officinalis
+689398,Leccinum aurantiacum,[CANON_LAT] Leccinum aurantiacum
+689427,Leccinum versipelle,[CANON_LAT] Leccinum versipelle
+689458,Leccinum vulpinum,[CANON_LAT] Leccinum vulpinum
+689484,Lemna minor,[CANON_LAT] Lemna minor
+689522,Lentinula edodes,[CANON_LAT] Lentinula edodes
+689667,Leuzea carthamoide,[CANON_LAT] Leuzea carthamoide
+689692,Linum usitatissimum,"[CANON_LAT] Linum usitatissimum
+[SYN_LAT] Linum arvense Neck."
+689734,Liposomal vitamin C,[CANON_LAT] Liposomal vitamin C
+689759,Lippia citrodora,[CANON_LAT] Lippia citrodora
+689784,Lippia triphylla,"[CANON_LAT] Lippia triphylla
+[SYN_LAT] Aloysia citrodora [SEP] Lippia citrodora"
+689823,Lithothamnion calcareum,[CANON_LAT] Lithothamnion calcareum
+689848,Lucuma obovata,[CANON_LAT] Lucuma obovata
+689879,Lupinus albus,[CANON_LAT] Lupinus albus
+689922,Lupinus angustifolius,[CANON_LAT] Lupinus angustifolius
+689961,Lupinus luteus,[CANON_LAT] Lupinus luteus
+690031,Lycium barbarum,"[CANON_LAT] Lycium barbarum
+[SYN_LAT] Lycium barbarum Mill."
+690068,Lycopene,[CANON_EN] Lycopene
+690102,Macadamia intergrifolia,[CANON_LAT] Macadamia intergrifolia
+690138,Macrodiscus lactiflorus,"[CANON_LAT] Macrodiscus lactiflorus
+[SYN_LAT] Distictis lactiflora"
+690163,Malpighia glabra,"[CANON_LAT] Malpighia glabra
+[SYN_LAT] Malpighia punicifolia L."
+690201,Malpighia punicifolia,[CANON_LAT] Malpighia punicifolia
+690226,Malus communis,[CANON_LAT] Malus communis
+690251,Malus sylvestris,[CANON_LAT] Malus sylvestris
+690321,Manihot esculenta,"[CANON_LAT] Manihot esculenta
+[SYN_LAT] Manihot utilissima Pohl"
+690365,Manihot utilissima,[CANON_LAT] Manihot utilissima
+690390,Manilkara achras,[CANON_LAT] Manilkara achras
+690415,Manilkara zapota,"[CANON_LAT] Manilkara zapota
+[SYN_LAT] Manilkara achras (Mill.) Fosberg"
+690454,Manilkara zapotilla,"[CANON_LAT] Manilkara zapotilla
+[SYN_UNK] Manilkara zapota( L.) P.Royen"
+690479,Medicago sativa,"[CANON_LAT] Medicago sativa
+[SYN_LAT] Medica sativa Lam."
+690519,Mentha aquatica,[CANON_LAT] Mentha aquatica
+690544,Mesembryanthemum crystallinum,[CANON_LAT] Mesembryanthemum crystallinum
+690569,Mespilus germanica,"[CANON_LAT] Mespilus germanica
+[SYN_LAT] Mespilus domestica Gaterau"
+690607,Methylsulfonylmethane,[CANON_EN] Methylsulfonylmethane
+690639,methylliberine,[CANON_EN] methylliberine
+690664,Micronized and microencapsulated ferric diphosphate,[CANON_LAT] Micronized and microencapsulated ferric diphosphate
+690689,Mineral enriched fungal biomass (Aspergillus oryzae),[CANON_LAT] Mineral enriched fungal biomass (Aspergillus oryzae)
+690714,Momordica charantia,"[CANON_LAT] Momordica charantia
+[SYN_UNK] Cucumis argyi H.Lév."
+690755,Momordica grosvenorii,[CANON_LAT] Momordica grosvenorii
+690780,Monarda didyma,"[CANON_LAT] Monarda didyma
+[SYN_LAT] Monarda coccinea Michx."
+690812,Monascus albidus,[CANON_LAT] Monascus albidus
+690837,Monascus anka,[CANON_LAT] Monascus anka
+690862,Monascus araneosus,[CANON_LAT] Monascus araneosus
+690887,Monascus major,[CANON_LAT] Monascus major
+690912,Monascus purpureus,"[CANON_LAT] Monascus purpureus
+[SYN_LAT] Monascus anka [SEP] Monascus araneosus [SEP] Monascus major [SEP] Monascus rubiginosus [SEP] Monascus vini"
+690937,Monascus rubiginosus,[CANON_LAT] Monascus rubiginosus
+690962,Monascus vini,[CANON_LAT] Monascus vini
+691012,Monostroma nitidum,"[CANON_LAT] Monostroma nitidum
+[SYN_UNK] Porphyra crispata Kjellman 1897"
+691037,Moringa oleifera,"[CANON_LAT] Moringa oleifera
+[SYN_LAT] Guilandina moringa L."
+691062,Morus alba,"[CANON_LAT] Morus alba
+[SYN_LAT] Morus alba f. alba"
+691101,Morus nigra,"[CANON_LAT] Morus nigra
+[SYN_LAT] Morus cretica Raf."
+691140,Asphaltum punjabianum,[CANON_LAT] Asphaltum punjabianum
+691166,Musa acuminata,"[CANON_LAT] Musa acuminata
+[SYN_LAT] Musa simiarum Kurz"
+691205,Musa nana,[CANON_LAT] Musa nana
+691255,Myrciaria dubia,"[CANON_LAT] Myrciaria dubia
+[SYN_LAT] Eugenia divaricata Benth [SEP] Myrciaria divaricata O.Berg [SEP] Psidium dubium Kunth"
+691282,Myrciaria floribunda,"[CANON_LAT] Myrciaria floribunda
+[SYN_LAT] Acinodendron sellowianum Kuntze [SEP] Myrciaria protracta (Steud.) O.Berg"
+691308,Myrciaria protracta,[CANON_LAT] Myrciaria protracta
+691333,Myrothamnus flabellifolia,"[CANON_LAT] Myrothamnus flabellifolia
+[SYN_UNK] Cliffortia flabellifolia Sond. ex Harv. & Sond."
+691359,Myrrhis odorata (L.) Scop.,[CANON_LAT] Myrrhis odorata (L.) Scop.
+691384,Myrtus communis,"[CANON_LAT] Myrtus communis
+[SYN_LAT] Decaspermum blancoi S.Vidal"
+691412,N-Methyl-D-Aspartate,[CANON_EN] N-Methyl-D-Aspartate
+691437,N-oleoyl Phosphatidyl-Ethanolamine (NOPE),[CANON_EN] N-oleoyl Phosphatidyl-Ethanolamine (NOPE)
+691462,Nasturtium officinale,"[CANON_LAT] Nasturtium officinale
+[SYN_LAT] Rorippia nasturtium-aquaticum (L.) Hayek
+[SYN_UNK] Arabis nasturtium [Clairv.]"
+691502,Nauclea aculeata,[CANON_LAT] Nauclea aculeata
+691527,Nauclea tomentosa,[CANON_LAT] Nauclea tomentosa
+691552,Nelumbo nucifera,"[CANON_LAT] Nelumbo nucifera
+[SYN_LAT] Nelumbium nelumbo Druce"
+691589,Nepeta tenuifolia,"[CANON_LAT] Nepeta tenuifolia
+[SYN_LAT] Elsholtzia integrifolia Benth. [SEP] Schizonepeta tenuifolia Briq."
+691620,Nephelium lappaceum,"[CANON_LAT] Nephelium lappaceum
+[SYN_LAT] Dimocarpus crinitus Lour."
+691653,Nicotinamide mononucleotide (purity is 95 – 99 %),[CANON_EN] Nicotinamide mononucleotide (purity is 95 – 99 %)
+691678,Nigella sativa,"[CANON_LAT] Nigella sativa
+[SYN_LAT] Nigella cretica Mill."
+691720,Ocimum sanctum,[CANON_LAT] Ocimum sanctum
+691745,Ocimum tenuiflorum,"[CANON_LAT] Ocimum tenuiflorum
+[SYN_UNK] Ocimum sanctum L.; Ocimum monachorum L"
+691785,Oenothera biennis,"[CANON_LAT] Oenothera biennis
+[SYN_LAT] Brunyera biennis Bubani"
+691824,Olea europaea,"[CANON_LAT] Olea europaea
+[SYN_LAT] Olea angustifolia Raf."
+691918,Omega-3 fatty acid-lysine salt,[CANON_EN] Omega-3 fatty acid-lysine salt
+691943,Opuntia ficus-indica,"[CANON_LAT] Opuntia ficus-indica
+[SYN_LAT] Cactus compressus Salisb."
+691992,Origanum minutiflorum,[CANON_LAT] Origanum minutiflorum
+692017,Origanum vulgare,"[CANON_LAT] Origanum vulgare
+[SYN_LAT] Origanum americanum Raf."
+692057,Orthosiphon stamineus,"[CANON_LAT] Orthosiphon stamineus
+[SYN_LAT] Ocimum aristatum Blume"
+692092,Oryza sativa,"[CANON_LAT] Oryza sativa
+[SYN_LAT] Oryza aristata Blanco"
+692134,Oxalis acetosella L.,[CANON_LAT] Oxalis acetosella L.
+692159,Oxalis purpurea,[CANON_LAT] Oxalis purpurea
+692184,Oxalis tuberosa,[CANON_LAT] Oxalis tuberosa
+692216,Oxalis vulcanicola,"[CANON_LAT] Oxalis vulcanicola
+[SYN_LAT] Oxalis vulcanicola Donn. Sm."
+692241,Oxycoccus macrocarpus,[CANON_LAT] Oxycoccus macrocarpus
+692266,Oxycoccus quadripetala,[CANON_LAT] Oxycoccus quadripetala
+692291,Oxytenanthera albociliata,[CANON_LAT] Oxytenanthera albociliata
+692316,Ozohallila nodosa,[CANON_LAT] Ozohallila nodosa
+692341,Paeonia officinalis,[CANON_LAT] Paeonia officinalis
+692369,Arenga pinnata,"[CANON_LAT] Arenga pinnata
+[SYN_LAT] Arenga gamuto Merr."
+692394,Palmaria palmata,"[CANON_LAT] Palmaria palmata
+[SYN_UNK] Ceramium palmatum (Linnaeus) Stackhouse 1797 [SEP] Delesseria palmata (Linnaeus) J.V.Lamouroux 1813 [SEP] Fucus palmatus Linnaeus 1753 [SEP] Halymenia palmata (Linnaeus) C.Agardh 1817 [SEP] Isomenia palmata (Linnaeus) Bachelot Pylaie 1830 [SEP] Rhodymenia palmata (Linnaeus) Greville 1830 [SEP] Sarcophylla palmata (Linnaeus) Stackhouse 1816 [SEP] Sphaerococcus palmatus (Linnaeus) Wahlenberg 1826 [SEP] Ulva palmata (Linnaeus) Withering 1796"
+692428,Panax notoginseng,"[CANON_LAT] Panax notoginseng
+[SYN_LAT] Aralia quinquefolia var. notoginseng Burkill"
+692464,Panax ginseng,"[CANON_LAT] Panax ginseng
+[SYN_LAT] Aralia ginseng Baill."
+692503,Panax pseudoginseng,"[CANON_LAT] Panax pseudoginseng
+[SYN_LAT] Aralia pseudoginseng Benth. ex C.B.Clarke"
+692528,Panax quinquefolius,"[CANON_LAT] Panax quinquefolius
+[SYN_UNK] Aralia quinquefolia (L.) Decne. & Planch."
+692565,Papaver rhoeas L.,"[CANON_LAT] Papaver rhoeas L.
+[SYN_LAT] Papaver aegadicum Lojac."
+692590,Parachlorella kessleri,"[CANON_LAT] Parachlorella kessleri
+[SYN_UNK] Chlorella kessleri Fott & Nováková 1969"
+692615,Passiflora edulis,"[CANON_LAT] Passiflora edulis
+[SYN_LAT] Passiflora cuneifolia Cav."
+692654,Paullinia cupana,"[CANON_LAT] Paullinia cupana
+[SYN_LAT] Paullinia brasiliensis Lodd. ex Radlk."
+692691,Pisum sativum,"[CANON_LAT] Pisum sativum
+[SYN_LAT] Lathyrus oleraceus Lam."
+692716,Pelargonium sidoides,[CANON_LAT] Pelargonium sidoides
+692741,Penicillium oxalicum var. armeniaca,[CANON_LAT] Penicillium oxalicum var. armeniaca
+692766,Gadus macrocephalus,[CANON_LAT] Gadus macrocephalus
+692816,Perilla frutescens,"[CANON_LAT] Perilla frutescens
+[SYN_LAT] Ocimum frutescens L.
+[SYN_UNK] Melissa cretica [Soland.] [SEP] Perilla frutescens var. laviniata W.Mill. & L.H.Bailey"
+692887,Persea americana,"[CANON_LAT] Persea americana
+[SYN_LAT] Persea americana var. americana"
+692918,Persea gratissima,"[CANON_LAT] Persea gratissima
+[SYN_LAT] Persea americana Mill."
+692968,Phalaris canariensis,"[CANON_LAT] Phalaris canariensis
+[SYN_LAT] Phalaris aquatica Delile ex Boiss."
+692993,Pharbitis hederecea,[CANON_LAT] Pharbitis hederecea
+693018,Phaseolus angularis,"[CANON_LAT] Phaseolus angularis
+[SYN_UNK] Vigna angularis (Willd.) Ohwi & H.Ohashi"
+693057,Phaseolus coccineus,"[CANON_LAT] Phaseolus coccineus
+[SYN_LAT] Lipusa formosa (Kunth) Alef."
+693095,Phaseolus cylindricus,[CANON_LAT] Phaseolus cylindricus
+693120,Phellodendron chinense,"[CANON_LAT] Phellodendron chinense
+[SYN_LAT] Phellodendron chinense var. chinense"
+693145,Phlebodium aureum,"[CANON_LAT] Phlebodium aureum
+[SYN_LAT] Chrysopteris aurea Link"
+693175,Phyllantus emblica,[CANON_LAT] Phyllantus emblica
+693200,Phyllostachys edulis,[CANON_LAT] Phyllostachys edulis
+693225,Phyllostachys pubescens,"[CANON_LAT] Phyllostachys pubescens
+[SYN_LAT] Phyllostachys edulis J.Houz."
+693261,Physalis peruviana,"[CANON_LAT] Physalis peruviana
+[SYN_LAT] Alkekengi pubescens Moench"
+693299,Physocaulon nodosum,[CANON_LAT] Physocaulon nodosum
+693324,Picea abies,"[CANON_LAT] Picea abies
+[SYN_LAT] Abies abies Druce"
+693354,Pinitol,[CANON_EN] Pinitol
+693383,Pinus balsamea,[CANON_LAT] Pinus balsamea
+693408,Pinus koraiensis,"[CANON_LAT] Pinus koraiensis
+[SYN_UNK] Apinus koraiensis (Siebold & Zucc.) Moldenke"
+693444,Pinus pinaster,"[CANON_LAT] Pinus pinaster
+[SYN_LAT] Pinus corteana hort. ex Beissn."
+693482,Pinus sibirica,"[CANON_LAT] Pinus sibirica
+[SYN_LAT] Abies sibirica Ledeb."
+693518,Pinus sylvestris,"[CANON_LAT] Pinus sylvestris
+[SYN_LAT] Pinus borealis Salisb."
+693548,Piper nigrum,"[CANON_LAT] Piper nigrum
+[SYN_LAT] Muldera multinervis Miq."
+693587,Pistacia lentiscus,[CANON_LAT] Pistacia lentiscus
+693637,Plantago afra,"[CANON_LAT] Plantago afra
+[SYN_LAT] Plantago afra var. parviflora (Desf.) Lewalle [SEP] Plantago cynops L. [SEP] Plantago parviflora Desf. [SEP] Plantago pseudopsyllium Desf. [SEP] Psyllium afrum (L.) Mirb."
+693662,Plantago indica,"[CANON_LAT] Plantago indica
+[SYN_LAT] Plantago annua (Thuill.) Rauschert [SEP] Plantago arenaria f. rossica Tuzs. [SEP] Plantago arenaria var. divaricata Boiss. [SEP] Plantago arenaria var. garganica Ten. [SEP] Plantago arenaria var. rossica (Tuzson) Lewalle [SEP] Plantago indica var. rossica Pilg. [SEP] Plantago italica S.G.Gmel. ex Steud. [SEP] Plantago latifolia Wissjul. [SEP] Plantago psyllium L. [SEP] Plantago ramosa Asch. [SEP] Plantago ruthenica Adams ex Decne. [SEP] Plantago scabra Moench [SEP] Psyllium annuum Thuill. [SEP] Psyllium erectum Dum.Cours. [SEP] Psyllium indicum (L.) Mirb. [SEP] Psyllium indicum Dum.Cours. [SEP] Psyllium ramosum Gilib. [SEP] Psyllium scabrum (Moench) Holub
+[SYN_UNK] Plantago arenaria Waldst. & Kit. [SEP] Plantago arenaria subsp. orientalis (Soják) Greuter & Burdet [SEP] Plantago indica subsp. orientalis Soó [SEP] Plantago psyllia St.-Lag. [SEP] Plantago scabra subsp. orientalis (Soják) Tzvelev [SEP] Psyllium arenarium (Waldst. & Kit.) Mirb. [SEP] Psyllium arenarium subsp. orientale (Soó) Soják [SEP] Psyllium indicum subsp. orientale Soják [SEP] Psyllium scabrum subsp. orientale (Soó) Holub"
+693724,Plantago maritima,[CANON_LAT] Plantago maritima
+693749,Plantago ovata,"[CANON_LAT] Plantago ovata
+[SYN_LAT] Plantago brunnea E.Morris [SEP] Plantago ispaghula Roxb."
+693830,Pleurotus eryngii (dehydrated mycelium powder),[CANON_LAT] Pleurotus eryngii (dehydrated mycelium powder)
+693855,Pleurotus ostreatus,[CANON_LAT] Pleurotus ostreatus
+693919,Polyacetyl-glucosamine,[CANON_EN] Polyacetyl-glucosamine
+693955,Polydextrose,[CANON_EN] Polydextrose
+693980,Polymnia edulis,[CANON_LAT] Polymnia edulis
+694005,Polymnia sonchifolia,[CANON_LAT] Polymnia sonchifolia
+694030,Polypodium aureum,[CANON_LAT] Polypodium aureum
+694055,Polypodium leucotomos,[CANON_LAT] Polypodium leucotomos
+694080,Polyporus umbellatus (dehydrated mycelium powder),[CANON_LAT] Polyporus umbellatus (dehydrated mycelium powder)
+694105,Polyporus versicolor,[CANON_LAT] Polyporus versicolor
+694187,Portulaca oleracea,"[CANON_LAT] Portulaca oleracea
+[SYN_LAT] Portulaca consanguinea Schltdl."
+694226,Pouteria lucuma,[CANON_LAT] Pouteria lucuma
+694276,Product made from the seed coats of chickpeas and maize dextrin,[CANON_LAT] Product made from the seed coats of chickpeas and maize dextrin
+694326,Prunus cerasifera,"[CANON_LAT] Prunus cerasifera
+[SYN_LAT] Cerasus myrobalanos hort."
+694403,Prunus salicina,"[CANON_LAT] Prunus salicina
+[SYN_UNK] Prunus botan André"
+694440,Prunus spinosa,"[CANON_LAT] Prunus spinosa
+[SYN_LAT] Druparia spinosa Clairv."
+694479,Pseudotsuga menziesii,[CANON_LAT] Pseudotsuga menziesii
+694504,Psidium guineense,[CANON_LAT] Psidium guineense
+694536,Ptychopetalum olacoides,[CANON_LAT] Ptychopetalum olacoides
+694568,Pueraria montana var. lobata,"[CANON_LAT] Pueraria montana var. lobata
+[SYN_LAT] Pueraria lobata (Willd.) Ohwi"
+694600,Pueraria mirifica,[CANON_LAT] Pueraria mirifica
+694628,Pueraria thunbergiana,[CANON_LAT] Pueraria thunbergiana
+694653,Punica granatum L.,"[CANON_LAT] Punica granatum L.
+[SYN_LAT] Punica florida Salisb."
+694694,Pyrethrum parthenium,[CANON_LAT] Pyrethrum parthenium
+694719,Quercetin-zein,[CANON_EN] Quercetin-zein
+694744,Quercus robur L.,[CANON_LAT] Quercus robur L.
+694769,Raphanus sativus,[CANON_LAT] Raphanus sativus
+694794,Rauwolfia vomitoria,[CANON_LAT] Rauwolfia vomitoria
+694828,Red clay sea salt,[CANON_LAT] Red clay sea salt
+694878,Resveratrol,[CANON_EN] Resveratrol
+694903,Rhamnogalacturonan-rich pectin hydrolysate,[CANON_EN] Rhamnogalacturonan-rich pectin hydrolysate
+694928,Rhaponticum carthamoides (Willd.) Iljin,"[CANON_LAT] Rhaponticum carthamoides (Willd.) Iljin
+[SYN_LAT] Leuzea carthamoides (Willd.) DC."
+694953,Rheum rhabarbarum L.,[CANON_LAT] Rheum rhabarbarum L.
+694978,Rhodiola Rosea,[CANON_EN] Rhodiola Rosea
+695043,Ribose,[CANON_EN] Ribose
+695130,Rooster comb extract,[CANON_LAT] Rooster comb extract
+695155,Rorippia nasturtium-aquatica,"[CANON_LAT] Rorippia nasturtium-aquatica
+[SYN_LAT] Nasturtium officinale"
+695180,Rosa canina,[CANON_LAT] Rosa canina
+695219,Rosa moschata,[CANON_LAT] Rosa moschata
+695257,Rosa rubiginosa,[CANON_LAT] Rosa rubiginosa
+695282,Rosa rugosa,"[CANON_LAT] Rosa rugosa
+[SYN_LAT] Rosa andreae Lange"
+695307,Rozites caperatus,"[CANON_LAT] Rozites caperatus
+[SYN_LAT] Cortinarius caperatus"
+695368,Rubus chamaemorus,[CANON_LAT] Rubus chamaemorus
+695408,Rubus glaucus Benth.,[CANON_LAT] Rubus glaucus Benth.
+695433,Rubus suavissimus,"[CANON_LAT] Rubus suavissimus
+[SYN_LAT] Rubus chingii var. suavissimus (S.K.Lee) L.T.Lu"
+695461,Rumex acetosa,[CANON_LAT] Rumex acetosa
+695486,Rumex crispus,[CANON_LAT] Rumex crispus
+695511,Rumex rugosus,"[CANON_LAT] Rumex rugosus
+[SYN_LAT] Rumex acetosa"
+695549,Ruscus aculeatus,"[CANON_LAT] Ruscus aculeatus
+[SYN_LAT] Oxymyrsine pungens Bubani"
+695590,Russula claroflava,[CANON_LAT] Russula claroflava
+695619,Russula decolorans,[CANON_LAT] Russula decolorans
+695648,Russula paludosa,[CANON_LAT] Russula paludosa
+695677,Russula vinosa,"[CANON_LAT] Russula vinosa
+[SYN_LAT] Russula obscura"
+695707,Rutin,[CANON_EN] Rutin
+695742,Saba senegalensis (A.DC.) Pichon.,[CANON_LAT] Saba senegalensis (A.DC.) Pichon.
+695767,Saccharina latissima,"[CANON_LAT] Saccharina latissima
+[SYN_UNK] Fucus saccharinus Linnaeus 1753 [SEP] Laminaria saccharina (Linnaeus) J.V.Lamouroux 1813 [SEP] Phycoseris latissima (Linnaeus) Fraudenfeld 1854 [SEP] Ulva fusca Hudson 1778 [SEP] Ulva lactuca var. latissima (Linnaeus) A.P.De Candolle 1805 [SEP] Ulva latissima Gunnerus 1766 [SEP] Ulva latissima Linnaeus 1753 [SEP] Ulva longissima Gunnerus 1776 [SEP] Ulva maxima Gunnerus 1776"
+695792,Saccharomyces cerevisiae,[CANON_LAT] Saccharomyces cerevisiae
+695817,Salacia reticulata,[CANON_LAT] Salacia reticulata
+695842,Salicornia europea,"[CANON_LAT] Salicornia europea
+[SYN_LAT] Salicornia annua Sm. [SEP] Salicornia biennis Afzel. ex Sm. [SEP] Salicornia herbacea L. [SEP] Salicornia simonkaiana Soo [SEP] Salicornia stricta Dumort
+[SYN_UNK] Salicornia brachystachya (G.Mey.) D.König"
+695909,Salvia miltiorrhiza,[CANON_LAT] Salvia miltiorrhiza
+695939,Sanguisorba minor,"[CANON_LAT] Sanguisorba minor
+[SYN_LAT] Poterium sanguisorba L."
+695964,Satureja hortensis L.,[CANON_LAT] Satureja hortensis L.
+696005,Schinus terebinthifolius,[CANON_LAT] Schinus terebinthifolius
+696041,Schisandra chinensis,"[CANON_LAT] Schisandra chinensis
+[SYN_LAT] Kadsura chinensis Turcz [SEP] Maximowiczia amurensis Rupr. [SEP] Maximowiczia chinensis (Turcz.) Rupr. [SEP] Maximowiczia japonica (A.Gray) K.Koch [SEP] Schisandra nigra f. viridicarpa (Y.N.Lee) M.Kim [SEP] Sphaerostema japonicum A.Gray
+[SYN_UNK] Schisandra chinensis var. leucocarpa P.H.Huang & L.H.Zhuo [SEP] Schisandra japonica (Siebold. & Zucc. ex A. Gray) Hance."
+696076,Schizonepeta tenuifolia,[CANON_LAT] Schizonepeta tenuifolia
+696101,Sclerocarya birrea,"[CANON_LAT] Sclerocarya birrea
+[SYN_LAT] Spondias birrea (A. Rich.)
+[SYN_UNK] Poupartia birrea (A. Rich.) Aubrév"
+696134,Sedum telephium,[CANON_LAT] Sedum telephium
+696159,Selenicerus megalanthus,[CANON_LAT] Selenicerus megalanthus
+696184,Senna alexandrina,"[CANON_LAT] Senna alexandrina
+[SYN_LAT] Cassia acutifolia Delile [SEP] Cassia alexandrina (Garsault) Thell. [SEP] Cassia angustifolia M.Vahl [SEP] Cassia senna L. [SEP] Senna acutifolia (Delile) Batka [SEP] Senna alexandrina Garsault [SEP] Senna angustifolia (Vahl) Batka"
+696211,Serratiopeptidase,"[CANON_EN] Serratiopeptidase
+[SYN_UNK] Serratia E-15 protease [SEP] serralysin [SEP] serrapeptase [SEP] serrapeptidase [SEP] serratia peptidase [SEP] serratiapeptase [SEP] serratio peptidase"
+696236,Sesamum indicum,"[CANON_LAT] Sesamum indicum
+[SYN_LAT] Dysosmon amoenum Raf. [SEP] Sesamum africanum Tod. [SEP] Sesamum oleiferum Sm. [SEP] Sesamum orientale L. [SEP] Volkameria orientalis (L.) Kuntze
+[SYN_UNK] Sesamum occidentalis Heer & Regel"
+696310,Silybum marianum,"[CANON_LAT] Silybum marianum
+[SYN_LAT] Carduus marianus L."
+696341,Sinapsis arvensis L.,[CANON_LAT] Sinapsis arvensis L.
+696366,Sinocalamus oldhamii,"[CANON_LAT] Sinocalamus oldhamii
+[SYN_LAT] Arundarbor oldhamii (Munro) Kuntze [SEP] Bambusa atrovirens T.H.Wen [SEP] Bambusa oldhamii (Munro) [SEP] Dendrocalamopsis atrovirens (T.H.Wen) Keng f. ex W.T.Lin [SEP] Dendrocalamopsis oldhamii (Munro) Keng f. [SEP] Leleba oldhamii (Munro) Nakai [SEP] Sinocalamus oldhamii (Munro) McClure
+[SYN_UNK] Bambusa revoluta (W.T.Lin & J.Y.Lin) N.H.Xia [SEP] Neosinocalamus revolutus (W.T.Lin & J.Y.Lin) T.H.Wen [SEP] R.H.Wang & R.S.Lin"
+696401,Siraitia grosvenorii,"[CANON_LAT] Siraitia grosvenorii
+[SYN_LAT] Momordica grosvenorii Swingle [SEP] Thladiantha grosvenorii (Swingle) C.Jeffrey"
+696431,Smallanthus sonchifolius,"[CANON_LAT] Smallanthus sonchifolius
+[SYN_LAT] Polymnia edulis Wedd [SEP] Polymnia sonchifolia Poepp.
+[SYN_UNK] Helianthus esculentus Warsz. ex Otto & Dietr."
+696458,Smilax officinalis,"[CANON_LAT] Smilax officinalis
+[SYN_LAT] Smilax longifolia Rich."
+696498,Sodium hyaluronate produced by fermentation process,[CANON_LAT] Sodium hyaluronate produced by fermentation process
+696523,Sodium/magnesium/calcium salts of betahydroxybutyrate,"[CANON_EN] Sodium/magnesium/calcium salts of betahydroxybutyrate
+[SYN_UNK] Sodium/Magnesium/calcium 3-hydroxybutyrate"
+696548,Solanum angulatum,[CANON_LAT] Solanum angulatum
+696573,Solanum hirsutissimum,[CANON_LAT] Solanum hirsutissimum
+696598,Solanum lycopersicum,[CANON_LAT] Solanum lycopersicum
+696623,Solanum muricatum,"[CANON_LAT] Solanum muricatum
+[SYN_LAT] Solanum guatemalense Hort. [SEP] Solanum hebephorum Dunal [SEP] Solanum melaniferum Moric. ex Dunal [SEP] Solanum muricatum f. glaberrimum Correll [SEP] Solanum muricatum var. dissectum Dunal [SEP] Solanum muricatum var. papillosistylum Bitter [SEP] Solanum muricatum var. parvifolium Kunth [SEP] Solanum muricatum var. popayanum Bitter [SEP] Solanum muricatum var. praecedens Bitter [SEP] Solanum muricatum var. protogenum Bitter [SEP] Solanum muricatum var. teleutogenum Bitter [SEP] Solanum saccianum Naudin [SEP] Solanum scabrum Lam.
+[SYN_UNK] Solanum longifolium Sessé & Moc. [SEP] Solanum pedunculatum Roem. & Schult. [SEP] Solanum saccianum Carrière & André [SEP] Solanum variegatum Ruiz & Pav. [SEP] Solanum wallisii Carrière"
+696695,Sorbus aucuparia,[CANON_LAT] Sorbus aucuparia
+696733,Sorghum bicolor,[CANON_LAT] Sorghum bicolor
+696772,Phosphatidylserine,[CANON_EN] Phosphatidylserine
+696805,"Spent coffee grounds, defatted spent coffee grounds and defatted unused coffee grounds","[CANON_EN] Spent coffee grounds, defatted spent coffee grounds and defatted unused coffee grounds"
+696830,Sphaerotrichia divaricata,[CANON_LAT] Sphaerotrichia divaricata
+696856,Sphingolipids,[CANON_EN] Sphingolipids
+696914,Spleen peptides,[CANON_LAT] Spleen peptides
+696939,Splenopentin,[CANON_EN] Splenopentin
+696969,Spondias lutea,[CANON_LAT] Spondias lutea
+696994,Spondias mombin,"[CANON_LAT] Spondias mombin
+[SYN_LAT] Spondias lutea L."
+697019,Spondias purpurea,"[CANON_LAT] Spondias purpurea
+[SYN_LAT] Spondias cirouella Tussac"
+697056,Stachyose,[CANON_EN] Stachyose
+697088,Stachys affinis,"[CANON_LAT] Stachys affinis
+[SYN_LAT] Stachys aegyptiaca Pers."
+697127,Stachys sieboldii,[CANON_LAT] Stachys sieboldii
+697152,Stellaria media (L.) Vill.,[CANON_LAT] Stellaria media (L.) Vill.
+697178,Stemmacantha carthamoides,"[CANON_LAT] Stemmacantha carthamoides
+[SYN_LAT] Leuzea carthamoides (Willd.) DC."
+697262,Suaeda maritima L.,[CANON_LAT] Suaeda maritima L.
+697287,Suillus luteus,"[CANON_LAT] Suillus luteus
+[SYN_LAT] Boletopsis lutea (L.) Henn. [SEP] Boletus luteus L. [SEP] Boletus volvatus Batsch [SEP] Cricunopus luteus (L.) P. Karst.
+[SYN_UNK] Ixocomus luteus (L.) Quél. [SEP] Viscipellis luteus (L.) Quél."
+697325,Suillus variegatus,"[CANON_LAT] Suillus variegatus
+[SYN_LAT] Boletus squalidus Fr. [SEP] Boletus variegatus Sw.
+[SYN_UNK] Ixocomus variegatus (Sw.) Quél. [SEP] Versipellis variegata (Swartz) Quél. [SEP] Versipellis variegata var. variegata (Sw.) Quél."
+697354,Synsepalum dulcificum,[CANON_LAT] Synsepalum dulcificum
+697379,Syringa vulgaris,[CANON_LAT] Syringa vulgaris
+697404,Syzygium jambos,[CANON_LAT] Syzygium jambos
+697441,Tagetes tenuifolia Cav.,[CANON_LAT] Tagetes tenuifolia Cav.
+697466,Tamarindus indica,"[CANON_LAT] Tamarindus indica
+[SYN_LAT] Cavaraea elegans Speg. [SEP] Tamarindus officinalis Hook"
+697526,Taraxacum officinale,"[CANON_LAT] Taraxacum officinale
+[SYN_LAT] Chondrilla taraxacum (L.) Stokes"
+697565,Taraxacum vulgare,[CANON_LAT] Taraxacum vulgare
+697590,Terminalia arjuna,"[CANON_LAT] Terminalia arjuna
+[SYN_LAT] Myrobalanus cuneata Kuntze"
+697624,Terminalia chebula,"[CANON_LAT] Terminalia chebula
+[SYN_LAT] Buceras chebula (Retz.) A.Lyons"
+697714,Theobroma cacao,[CANON_LAT] Theobroma cacao
+697750,Theobroma grandiflorum,"[CANON_LAT] Theobroma grandiflorum
+[SYN_LAT] Bubroma grandiflorum Willd. ex Spreng."
+697783,Thermopsis lanceolata,[CANON_LAT] Thermopsis lanceolata
+697808,Thymopentin,[CANON_EN] Thymopentin
+697840,Thyrsostachys siamensis,"[CANON_LAT] Thyrsostachys siamensis
+[SYN_LAT] Bambusa regia Thomson ex Munro [SEP] Bambusa siamensis Kurz ex Munro [SEP] Thyrsostachys regia (Munro) Bennet"
+697902,Tinospora cordifolia,[CANON_LAT] Tinospora cordifolia
+697927,Torula yeast (Cyberlindnera jadinii) biomass,[CANON_LAT] Torula yeast (Cyberlindnera jadinii) biomass
+697952,Tragopogon porrifolius,"[CANON_LAT] Tragopogon porrifolius
+[SYN_LAT] Tragopogon porrifolius f. porrifolius"
+697991,Trametes versicolor,"[CANON_LAT] Trametes versicolor
+[SYN_LAT] Agaricus versicolor (L.) Lam. [SEP] Bjerkandera versicolor (L.) P. Karst. [SEP] Boletus atrofuscus Schaeff. [SEP] Boletus cyaneus Pers. [SEP] Boletus suberosus Batsch [SEP] Boletus versicolor L. [SEP] Cellularia cyathiformis Bull. [SEP] Hansenia versicolor (L.) P. Karst. [SEP] Microporus versicolor (L.) Kuntze [SEP] Polyporus antarcticus Speg. [SEP] Polyporus apophysatus Rostk. [SEP] Polyporus caesioglaucus Cooke [SEP] Polyporus carpineus Velen. [SEP] Polyporus cristulatus Speg. [SEP] Polyporus fuscatus Fr. [SEP] Polyporus hirsutulus Schwein [SEP] Polyporus irpiciformis Velen. [SEP] Polyporus luteovelutinus Bres. [SEP] Polyporus nigricans Lasch [SEP] Polyporus nummularius Pers. [SEP] Polyporus picicola Velen. [SEP] Polyporus pictilis Berk. [SEP] Polyporus reisneri Velen. [SEP] Polyporus rohlenae Velen. [SEP] Polyporus versicolor (L.) Fr. [SEP] Polyporus versicolor var. cyaneus Velen. [SEP] Polyporus versicolor var. productus Velen. [SEP] Polyporus versicolor var. rosiphilus Velen. [SEP] Polyporus vitellinus Velen. [SEP] Polystictus azureus Fr. [SEP] Polystictus doidgeae Lloyd [SEP] Polystictus doidgei Lloyd [SEP] Polystictus neaniscus Berk. ex Cooke [SEP] Polystictus versicolor (L.) Fr. [SEP] Poria versicolor (L.) Scop. [SEP] Sistotrema versicolor (L.) Tratt.
+[SYN_UNK] Agarico-suber versicolor (L.) Paulet [SEP] Coriolus versicolor (L.) Quél. [SEP] Polyporus pectunculus Lév. [SEP] Polyporus subflavus Lév. [SEP] Polystictoides castaneicola Lázaro Ibiza [SEP] Polystictoides castanicola Lázaro Ibiza [SEP] Polystictus corylicola Lázaro Ibiza [SEP] Polystictus inversus Lázaro Ibiza"
+698024,Trapa natans,"[CANON_LAT] Trapa natans
+[SYN_LAT] Trapa acicularis V.N.Vassil."
+698063,Tribulus terrestris,"[CANON_LAT] Tribulus terrestris
+[SYN_LAT] Tribulus lanuginosus L."
+698099,Tricholoma matsutake,"[CANON_LAT] Tricholoma matsutake
+[SYN_UNK] Armillaria matsutake S. Ito & S. Imai [SEP] Tricholoma nauseosum (A. Blytt) Kytöv."
+698131,Trifolium pratense,"[CANON_LAT] Trifolium pratense
+[SYN_LAT] Trifolium borysthenicum Gruner [SEP] Triglochin maritima f. maritima"
+698169,Triglochin maritima L.,[CANON_LAT] Triglochin maritima L.
+698194,Trigonella foenum-graecum,"[CANON_LAT] Trigonella foenum-graecum
+[SYN_LAT] Buceras foenum-graecum (L.)"
+698260,Triticum aestivum,"[CANON_LAT] Triticum aestivum
+[SYN_LAT] Cardamindum majus Moench"
+698287,Tropaeolum majus L.,[CANON_LAT] Tropaeolum majus L.
+698343,Ulmus rubra,"[CANON_LAT] Ulmus rubra
+[SYN_LAT] Ulmus americana var. rubra (Muhl.) Aiton [SEP] Ulmus crispa Willd. [SEP] Ulmus fulva Michx. [SEP] Ulmus pendula Willd. [SEP] Ulmus pubescens Walter"
+698368,Ulva lactuca,"[CANON_LAT] Ulva lactuca
+[SYN_UNK] Monostroma lactuca (Linnaeus) J.Agardh 1883 [SEP] Phyllona lactuca (Linnaeus) F.H.Wiggers 1780"
+698398,Uncaria surinamensi,[CANON_LAT] Uncaria surinamensi
+698423,Uncaria tomentosa,"[CANON_LAT] Uncaria tomentosa
+[SYN_LAT] Nauclea aculeata Kunth [SEP] Nauclea tomentosa Willd. [SEP] Uncaria surinamensis Miq.."
+698462,Undaria pinnatifida,"[CANON_LAT] Undaria pinnatifida
+[SYN_LAT] Undaria pinnatifida f. subflabellata Suringar null
+[SYN_UNK] Alaria amplexicaulis Martens 1866 [SEP] Alaria pinnatifida Harvey 1860 [SEP] Ulopteryx pinnatifida (Harvey) Kjellman 1885"
+698535,Vaccinium macrocarpon,"[CANON_LAT] Vaccinium macrocarpon
+[SYN_LAT] Oxycoca macrocarpa (Aiton) Raf."
+698574,Vaccinium myrtillus,"[CANON_LAT] Vaccinium myrtillus
+[SYN_LAT] Vaccinium oreophilum Rydb.
+[SYN_UNK] Vitis-idaea myrtillus (L.) Moench"
+698619,Vaccinium oxycoccus,"[CANON_LAT] Vaccinium oxycoccus
+[SYN_LAT] Vaccinium oxycoccos f. leucanthum (T.Shimizu) Yonek."
+698659,Vaccinium uliginosum,[CANON_LAT] Vaccinium uliginosum
+698698,Vaccinium vitis-idaea,"[CANON_LAT] Vaccinium vitis-idaea
+[SYN_LAT] Rhodococcum vitis-idaea (L.) Avrorin"
+698851,Vigna subterranea,[CANON_LAT] Vigna subterranea
+698885,Vigna unguiculata,[CANON_LAT] Vigna unguiculata
+698927,Viola tricolor,"[CANON_LAT] Viola tricolor
+[SYN_LAT] Jacea tricolor (L.) Opiz"
+698952,Viscum album,"[CANON_LAT] Viscum album
+[SYN_LAT] Viscum album var. Album"
+698981,Vitellaria paradoxa,[CANON_LAT] Vitellaria paradoxa
+699077,Wasabia japonica,"[CANON_LAT] Wasabia japonica
+[SYN_LAT] Eutrema japonicum (Miq.) Koidz"
+699102,Whey treated with UV radiation,[CANON_LAT] Whey treated with UV radiation
+699127,Withania somnifera,"[CANON_LAT] Withania somnifera
+[SYN_LAT] Physalis somnifera L."
+699162,Xanthoparmelia scabrosa,[CANON_LAT] Xanthoparmelia scabrosa
+699190,Xanthosoma sagittifolium,[CANON_LAT] Xanthosoma sagittifolium
+699215,Xanthosoma violaceum Schott,[CANON_LAT] Xanthosoma violaceum Schott
+699265,Zea mays,"[CANON_LAT] Zea mays
+[SYN_LAT] Mays vulgaris Ser. [SEP] Mayzea vestita Raf. [SEP] Zea alba Mill."
+699303,Zeolite,[CANON_EN] Zeolite
+699353,Zizania aquatica,[CANON_LAT] Zizania aquatica
+699391,Zizania palustris,[CANON_LAT] Zizania palustris
+699417,Ziziphus jujuba,"[CANON_LAT] Ziziphus jujuba
+[SYN_LAT] Ziziphus vulgaris Lam. [SEP] Ziziphus zizyphus (L.) H. Karst."
+699462,Ziziphus vulgaris,[CANON_LAT] Ziziphus vulgaris
+699487,Ziziphus zizyphus,[CANON_LAT] Ziziphus zizyphus
+700141,Abelmoschus esculentus,"[CANON_LAT] Abelmoschus esculentus
+[SYN_LAT] Hibiscus esculentus L."
+700224,Abies alba,"[CANON_LAT] Abies alba
+[SYN_LAT] Abies pectinata (Lam.) DC."
+700382,Acacia senegal,"[CANON_LAT] Acacia senegal
+[SYN_LAT] Senegalia senegal (L.) Britton"
+701513,Aloe barbadensis,"[CANON_LAT] Aloe barbadensis
+[SYN_LAT] Aloe chinensis BAK
+[SYN_UNK] aloe ferox Mill."
+702102,Bambusa spp.,"[CANON_EN] Bambusa spp.
+[SYN_UNK] Bamboo (EN) (PT) [SEP] Bambuss (LV) [SEP] bamboe (NL) [SEP] bambu (FI) (SE) [SEP] bambus (DE) [SEP] bambus (PL) (ET) (CZ) (SL) [SEP] bambusz (HU) [SEP] bambú (ES) [SEP] Μπαμπού (EL)"
+702387,Bixa orellana,[CANON_LAT] Bixa orellana
+702916,Chenopodium pallidicaule,"[CANON_LAT] Chenopodium pallidicaule
+[SYN_LAT] Chenopodium canihua"
+703136,Chrysanthemum morifolium,[CANON_LAT] Chrysanthemum morifolium
+703753,Colocasia esculenta,"[CANON_LAT] Colocasia esculenta
+[SYN_LAT] Colocasia antiquorum f. acuatica Makino"
+704292,Crepidula fornicata,[CANON_LAT] Crepidula fornicata
+704361,Crocodylus nilotikus,[CANON_LAT] Crocodylus nilotikus
+704601,Cinnamomum zeylanicum,[CANON_LAT] Cinnamomum zeylanicum
+712350,Epimedium macranthum,[CANON_LAT] Epimedium macranthum
+712565,Eriobotrya japonica,"[CANON_LAT] Eriobotrya japonica
+[SYN_LAT] Crataegus bibas Lour."
+713399,Lama glama,[CANON_LAT] Lama glama
+713628,Ferula hermonis,[CANON_LAT] Ferula hermonis
+716621,Viola cornuta,"[CANON_LAT] Viola cornuta
+[SYN_LAT] Mnemion cornutum Spach"
+717006,Hieracium pilosella,"[CANON_LAT] Hieracium pilosella
+[SYN_LAT] Pilosella officinarum Vaill."
+717860,Dimorphandra mollis,[CANON_LAT] Dimorphandra mollis
+717914,Hydrocotyle asiática,[CANON_EN] Hydrocotyle asiática
+727441,Tanacetum parthenium,[CANON_LAT] Tanacetum parthenium
+730280,Adansonia digitata,"[CANON_LAT] Adansonia digitata
+[SYN_UNK] Affenbrotbäume (DE) [SEP] abre bouteille (FR) [SEP] apenbroodboom (NL) [SEP] baobab (ENG, FR, NL) [SEP] árbol botella (ES)"
+733331,Cistanche deserticola,[CANON_LAT] Cistanche deserticola
+739056,Phymatolithon calcareum,"[CANON_LAT] Phymatolithon calcareum
+[SYN_UNK] Lithophyllum calcareum (Pallas) Foslie 1898 [SEP] Lithothamnion calcareum (Pallas) J.E.Areschoug 1852 [SEP] Melobesia calcarea (Pallas) Harvey 1849 [SEP] Millepora calcarea Pallas 1766 [SEP] Nullipora calcareum (Pallas) Lamarck 1801 [SEP] Paraspora calcarea (Pallas) Heydrich 1908 [SEP] Spongites calcareus (Pallas) Kützing 1849"
+742481,Beta-galactosidase from Aspergillus oryzae,[CANON_EN] Beta-galactosidase from Aspergillus oryzae
+1447861,Zanthoxylum piperitum,[CANON_LAT] Zanthoxylum piperitum
+1447901,Chrysanthemum parthenium,"[CANON_LAT] Chrysanthemum parthenium
+[SYN_LAT] Tanacetum parthenium (L.) Sch.Bip."
+1449120,Casein hydrolysate containing elevated levels of the tri-peptides; L-valyl-L-prolyl-L-proline (VPP) and L-isoleucyl-L-prolyl-L-proline (IPP),[CANON_EN] Casein hydrolysate containing elevated levels of the tri-peptides; L-valyl-L-prolyl-L-proline (VPP) and L-isoleucyl-L-prolyl-L-proline (IPP)
+1449170,Coprinus comatus,[CANON_LAT] Coprinus comatus
+1449195,Fermented wheat germ extract,[CANON_LAT] Fermented wheat germ extract
+1449541,Turnera diffusa,"[CANON_LAT] Turnera diffusa
+[SYN_LAT] Turnera aphrodisiaca Ward"
+1451029,Hoodia parviflora N.E.Br.,[CANON_LAT] Hoodia parviflora N.E.Br.
+1457584,Arctium lappa,"[CANON_LAT] Arctium lappa
+[SYN_LAT] Arcion majus Bubani"
+1461013,Lactarius deterrimus,[CANON_LAT] Lactarius deterrimus
+1461722,Urtica dioica,"[CANON_LAT] Urtica dioica
+[SYN_LAT] Urtica galeopsifolia Wierzb. ex Opiz [SEP] Urtica tibetica W.T. Wang"
+1462401,Vigna catjang,[CANON_LAT] Vigna catjang
+1462426,Vigna sinensis,[CANON_LAT] Vigna sinensis
+1462485,Volvariella volvacea,"[CANON_LAT] Volvariella volvacea
+[SYN_LAT] Agaricus virgatus Pers. [SEP] Agaricus volvaceus Bull. [SEP] Volvaria volvacea (Bull.) P. Kumm. [SEP] Volvariopsis volvacea (Bull.) Murrill"
+1462962,Myrciaria divaricata,[CANON_LAT] Myrciaria divaricata
+1464463,Garcinia gummi-gutta (L.) N.Robson,"[CANON_LAT] Garcinia gummi-gutta (L.) N.Robson
+[SYN_LAT] Garcinia cambogia"
+1464488,Gigantochloa albociliata,"[CANON_LAT] Gigantochloa albociliata
+[SYN_LAT] Oxytenanthera albociliata"
+1464879,Helianthus annuus L.,"[CANON_LAT] Helianthus annuus L.
+[SYN_LAT] Helianthus annuus f. annuus"
+1464926,Creatine monohydrate,[CANON_LAT] Creatine monohydrate
+1464976,Quercus rotundifolia Lam.,[CANON_LAT] Quercus rotundifolia Lam.
+1465238,Richeria grandis,[CANON_LAT] Richeria grandis
+1468093,Pyropia tenera,"[CANON_LAT] Pyropia tenera
+[SYN_UNK] Neopyropia tenera (Kjellman) L.-E.Yang & J.Brodie 2020 [SEP] Phyllona tenera (Kjellman) Kuntze 1898 [SEP] Porphyra tenera Kjellman 1897 [SEP] Porphyra tenera f. typica Ueda 1932"
+1469580,Valerianella locusta,[CANON_LAT] Valerianella locusta
+1472343,Ficus carica,[CANON_LAT] Ficus carica
+1479813,Fish oil,[CANON_LAT] Fish oil
+1480310,Frangula alnus,"[CANON_LAT] Frangula alnus
+[SYN_LAT] Frangula dodonei Ard. [SEP] Rhamnus frangula L."
+1481621,Armoracia rusticana,[CANON_LAT] Armoracia rusticana
+1553231,"Aquafaba (""chickpea water"")","[CANON_EN] Aquafaba (""chickpea water"")"
+1553305,Secale cereale,[CANON_LAT] Secale cereale
+1553424,fish oil VLCPUFA 5,[CANON_EN] fish oil VLCPUFA 5
+1553541,Origanum onites,[CANON_LAT] Origanum onites
+1553641,Citrus aurantium,[CANON_LAT] Citrus aurantium
+1553701,Citrus hystrix,"[CANON_LAT] Citrus hystrix
+[SYN_LAT] Citrus auraria Michel"
+1557925,Ethyl esters (concentrated from fish oils),[CANON_LAT] Ethyl esters (concentrated from fish oils)
+1558586,Borassus flabellifer,"[CANON_LAT] Borassus flabellifer
+[SYN_LAT] Borassus flabelliformis L."
+1558866,Glycine max,"[CANON_LAT] Glycine max
+[SYN_LAT] Dolichos sofa L."
+1559026,Perna canaliculus,[CANON_LAT] Perna canaliculus
+1559558,Centaurea cyanus,[CANON_LAT] Centaurea cyanus
+1559827,Chrysanthellum indicum,[CANON_LAT] Chrysanthellum indicum
+1560426,Pouteria obovata,[CANON_LAT] Pouteria obovata
+1560481,Prunus persica,"[CANON_LAT] Prunus persica
+[SYN_LAT] Amygdalus persica L. [SEP] Persica vulgaris Mill."
+1561228,Coenzyme Q10,[CANON_EN] Coenzyme Q10
+1561253,Coffea sp.,[CANON_EN] Coffea sp.
+1561379,Aniba canelilla,"[CANON_LAT] Aniba canelilla
+[SYN_LAT] Aniba elliptica A.C.Sm."
+1561545,Anthemis nobilis,[CANON_LAT] Anthemis nobilis
+1561666,Arabinogalactan,[CANON_EN] Arabinogalactan
+1561851,Artocarpus communis,[CANON_LAT] Artocarpus communis
+1561876,Artocarpus heterophyllus,"[CANON_LAT] Artocarpus heterophyllus
+[SYN_LAT] Artocarpus integrifolius Trimen"
+1561914,Ascophyllum laevigata,[CANON_LAT] Ascophyllum laevigata
+1562091,Bactris balanoidea,[CANON_LAT] Bactris balanoidea
+1563089,Rubus arcticus,[CANON_LAT] Rubus arcticus
+1563481,Creatine Citrate,[CANON_EN] Creatine Citrate
+1563542,Salvia hispanica,"[CANON_LAT] Salvia hispanica
+[SYN_LAT] Kiosmina hispanica (L.) Raf. [SEP] Salvia chia Colla [SEP] Salvia neohispanica Briq. nom. illeg. [SEP] Salvia prysmatica Cav. [SEP] Salvia schiedeana Stapf [SEP] Salvia tetragona Moench
+[SYN_UNK] Salvia chia Sessé & Moc. nom. illeg."
+1564081,Lutein,[CANON_EN] Lutein
+1564225,Amphilophium lactiflorum,[CANON_LAT] Amphilophium lactiflorum
+1566981,Eugenia spp.,[CANON_EN] Eugenia spp.
+1567010,Fagus sylvatica L.,[CANON_LAT] Fagus sylvatica L.
+1567043,Fulvic acid,[CANON_LAT] Fulvic acid
+1567114,Agaricus bisporus,"[CANON_LAT] Agaricus bisporus
+[SYN_UNK] Agaricus hortensis (Cooke) Imai; Agaricus hortensis (Cooke) Pilát"
+1567161,Citrus × mitis Blanco,"[CANON_EN] Citrus × mitis Blanco
+[SYN_UNK] Citrus × microcarpa Bunge [SEP] ×Citrofortunella microcarpa (Bunge) Wijnands"
+1567201,Aronia melanocarpa,[CANON_LAT] Aronia melanocarpa
+1567226,Verbena officinalis L.,[CANON_LAT] Verbena officinalis L.
+1568470,Tetragonia tetragonoides,[CANON_LAT] Tetragonia tetragonoides
+1568690,Thysostachys regia,"[CANON_LAT] Thysostachys regia
+[SYN_LAT] Thyrsostachys siamensis Gamble"
+1569607,Colloidal silver,"[CANON_LAT] Colloidal silver
+[SYN_LAT] Silver hydrosol"
+1664761,Physalis ixocarpa,"[CANON_LAT] Physalis ixocarpa
+[SYN_LAT] Physalis aequata J.Jacq. ex Nees"
+1664786,Physalis philadelphica Lam.,"[CANON_LAT] Physalis philadelphica Lam.
+[SYN_LAT] Physalis angulata var. philadelphica (Lam.) A.Gray"
+1665501,Ilex paraguariensis,[CANON_LAT] Ilex paraguariensis
+1665916,Lablab purpureus,"[CANON_LAT] Lablab purpureus
+[SYN_LAT] Cucurbita lagenaria [SEP] Dolichos lablab [SEP] Dolichos purpureus [SEP] Egyptian bean (EN) [SEP] Fasolnik egipski (PL) [SEP] Hyacinth bean [SEP] Indian bean
+[SYN_UNK] Dolique d’Egypte [SEP] Feijoeiro-bravo [SEP] Fríjol jacinto [SEP] Helmbohne [SEP] Hjelmbønne (DK, NO) [SEP] Hjálmbaun (IS) [SEP] Hjälmböna (SE) [SEP] Hyasinttipapu (FI) [SEP] Koeliboon (NL) [SEP] Lablab (BG) [SEP] Lablabbohne (DE) [SEP] bonavist bean [SEP] dolique lab-lab (FR) [SEP] feijão-cutelinho (PT) [SEP] fríjol dólico [SEP] judía de Egipto (ES) [SEP] lablab bean [SEP] zucca lagenaria (IT)"
+1666084,Laurus nobilis,"[CANON_LAT] Laurus nobilis
+[SYN_LAT] Laurus angusta Raf."
+1669181,Pandanus amaryllifolius,"[CANON_LAT] Pandanus amaryllifolius
+[SYN_UNK] Pandanus latifolius Hassk. ;Pandanus odorus Ridl."
+1669421,Cannabinoids,[CANON_EN] Cannabinoids
+1669541,Artemisia annua,"[CANON_LAT] Artemisia annua
+[SYN_LAT] Artemisia annua f. annua"
+1669781,Artocarpus altilis,"[CANON_LAT] Artocarpus altilis
+[SYN_LAT] Artocarpus incisus (Thunb.) L.f.
+[SYN_UNK] Artocarpus altilis var. non-seminiferus (Duss) Fournet [SEP] Artocarpus communis J.R.Forst. & G.Forst."
+1671313,Ilex guayusa,"[CANON_LAT] Ilex guayusa
+[SYN_LAT] Ilex utilis Moldenke"
+1671560,Bifidobacterium adolescentis,[CANON_LAT] Bifidobacterium adolescentis
+1673130,Betaine,"[CANON_EN] Betaine
+[SYN_UNK] N [SEP] N-trimethylglycine"
+1673721,Lepidium meyenii Walp.,"[CANON_LAT] Lepidium meyenii Walp.
+[SYN_UNK] Lepidium peruvianum G. Chacón de Popovici"
+1673771,Gallus gallus domesticus,[CANON_LAT] Gallus gallus domesticus
+1673796,Salmo salar,[CANON_LAT] Salmo salar
+1673821,Oncorhynchus mykiss,[CANON_LAT] Oncorhynchus mykiss
+1675021,Myrica rubra,[CANON_LAT] Myrica rubra
+1678279,Lens culinaris Medik.,[CANON_LAT] Lens culinaris Medik.
+1678694,Magnesium L-threonate,[CANON_EN] Magnesium L-threonate
+1680642,Bifidobacterium animalis,"[CANON_LAT] Bifidobacterium animalis
+[SYN_LAT] Bifidobacterium animalis ssp. lactis [SEP] Bifidobacterium lactis"
+1680692,Bifidobacterium bifidum,[CANON_LAT] Bifidobacterium bifidum
+1680742,Bifidobacterium breve,[CANON_LAT] Bifidobacterium breve
+1680767,Bifidobacterium longum,"[CANON_LAT] Bifidobacterium longum
+[SYN_LAT] Bifidobacterium infantis"
+1680817,Brevibacterium linens,[CANON_LAT] Brevibacterium linens
+1680867,Enterococcus durans,"[CANON_LAT] Enterococcus durans
+[SYN_LAT] Streptococcus durans"
+1680918,Enterococcus lactis,"[CANON_LAT] Enterococcus lactis
+[SYN_UNK] Enterococcus faecium (some strains); Streptococcus faecium (some strains)"
+1680968,Geotrichum candidum,"[CANON_LAT] Geotrichum candidum
+[SYN_LAT] Oospora lactis"
+1680993,Klebsiella aerogenes,"[CANON_LAT] Klebsiella aerogenes
+[SYN_LAT] Enterobacter aerogenes"
+1681018,Lactobacillus acidophilus,[CANON_LAT] Lactobacillus acidophilus
+1681043,Companilactobacillus alimentarius,"[CANON_LAT] Companilactobacillus alimentarius
+[SYN_LAT] Lactobacillus alimentarius"
+1681068,Levilactobacillus brevis,"[CANON_LAT] Levilactobacillus brevis
+[SYN_LAT] Lactobacillus brevis"
+1681093,Lactobacillus bulgaricus,"[CANON_LAT] Lactobacillus bulgaricus
+[SYN_LAT] Lactobacillus delbrueckii ssp. bulgaricus"
+1681143,Latilactobacillus curvatus,"[CANON_LAT] Latilactobacillus curvatus
+[SYN_LAT] Lactobacillus curvatus"
+1681168,Lactobacillus delbrueckii,"[CANON_LAT] Lactobacillus delbrueckii
+[SYN_LAT] Lactobacillus delbrueckii ssp. bulgaricus [SEP] Lactobacillus delbrueckii ssp. delbrueckii [SEP] Lactobacillus delbrueckii ssp. lactis [SEP] Lactobacillus lactis [SEP] Lactobacillus leichmannii"
+1681193,Companilactobacillus farciminis,"[CANON_LAT] Companilactobacillus farciminis
+[SYN_LAT] Lactobacillus farciminis"
+1681218,Lactobacillus helveticus,"[CANON_LAT] Lactobacillus helveticus
+[SYN_LAT] Lactobacillus suntoryeus"
+1681243,Lactobacillus jensenii,[CANON_LAT] Lactobacillus jensenii
+1681268,Lacticaseibacillus paracasei,"[CANON_LAT] Lacticaseibacillus paracasei
+[SYN_LAT] Lactobacillus paracasei [SEP] Lactobacillus paracasei ssp. paracasei"
+1681293,Lactiplantibacillus pentosus,"[CANON_LAT] Lactiplantibacillus pentosus
+[SYN_LAT] Lactobacillus pentosus"
+1681318,Lactiplantibacillus plantarum,"[CANON_LAT] Lactiplantibacillus plantarum
+[SYN_LAT] Lactobacillus plantarum"
+1681343,Latilactobacillus sakei,"[CANON_LAT] Latilactobacillus sakei
+[SYN_LAT] Lactobacillus bavaricus [SEP] Lactobacillus sake [SEP] Lactobacillus sakei [SEP] Lactobacillus sakei ssp carnosus [SEP] Lactobacillus sakei ssp. sakei"
+1681368,Fructilactobacillus sanfranciscensis,"[CANON_LAT] Fructilactobacillus sanfranciscensis
+[SYN_LAT] Lactobacillus sanfranciscensis [SEP] Lactobacillus sanfrancisco"
+1681393,Lactococcus lactis,"[CANON_LAT] Lactococcus lactis
+[SYN_LAT] Lactobacillus xylosus [SEP] Lactococcus lactis ssp. cremoris [SEP] Lactococcus lactis ssp. lactis [SEP] Lactococcus lactis ssp. lactis biovar. diacetyl [SEP] Lactococcus lactis ssp. lactis biovar. diacetylactis [SEP] Lactococcus lactis ssp. lactis diacetylactis [SEP] Streptococcus cremoris [SEP] Streptococcus diacetylactis [SEP] Streptococcus lactis"
+1681418,Leuconostoc mesenteroides,"[CANON_LAT] Leuconostoc mesenteroides
+[SYN_UNK] Leuconostoc dextranicum; Leuconostoc mesenteroides ssp. cremoris; Leuconostoc mesenteroides ssp. dextranicum; Leuconostoc mesenteroides ssp.mesenteroides"
+1681443,Pediococcus acidilactici,[CANON_LAT] Pediococcus acidilactici
+1681468,Pediococcus pentosaceus,[CANON_LAT] Pediococcus pentosaceus
+1681493,Propionibacterium arabinosum,[CANON_LAT] Propionibacterium arabinosum
+1681518,Propionibacterium freudenreichii,"[CANON_LAT] Propionibacterium freudenreichii
+[SYN_UNK] Propionibacterium freudenreichii ssp. shermanii; Propionibacteriumfreudenreichii ssp. freudenreichii"
+1681543,Saccharomyces (all species of genus),[CANON_EN] Saccharomyces (all species of genus)
+1681568,Staphylococcus carnosus,"[CANON_LAT] Staphylococcus carnosus
+[SYN_UNK] Staphylococcus carnosus ssp. carnosus; Staphylococcus carnosus ssp. utilis"
+1681593,Staphylococcus xylosus,[CANON_LAT] Staphylococcus xylosus
+1681661,Penicillium album,"[CANON_LAT] Penicillium album
+[SYN_LAT] Penicillium camemberti [SEP] Penicillium candidum"
+1681686,Penicillium nalgiovense,[CANON_LAT] Penicillium nalgiovense
+1681711,Penicillium roqueforti,[CANON_LAT] Penicillium roqueforti
+1681901,Alaria esculenta,"[CANON_LAT] Alaria esculenta
+[SYN_LAT] Agarum esculentum (L.) Bory [SEP] Ceramium esculentum (L.) Stackhouse [SEP] Fucus esculentus Linnaeus [SEP] Laminaria esculenta (L.) C. Agardh [SEP] Musaefolia esculenta (L.) Stackhouse [SEP] Orgyia esculenta (L.) Stackhouse [SEP] Phasgonon esculentum (L.) S.F. Gray [SEP] Podopteris esculentum (L.) De la Pylaie"
+1681926,Alsidium helminthochorton,"[CANON_LAT] Alsidium helminthochorton
+[SYN_UNK] Conferva helminthochorton Schwendimann; Fucus helminthochorton Schwendimann; Gracilaria helminthochorton (Schwendimann) J.Agardh; Sphaerococcus helminthochorton (Schwendimann) C.Agardh; Helminthochorton officinale Zanardini"
+1681951,Aphanizomenon flos-aquae,"[CANON_LAT] Aphanizomenon flos-aquae
+[SYN_UNK] Byssus flos-aquae Linnaeus; Conferva flosaquae (Linnaeus) Roth; Oscillatoria flosaquae (Linnaeus) C.Agardh; Nostoc flosaquae (Linnaeus) Lyngbye; Nostoc papyraceum S.F.Gray; Sphaerozyga flosaquae (Linnaeus) Corda; Limnochlide flosaquae (Linnaeus) Kützing; Trichormus flosaquae (Linnaeus) Ralfs; Micraloa flosaquae (Linnaeus) Trevisan; Aphanizomenon cyaneum Ralfs ex Bornet & Flahault; Aphanizomenon holtsaticum Richter; Aphanizomenon americanum E.G.Reinhard"
+1682041,Corallina officinalis,"[CANON_LAT] Corallina officinalis
+[SYN_LAT] Corallina anglica Ellis [SEP] Corallina calvadosii J.V.Lamouroux [SEP] Corallina nana Zanardini
+[SYN_UNK] Arthrocardia cretacea (Postels & Ruprecht) Weber-van Bosse [SEP] Bossiella cretacea (Postels & Ruprecht) H.W.Johansen [SEP] Corallina cretacea Postels & Ruprecht [SEP] Pachyarthron cretaceum (Postels & Ruprecht) Manza"
+1682066,Dunaliella salina,"[CANON_LAT] Dunaliella salina
+[SYN_UNK] Chlamydomonas dunalii (Joly) F.J.Cohn 1865 [SEP] Diselmis dunalii(Joly) Dujardin 1841 [SEP] Dunaliella bardawil Ben-Amotz & Avron 1982 [SEP] Haemotococcus salinus Dunal 1837 [SEP] Monas dunalii Joly 1840 [SEP] Protococcus salinus Dunal 1837"
+1682091,Durvillaea antarctica,"[CANON_LAT] Durvillaea antarctica
+[SYN_UNK] Fucus antarcticus Chamisso 1822"
+1682231,Ecklonia cava Kjellman 1885,"[CANON_EN] Ecklonia cava Kjellman 1885
+[SYN_UNK] Ecklonia latifolia Kjellman 1885"
+1682260,Erythroglossum laciniatum,"[CANON_LAT] Erythroglossum laciniatum
+[SYN_UNK] Polyneura laciniata (Lightfoot) P.S.Dixon 1983 [SEP] Porphyra laciniata (Lightfoot) C.Agardh 1824 [SEP] Porphyra umbilicalis f. laciniata (Lightfoot) Thuret 1863 [SEP] Porphyra umbilicalis subsp. laciniata (Lightfoot) J.Agardh 1883 [SEP] Porphyra umbilicalis var. laciniata (Lightfoot) Ruprecht 1850 [SEP] Ulva laciniata Lightfoot 1777"
+1682285,Eucheuma horridum,[CANON_LAT] Eucheuma horridum
+1682310,Euglena gracilis,[CANON_LAT] Euglena gracilis
+1682335,Gelidium amansii,"[CANON_LAT] Gelidium amansii
+[SYN_UNK] Fucus amansii J.V.Lamouroux 1805"
+1683341,Gelidium corneum,"[CANON_LAT] Gelidium corneum
+[SYN_UNK] Delesseria cornea (Hudson) Greville 1828 [SEP] Fucus corneus Hudson 1762 [SEP] Fucus corneus var. sesquipedalis Clemente 1807 [SEP] Gigartina cornea (Hudson) S.F.Gray 1821 [SEP] Nereidea cornea (Hudson) Stackhouse 1816 [SEP] Sphaerococcus corneus (Hudson) Stackhouse 1797"
+1683366,Gracilaria gracilis,"[CANON_LAT] Gracilaria gracilis
+[SYN_UNK] Flagellaria gracilis (Stackhouse) Stackhouse1809 [SEP] Fucus confervoides var. gracilis(Stackhouse) Turner 1802 [SEP] Fucus gracilis Stackhouse 1801 [SEP] Fucus gulamanM.Blanco 1837 [SEP] Fucus procerrimus Esper 1800 [SEP] Fucusalbidus Esper 1800 [SEP] Gigartina confervoides var. gracilis (Stackhouse) S.F.Gray 1821 [SEP] Gracilaria confervoides f. gracilis (Stackhouse) Grunow 1874 [SEP] Gracilaria confervoides f.tenuissima Rosenvinge 1931 [SEP] Gracilaria confervoides var. capillaris Sonder 1880 [SEP] Gracilaria confervoides var. gracilis (Stackhouse) Batters 1902 [SEP] Gracilaria verrucosa var. procerrima(Esper) M.P.Reis 1981 [SEP] Gracilariaconfervoides var. procerrima (Esper) Greville 1830 [SEP] Sphaerococcus capillaris Kützing 1863 [SEP] Sphaerococcus confervoides var. gracilis (Stackhouse) C.Agardh 1822"
+1683391,Graesiella emersonii,"[CANON_LAT] Graesiella emersonii
+[SYN_UNK] Chlorella emersonii Shihira & R.W.Krauss 1965"
+1683416,Haematococcus lacustris,"[CANON_LAT] Haematococcus lacustris
+[SYN_UNK] Byssus kermesina (Wrangel)Wahlenberg1826 [SEP] Chlorococcumkermesinum (Wrangel) Fries 1825 [SEP] Disceraea purpurea A.Morren & C.Morren 1841 [SEP] Globulina kermesinum (Wrangel) Turpin1836 [SEP] Globulinakermesina(Wrangel) Turpin 1836 [SEP] Haematococcus cordae Meneghini 1843 [SEP] Haematococcus pluvialis Flotow 1844 [SEP] Protococcus kermesinus (Wrangel) C.Agardh 1825 [SEP] Protococcus monospermus Corda 1833 [SEP] Sphaerella lacustris (Girod-Chantrans) Wittrock ex Hansgirg 1888 [SEP] Sphaerella wrangelii Sommerfelt1824"
+1683441,Laminaria hyperborea,"[CANON_LAT] Laminaria hyperborea
+[SYN_UNK] Fucus hyperboreus Gunnerus 1776 [SEP] Fucus scoparius Ström 1762 [SEP] Hafgygia cloustonii (Edmondston) Areschoug 1883 [SEP] Laminaria cloustonii Edmondston 1845 [SEP] Laminaria hyperborea f. compressa Foslie 1884"
+1683466,Limnospira fusiformis,"[CANON_LAT] Limnospira fusiformis
+[SYN_UNK] Arthrospira fusiformis (Voronichin) Komárek & J.W.G.Lund 1990 [SEP] Spirulina fusiformis Woronichin 1934"
+1683491,Limnospira indica,"[CANON_LAT] Limnospira indica
+[SYN_UNK] Arthrospira indica Desikachary & N.Jeeji Bai 1992"
+1683521,Limnospira maxima,"[CANON_LAT] Limnospira maxima
+[SYN_UNK] Arthrospira maxima Setchell & N.L.Gardner 1917 [SEP] Oscillatoria pseudoplatensis Bourrelly 1970 [SEP] Spirulina maxima (Setchell & N.L.Gardner) Geitler 1932"
+1683546,Macrocystis pyrifera,"[CANON_LAT] Macrocystis pyrifera
+[SYN_UNK] Fucus giganteus Gaudichaud 1826 [SEP] Fucus hirtus Bonpland 1809 [SEP] Fucus humboldtii Bonpland 1809 [SEP] Fucus pyriferus Linnaeus 1771 [SEP] Laminaria pyrifera (Linnaeus) J.V.Lamouroux 1813 [SEP] Macrocystis angustifolia Bory 1826 [SEP] Macrocystis communis Bory 1826 [SEP] Macrocystis humboldtii (Bonpland) C.Agardh 1822 [SEP] Macrocystis integrifolia Bory 1826 [SEP] Macrocystis latifolia Bory 1826"
+1683571,Mastocarpus stellatus,"[CANON_LAT] Mastocarpus stellatus
+[SYN_UNK] Chondrus crispus var. stellatus (Stackhouse) Lyngbye 1819 [SEP] Chondrus stellatus (Stackhouse) Stackhhouse 1797 [SEP] Fucus stellatus Stackhouse 1796 [SEP] Gigartina stellata (Stackhouse) Batters 1902 [SEP] Polymorpha stellata (Stackhouse) Stacxkhouse 1809 [SEP] Sphaerococcus crispus var. stellatus (Stackhouse) C.Agardh 1817"
+1683601,Neopyropia leucosticta,"[CANON_LAT] Neopyropia leucosticta
+[SYN_LAT] Porphyra leucosticta Thuret
+[SYN_UNK] Pyropia leucosticta (Thuret) Neefus & J.Brodie"
+1683641,Odontella aurita,"[CANON_LAT] Odontella aurita
+[SYN_UNK] Biddulphia aurita (Lyngbye) Brébisson 1838 [SEP] Candollella aurita (Lyngbye) Gaillon 1833 [SEP] Denticella aurita (Lyngbye)Ehrenberg 1838 [SEP] Diatoma aurita Lyngbye 1819"
+1683681,Porphyra dioica,"[CANON_LAT] Porphyra dioica
+[SYN_UNK] Porphyra umbilicalis f. rosea Hamel 1924"
+1683721,Porphyra purpurea,"[CANON_LAT] Porphyra purpurea
+[SYN_UNK] Phyllona purpurea (Roth) Wallroth 1833 [SEP] Porphyra umbilicalis f. purpurea (Roth) Jadin 1935 [SEP] Porphyra umbilicalis subsp. purpurea (Roth) J.Agardh 1883 [SEP] Ulva lactuca var. purpurea (Roth) Poiret 1808 [SEP] Ulva purpurea Roth 1797 [SEP] Ulva umbilicalis var. purpurea (Roth) Wahlenberg 1812"
+1683833,Porphyra umbilicalis,"[CANON_LAT] Porphyra umbilicalis
+[SYN_UNK] Phyllona umbilicata J.Hill null Ulva umbilicalis Linnaeus 1753 [SEP] Porphyra insolita Kornmann & Sahling 1991 [SEP] Porphyra laciniata f. umbilicalis (Kützing) Kleen 1874 [SEP] Porphyra laciniata var. umbilicalis C.Agardh 1829 [SEP] Ulva latissima var. umbilicalis (Linnaeus) C.Agardh 1823 [SEP] Ulva umbilicata S.F.Gray 1821"
+1683861,Pyropia yezoensis,"[CANON_LAT] Pyropia yezoensis
+[SYN_UNK] Neopyropia yezoensis (Ueda) L.-E.Yang & J.Brodie 2020 [SEP] Porphyra palleola M.Noda 1964 [SEP] Porphyra yezoensis Ueda 1932"
+1683901,Spirulina major,"[CANON_LAT] Spirulina major
+[SYN_UNK] Arthrospira major (Kützing ex Gomont) W.B.Crow 1927 [SEP] Oscillatoria oscillariorides Iltis 1970 [SEP] Spirulina major f. constans Emoto & Hirose 1952 [SEP] Spirulina oscillariorides Turpin 1827"
+1683941,Tetraselmis chui,[CANON_LAT] Tetraselmis chui
+1683966,Ulva intestinalis,"[CANON_LAT] Ulva intestinalis
+[SYN_UNK] Conferva intestinalis (Linnaeus) Roth 1797 [SEP] Enteromorpha compressa var. intestinalis (Linnaeus) Hamel 1931 [SEP] Enteromorpha intestinalis (Linnaeus) Nees 1820 [SEP] Fistularia intestinalis (Linnaeus) Greville 1824 [SEP] Hydrosolen intestinalis (Linnaeus) C.Martius 1833 [SEP] Ilea intestinalis (Linnaeus) Leiblein 1827 [SEP] Scytosiphon intestinalis (Linnaeus) Lyngbye 1819 [SEP] Solenia intestinalis (Linnaeus) C.Agardh 1824 [SEP] Tetraspora intestinalis (Linnaeus) Desvaux 1818 [SEP] Ulva bulbosa var. intestinalis (Linnaeus) Hariot 1889 [SEP] Ulva enteromorpha var. intestinalis (Linnaeus) Le Jolis 1863"
+1688261,Eucheuma denticulatum,"[CANON_LAT] Eucheuma denticulatum
+[SYN_UNK] Ceramium spinosum (Linnaeus) Ruchinger 1818 [SEP] Chondria spinosa C.Agardh 1817 [SEP] Eucheuma muricatum (S.G.Gmelin) Weber Bosse 1928 [SEP] Eucheuma spinosum J.Agardh 1847 [SEP] Fucus denticulatus N.L.Burman 1768 [SEP] Fucus muricatus S.G.Gmelin 1768 [SEP] Fucus spinosus Linnaeus 1771 [SEP] Gigartina muricata (S.G.Gmelin) J.V.Lamouroux 1813 [SEP] Gigartina spinosa Greville 1830 [SEP] Grateloupia opposita Kützing 1867 [SEP] Rhynchococcus spinosus (Linnaeus) Kützing 1843 [SEP] Sphaerococcus spinosus C.Agardh 1822 [SEP] Ulva papillosa Linnaeus 1771"
+1693260,Composed product derived from sea salt,[CANON_LAT] Composed product derived from sea salt
+1694250,Nicotinamide adenine dinucleotide,"[CANON_LAT] Nicotinamide adenine dinucleotide
+[SYN_UNK] (NAD+)"
+1694313,Activated charcoal,"[CANON_LAT] Activated charcoal
+[SYN_LAT] Vegetable active coal
+[SYN_UNK] active coal"
+1694941,Diosmin,[CANON_EN] Diosmin
+1695079,Ascophyllum nodosum,"[CANON_LAT] Ascophyllum nodosum
+[SYN_UNK] Ascophylla nodosa (Linnaeus) Kuntze 1894, Ascophyllum laevigata) Stackhouse 1809 [SEP] Fistularia nodosa (Linnaeus) Stackhouse1816 [SEP] Fucodiumnodosum (Linnaeus) J.Agardh 1848 [SEP] Fucus nodosus Linnaeus 1753 [SEP] Halicoccus nodosus (Linnaeus) Lyngbye 1819 [SEP] Halidrys nodosa(Linnaeus) Lyngbye 1819 [SEP] Ozothallia nodosa (Linnaeus) Decaisne & Thuret 1845 [SEP] Physocaulon nodosum (Linnaeus) Kützing 1843"
+1714665,Stevia rebaudiana,"[CANON_LAT] Stevia rebaudiana
+[SYN_LAT] Eupatorium rebaudianum Bertoni [SEP] Stevia rebaudiana Hemsl."
+1723184,Bovine spleen,[CANON_LAT] Bovine spleen
+1723209,Bovine pancreas,[CANON_LAT] Bovine pancreas
+1724961,Eschscholtzia californica,[CANON_LAT] Eschscholtzia californica
+1789641,Holothuria fuscogilva,[CANON_LAT] Holothuria fuscogilva
+1789666,Holothuria whitmaiei,[CANON_LAT] Holothuria whitmaiei
+1789716,Holothuria scabra,[CANON_LAT] Holothuria scabra
+1843621,Placenta from mammals,[CANON_LAT] Placenta from mammals
+1847565,Lacticaseibacillus casei,"[CANON_LAT] Lacticaseibacillus casei
+[SYN_LAT] Lactobacillus casei [SEP] Lactobacillus zeae"
+1847615,Yarrowia lipolytica,[CANON_LAT] Yarrowia lipolytica
+1847669,Streptococcus salivarius,[CANON_LAT] Streptococcus salivarius
+1853751,Lacticaseibacillus rhamnosus,"[CANON_LAT] Lacticaseibacillus rhamnosus
+[SYN_LAT] Lactobacillus casei ssp. rhamnosus [SEP] Lactobacillus rhamnosus"
+1862157,Edible bird nest,[CANON_LAT] Edible bird nest
+1882838,Canarium indicum L.,[CANON_LAT] Canarium indicum L.
+1891652,UV-treated wine,[CANON_EN] UV-treated wine
+1917494,Vitis vinifera,[CANON_LAT] Vitis vinifera
+1930562,"UV-treated skimmed milk with less than 0,375 μg/100 g vitamin D3.","[CANON_EN] UV-treated skimmed milk with less than 0,375 μg/100 g vitamin D3."
+1939628,Scenedesmus acutus,"[CANON_LAT] Scenedesmus acutus
+[SYN_UNK] Arthrodesmus acutus Ehrenberg 0 [SEP] Scenedesmus crassus Chodat 1926 [SEP] Scenedesmus dimorphus f. granulatus Isabella & R.J.Patel 1989. [SEP] Scenedesmus scenedesmoides Chodat 1926"
+1939653,Scenedesmus quadricauda,"[CANON_LAT] Scenedesmus quadricauda
+[SYN_UNK] Achnanthes quadricauda Turpin 1828 [SEP] Desmodesmus quadricaudata (Turpin) Hegewald 2000 [SEP] Scenedesmus caudatus Corda 1835"
+1939678,Desmodesmus subspicatus,"[CANON_LAT] Desmodesmus subspicatus
+[SYN_UNK] Scenedesmus subspicatus Chodat 1926"
+1939703,Desmodesmus communis,"[CANON_LAT] Desmodesmus communis
+[SYN_UNK] Scenedesmus communis E.Hegewald 1977 [SEP] Scenedesmus quadricauda Chodat 1926."
+1939728,Tetradesmus almeriensis,[CANON_LAT] Tetradesmus almeriensis
+1939753,Tetradesmus dimorphus,"[CANON_LAT] Tetradesmus dimorphus
+[SYN_LAT] Scenedesmus acutus var. dimorphus (Turpin) Rabenhorst null
+[SYN_UNK] Achnanthes dimorpha Turpin 1828 [SEP] Acutodesmus dimorphus (Turpin) P.M.Tsarenko 2001 [SEP] Scenedesmus dimorphus (Turpin) Kützing 1834 [SEP] Scenedesmus obliquus var. dimorphus (Turpin) Hansgirg 1888"
+1939778,Tetradesmus obliquus,"[CANON_LAT] Tetradesmus obliquus
+[SYN_UNK] Achnanthes obliqua Turpin 1828 [SEP] Acutodesmus obliquus (Turpin) Hegewald & Hanagata 2000 [SEP] Scenedesmus acutus Meyen 1829 [SEP] Scenedesmus acutus f. alternans Hortobagyi 1941 [SEP] Scenedesmus bijugatus Kützing 1834 [SEP] Scenedesmus obliquus (Turpin) Kützing 1833"
+1939803,Scenedesmus vacuolatus,[CANON_LAT] Scenedesmus vacuolatus
+1939828,Scenedesmus sp.,[CANON_EN] Scenedesmus sp.
+1945086,Lactococcus cremoris,"[CANON_LAT] Lactococcus cremoris
+[SYN_LAT] Lactococcus lactis subsp. cremoris [SEP] Streptococcus cremoris [SEP] Streptococcus lactis subsp. cremoris"
+1947721,Astragalus membranaceus,"[CANON_LAT] Astragalus membranaceus
+[SYN_LAT] Astragalus mongholicus Bunge"
+1948649,Paeonia lactiflora,"[CANON_LAT] Paeonia lactiflora
+[SYN_LAT] Paeonia albiflora Pall. [SEP] Paeonia edulis Salisb. [SEP] Paeonia lactea Pall. [SEP] Paeonia sinensis Jacques"
+1948733,Ligusticum striatum,"[CANON_LAT] Ligusticum striatum
+[SYN_LAT] Ligusticum chuanxiong S.H.Qiu [SEP] Ligusticum wallichii Franch.
+[SYN_UNK] K.Y.Pan [SEP] Y.C.Tang & J.M.Xu [SEP] Y.Q.Zeng"
+1948983,Polygala tenuifolia,"[CANON_LAT] Polygala tenuifolia
+[SYN_LAT] Polygala sibirica var. angustifolia Ledeb.
+[SYN_UNK] Polygala sibirica var. tenuifolia (Willd.) Backer & Moore"
+1953361,Crataegus monogyna,"[CANON_LAT] Crataegus monogyna
+[SYN_LAT] Crataegus apiifolia Medik. [SEP] Crataegus oxyacantha Thuill. [SEP] Mespilus apiifolia (Medik.) B.D.Jacks. [SEP] Mespilus monogyna (Jacq.) All. [SEP] Oxyacantha apiifolia [SEP] Oxyacantha monogyna"
+1954301,Carica pentagona,"[CANON_LAT] Carica pentagona
+[SYN_LAT] Vasconcellea pentagona (Heilborn) Mabb."
+1958681,Solanum quitense,"[CANON_LAT] Solanum quitense
+[SYN_UNK] Solanum macrocarpon Molina (non L.: homonym)"
+1961061,Phoenix dactylifera,"[CANON_LAT] Phoenix dactylifera
+[SYN_LAT] Encephalartos pungens Lehm. [SEP] Macrozamia tridentata var. pungens (Willd.) J.Schust. [SEP] Palma dactylifera (L.) Mill. [SEP] Palma major Garsault [SEP] Phoenix atlantica var. maroccana A.Chev. [SEP] Phoenix chevalieri D.Rivera [SEP] Phoenix dactylifera var. adunca D.H.Christ ex Becc. [SEP] Phoenix dactylifera var. costata Becc. [SEP] Phoenix dactylifera var. cylindrocarpa Mart. [SEP] Phoenix dactylifera var. gonocarpa Mart. [SEP] Phoenix dactylifera var. oocarpa Mart. [SEP] Phoenix dactylifera var. oxysperma Mart. [SEP] Phoenix dactylifera var. sphaerocarpa Mart. [SEP] Phoenix dactylifera var. sphaerosperma Mart. [SEP] Phoenix dactylifera var. sylvestris Mart. [SEP] Phoenix excelsior Cav. [SEP] Phoenix iberica D.Rivera [SEP] Zamia pallida Salisb. [SEP] Zamia pungens L.f. [SEP] Zamia pungens L.f. ex Salisb.
+[SYN_UNK] S.Ríos & Obón"
+1984590,Lactose derived from whey with degraded riboflavin,[CANON_LAT] Lactose derived from whey with degraded riboflavin
+1984779,Solidago virgaurea,[CANON_LAT] Solidago virgaurea
+1987075,Non-isolated fulvic acid,[CANON_EN] Non-isolated fulvic acid
+2005042,Pinus halepensis Mill.,"[CANON_LAT] Pinus halepensis Mill.
+[SYN_UNK] Pinus maritima Aiton.; Pinus maritima Mill."
+2006422,Streptococcus thermophilus,"[CANON_LAT] Streptococcus thermophilus
+[SYN_LAT] Streptococcus salivarius subsp. thermophilus"
+2447754,Adiantum capillus veneris,[CANON_LAT] Adiantum capillus veneris
+2464659,Schinopsis lorentzii,"[CANON_LAT] Schinopsis lorentzii
+[SYN_LAT] Loxopterygium lorentzii Griseb. [SEP] Quebrachia laurentzii Griseb. [SEP] Quebrachia lorentzii Griseb. [SEP] Schinopsis haenkeana Engl. [SEP] Schinopsis lorentzii var. marginata (Engl.) Cabrera [SEP] Schinopsis marginata Engl.
+[SYN_UNK] Schinopsis quebracho-colorado (Schltdl.) F.A.Barkley & T.Mey."
+2470439,Tributyrin,[CANON_EN] Tributyrin
+2481954,Diosmectite,[CANON_EN] Diosmectite
+2483443,DMAE (dimethylaminoethanol) and its salts,[CANON_EN] DMAE (dimethylaminoethanol) and its salts
+2498052,"Choline, succinate (2:1) salt solution","[CANON_EN] Choline, succinate (2:1) salt solution"
+2505979,Benincasa hispida,"[CANON_LAT] Benincasa hispida
+[SYN_LAT] Benincasa cerifera Savi [SEP] Benincasa cylindrica hort. ex Ser. [SEP] Benincasa hispida var. hispida.
+[SYN_UNK] Benincasa hispida var. chieh-qua F.C.How"
+2513871,Cyamopsis tetragonoloba,"[CANON_LAT] Cyamopsis tetragonoloba
+[SYN_LAT] Cordaea fabiformis Spreng. [SEP] Psoralea tetragonoloba L."
+2520328,Malva sylvestris,"[CANON_LAT] Malva sylvestris
+[SYN_LAT] Althaea vulgaris Bubani [SEP] Malva sylvestris subsp. mauritiana (L.) Boiss. [SEP] Malva sylvestris subsp. sylvestris"
+2520356,Urtica urens,"[CANON_LAT] Urtica urens
+[SYN_LAT] Urtica atlantica Blume [SEP] Urtica cubensis Klotzsch ex Herder [SEP] Urtica minor Garsault"
+2520382,Sonchus oleraceus,"[CANON_LAT] Sonchus oleraceus
+[SYN_LAT] Carduus amplexicaulis Noronha [SEP] Lepicaune spinulosa Lapeyr. [SEP] Sonchus angustissimus H.Lindb."
+2520409,Silene vulgaris,"[CANON_LAT] Silene vulgaris
+[SYN_LAT] Behen angustifolius Schott ex Steud. [SEP] Cucubalus alpinus Lam.
+[SYN_UNK] Behen alpinus (Lam.) Gușul."
+2520435,Scolymus hispanicus,"[CANON_LAT] Scolymus hispanicus
+[SYN_LAT] Myscolus microcephalus Cass. [SEP] Scolymus congestus Lam. [SEP] Scolymus gymnospermus Gaertn."
+2521008,Whey protein concentrate containing milk fat globular membrane,[CANON_LAT] Whey protein concentrate containing milk fat globular membrane
+2523922,Litsea cubeba,"[CANON_LAT] Litsea cubeba
+[SYN_LAT] Benzoin cubeba (Lour.) Hatus. [SEP] Cubeba pipereta Raf. [SEP] Daphnidium cubeba (Lour.) Nees."
+2523947,Tagetes erecta,"[CANON_LAT] Tagetes erecta
+[SYN_LAT] Tagetes erecta var. erecta
+[SYN_UNK] Tagetes ernstii H.Rob. & Nicolson"
+2531494,Boron glycinate and boron bisglycinate,[CANON_LAT] Boron glycinate and boron bisglycinate
+2570873,Heyndrickxia coagulans,"[CANON_LAT] Heyndrickxia coagulans
+[SYN_LAT] Bacillus coagulans [SEP] Weizmannia coagulans"
+2572435,Creatine malate,[CANON_LAT] Creatine malate
+2572460,Creatine alpha-ketoglutarate,[CANON_LAT] Creatine alpha-ketoglutarate
+2580872,Reynoutria multiflora,"[CANON_LAT] Reynoutria multiflora
+[SYN_UNK] Polygonum multiflorum Thunb.; Fallopia multiflora (Thunb.) K. Haraldson"
+2582124,Vangueria agrestis,"[CANON_LAT] Vangueria agrestis
+[SYN_LAT] Fadogia agrestis Schweinf. ex Hiern"
+2589232,Bromus grossus,"[CANON_LAT] Bromus grossus
+[SYN_LAT] Bromus mutabilis var. grossus (Desf. ex DC.) F.W.Schult [SEP] Bromus secalinus subsp. grossus (Desf. ex DC.) K.Richt."
+2589257,Bromus secalinus,"[CANON_LAT] Bromus secalinus
+[SYN_LAT] Avena secalina (L.) Salisb. [SEP] Bromus mollis var. secalinus (L.) Huds."
+2589479,Bacillus subtilis,[CANON_LAT] Bacillus subtilis
+2589699,Lactobacillus gasseri,[CANON_LAT] Lactobacillus gasseri
+2591159,Inositol,[CANON_EN] Inositol
+2598148,Limosilactobacillus vaginalis,[CANON_LAT] Limosilactobacillus vaginalis
+2606094,Chenopodium bonus-henricus,[CANON_LAT] Chenopodium bonus-henricus
+2606119,Celtis australis,[CANON_LAT] Celtis australis
+2606144,Cichorium intybus,[CANON_LAT] Cichorium intybus
+2609004,Pleurotus pulmonarius,[CANON_LAT] Pleurotus pulmonarius
+2615092,Samsoniella hepiali,"[CANON_LAT] Samsoniella hepiali
+[SYN_UNK] Paecilomyces hepiali Q.T. Chen & R.Q. Dai"
+2625757,Cordyceps militaris,"[CANON_LAT] Cordyceps militaris
+[SYN_LAT] Clavaria gemmata Schaeff. [SEP] Corynesphaera militaris (L.) Dumort. [SEP] Sphaeria militaris (L.) J.F. Gmel. [SEP] Xylaria militaris (L.) Gray
+[SYN_UNK] Hypoxylon militare (L.) Mérat"
+2626034,Castanea sativa,"[CANON_LAT] Castanea sativa
+[SYN_UNK] Castanea castanea (L.) H.Karst.; Castanea prolifera (K.Koch) Hickel."
