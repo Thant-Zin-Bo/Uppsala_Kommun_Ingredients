@@ -1,20 +1,25 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .app-container {
-  min-height: 100vh;
-  background: #f5f5f5;
+  background: #f4f3ff;
   padding: 0;
 }
 
 .max-width {
-  max-width: 1400px;
+  max-width: inherit;
+  max-height: inherit;
+  padding: 3rem;
   margin: 0 auto;
-  background: white;
   min-height: 100vh;
 }
 
 .card {
   background: white;
   padding: 2rem 2.5rem;
-  margin-bottom: 0;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -46,8 +51,8 @@
 .btn-logout,
 .btn-login {
   padding: 0.5rem 1rem;
-  background: #f3f4f6;
-  color: #374151;
+  background: #4c4698;
+  color: #d4d1ed;
   border: none;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -62,23 +67,24 @@
 }
 
 .btn-login {
-  background: #3b82f6;
+  background: #4c4698;
   color: white;
 }
 
 .btn-login:hover {
-  background: #2563eb;
+  background: #262262;
 }
 
 .header h1 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #1a1a1a;
+  font: "Source Sans Pro", sans-serif, arial;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #262262;
   margin-bottom: 0.25rem;
 }
 
 .header p {
-  color: #666;
+  color: #262262;
   font-size: 0.95rem;
 }
 
@@ -87,7 +93,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: #2563eb;
+  background: #4c4698;
   color: white;
   border: none;
   font-size: 1.25rem;
@@ -100,7 +106,7 @@
 }
 
 .help-button:hover {
-  background: #1d4ed8;
+  background: #262262;
 }
 
 /* Full Screen Modal Styles */
@@ -217,7 +223,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #4c4698;
   color: white;
   font-weight: bold;
   font-size: 1.5rem;
@@ -342,7 +348,7 @@
   display: block;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #333;
+  color: #0a46a4;
   margin-bottom: 0.5rem;
 }
 
@@ -363,7 +369,7 @@
 
 .textarea:focus {
   outline: none;
-  border-color: #666;
+  border-color: #494491;
   box-shadow: 0 0 0 1px #666;
 }
 
@@ -381,7 +387,7 @@
 
 .btn-analyze {
   padding: 0.6rem 1.75rem;
-  background: #2563eb;
+  background: #4c4698;
   color: white;
   font-weight: 500;
   border-radius: 4px;
@@ -392,7 +398,7 @@
 }
 
 .btn-analyze:hover {
-  background: #1d4ed8;
+  background: #262262;
 }
 
 .btn-analyze:disabled {
@@ -633,7 +639,7 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #4c4698;
   color: white;
   font-weight: bold;
   font-size: 0.875rem;
@@ -770,7 +776,7 @@
 
 .btn-add-label {
   padding: 0.75rem 1.5rem;
-  background: #3b82f6;
+  background: #4c4698;
   color: white;
   border: none;
   border-radius: 6px;
@@ -782,7 +788,7 @@
 }
 
 .btn-add-label:hover {
-  background: #2563eb;
+  background: #262262;
 }
 
 .label-hint {
