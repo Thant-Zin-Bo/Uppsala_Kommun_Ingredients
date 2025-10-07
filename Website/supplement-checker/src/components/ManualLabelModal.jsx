@@ -4,14 +4,24 @@ import './ManualLabelModal.css'
 
 function ManualLabelModal({ ingredient, user, onClose, onSuccess, existingLabel }) {
   const [status, setStatus] = useState(existingLabel?.status || 'safe')
+  const [customStatusLabel, setCustomStatusLabel] = useState(existingLabel?.custom_status_label || '')
+  const [customStatusColor, setCustomStatusColor] = useState(existingLabel?.custom_status_color || '#3b82f6')
   const [notes, setNotes] = useState(existingLabel?.notes || '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const isEditing = !!existingLabel
+  const isCustomStatus = !['safe', 'danger', 'unknown'].includes(status)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
+
+    // Validate custom status
+    if (isCustomStatus && !customStatusLabel.trim()) {
+      setError('Please enter a label for your custom status')
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -21,14 +31,18 @@ function ManualLabelModal({ ingredient, user, onClose, onSuccess, existingLabel 
         ({ data, error } = await updateManualLabel(
           existingLabel.id,
           status,
-          notes
+          notes,
+          isCustomStatus ? customStatusLabel.trim() : null,
+          isCustomStatus ? customStatusColor : null
         ))
       } else {
         ({ data, error } = await createManualLabel(
           ingredient.name,
           status,
           notes,
-          user.id
+          user.id,
+          isCustomStatus ? customStatusLabel.trim() : null,
+          isCustomStatus ? customStatusColor : null
         ))
       }
 
@@ -80,15 +94,43 @@ function ManualLabelModal({ ingredient, user, onClose, onSuccess, existingLabel 
                   />
                   <span className="radio-badge radio-danger">🔴 Non-Approved</span>
                 </label>
-                <label className="radio-label">
+                <label className="radio-label radio-label-custom">
                   <input
                     type="radio"
                     name="status"
-                    value="unknown"
-                    checked={status === 'unknown'}
+                    value="custom"
+                    checked={isCustomStatus}
                     onChange={(e) => setStatus(e.target.value)}
                   />
-                  <span className="radio-badge radio-unknown">⚪ Unknown</span>
+                  <div className="custom-status-inline">
+                    <input
+                      type="text"
+                      value={customStatusLabel}
+                      onChange={(e) => {
+                        setCustomStatusLabel(e.target.value)
+                        if (!isCustomStatus) setStatus('custom')
+                      }}
+                      onFocus={() => setStatus('custom')}
+                      placeholder="✨ Custom Status"
+                      className="custom-status-input"
+                      style={{
+                        backgroundColor: customStatusColor + '20',
+                        color: customStatusColor,
+                        borderColor: customStatusColor
+                      }}
+                      maxLength={30}
+                    />
+                    <input
+                      type="color"
+                      value={customStatusColor}
+                      onChange={(e) => {
+                        setCustomStatusColor(e.target.value)
+                        if (!isCustomStatus) setStatus('custom')
+                      }}
+                      className="custom-color-picker"
+                      title="Pick status color"
+                    />
+                  </div>
                 </label>
               </div>
             </div>

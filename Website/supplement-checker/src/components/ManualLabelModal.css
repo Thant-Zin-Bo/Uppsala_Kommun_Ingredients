@@ -62,6 +62,57 @@
   color: #4b5563;
 }
 
+.radio-label-custom {
+  /* Inherits display: flex from .radio-label */
+}
+
+.custom-status-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.custom-status-input {
+  width: 200px;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px dashed #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.custom-status-input:focus {
+  outline: none;
+  border-style: solid;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.custom-status-input::placeholder {
+  color: currentColor;
+  opacity: 0.6;
+}
+
+.custom-color-picker {
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.custom-color-picker:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
 .form-textarea {
   width: 100%;
   padding: 0.75rem;
@@ -100,4 +151,12 @@
 
 .btn-secondary:hover {
   background: #e5e7eb;
+}
+
+/* Override btn-primary for label modal to match height */
+.label-modal .btn-primary {
+  width: auto;
+  padding: 0.75rem 1.5rem;
+  margin-top: 0;
+  font-size: 0.875rem;
 }

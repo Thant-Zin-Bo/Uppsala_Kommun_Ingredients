@@ -7,7 +7,12 @@
       "Bash(npm install:*)",
       "Bash(dir)",
       "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(npm run server:*)",
+      "Bash(timeout:*)",
+      "Bash(taskkill:*)",
+      "Bash(cat:*)",
+      "Bash(netstat:*)"
     ],
     "deny": [],
     "ask": []
