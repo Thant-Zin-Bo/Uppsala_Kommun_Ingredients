@@ -1,10 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
+import Fuse from 'fuse.js';
 import AuthModal from './components/AuthModal';
 import ManualLabelModal from './components/ManualLabelModal';
 import ManualLabelsDisplay from './components/ManualLabelsDisplay';
+import MatchSelector from './components/MatchSelector';
 import LavaLampBackground from './components/LavaLampBackground';
 import { supabase, getCurrentUser, signOut, getManualLabels } from './supabaseClient';
+
+// Smart normalization helper
+const normalizeText = (text) => {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .toLowerCase()
+    .trim()
+    // Normalize diacritics (Swedish: å→a, ä→a, ö→o, etc.)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    // Normalize common variations
+    .replace(/\s+/g, ' ')  // Multiple spaces to single space
+    .replace(/-/g, ' ')    // Hyphens to spaces for matching
+    .replace(/'/g, '')     // Remove apostrophes
+    .replace(/,/g, '');    // Remove commas
+};
 
 function App() {
   const [novelFoods, setNovelFoods] = useState([]);
@@ -27,6 +44,8 @@ function App() {
   const [manualLabelsCache, setManualLabelsCache] = useState(new Map());
   const [analyzing, setAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState({ step: '', current: 0, total: 0 });
+  const [showMatchSelector, setShowMatchSelector] = useState(false);
+  const [matchSelectorData, setMatchSelectorData] = useState(null);
 
   // Common safe minerals/vitamins that may not be in the pharmaceutical database
   // but are standard approved nutritional ingredients
@@ -226,6 +245,28 @@ function App() {
     }
   }
 
+  // Handle match selection from MatchSelector
+  const handleMatchSelection = async (selectedMatch) => {
+    if (matchSelectorData) {
+      const { ingredient } = matchSelectorData;
+
+      // Save the user's match selection
+      await saveUserMatch(ingredient, selectedMatch);
+
+      // Re-analyze this specific ingredient to update its status
+      await refreshIngredientStatus(ingredient);
+
+      // Close the match selector
+      setShowMatchSelector(false);
+      setMatchSelectorData(null);
+    }
+  };
+
+  const handleMatchCancel = () => {
+    setShowMatchSelector(false);
+    setMatchSelectorData(null);
+  };
+
   // Load both datasets
   useEffect(() => {
     const loadData = async () => {
@@ -251,21 +292,6 @@ function App() {
 
         setNovelFoods(novelData);
         setPharmaceuticals(pharmaData);
-
-        // Smart normalization helper
-        const normalizeText = (text) => {
-          if (!text || typeof text !== 'string') return '';
-          return text
-            .toLowerCase()
-            .trim()
-            // Normalize diacritics (Swedish: å→a, ä→a, ö→o, etc.)
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-            // Normalize common variations
-            .replace(/\s+/g, ' ')  // Multiple spaces to single space
-            .replace(/-/g, ' ')    // Hyphens to spaces for matching
-            .replace(/'/g, '')     // Remove apostrophes
-            .replace(/,/g, '');    // Remove commas
-        };
 
         // Create hash maps for O(1) exact lookups with smart preprocessing
         const novelMap = new Map();
@@ -360,6 +386,96 @@ function App() {
     loadData();
   }, []);
 
+  // Translate text using DeepL API (server handles caching)
+  const translateText = async (text) => {
+    try {
+      const response = await fetch('http://localhost:5000/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+
+      if (!response.ok) {
+        console.error('Translation failed:', response.statusText);
+        return null;
+      }
+
+      const data = await response.json();
+      return {
+        translatedText: data.translatedText,
+        originalText: data.originalText,
+        detectedLanguage: data.detectedLanguage
+      };
+    } catch (error) {
+      console.error('Translation error:', error);
+      return null; // Return null if translation fails
+    }
+  };
+
+  // Fuzzy search helper using Fuse.js
+  const fuzzySearch = (searchTerm, database, databaseType) => {
+    const fuseOptions = {
+      keys: ['name', 'name_normalized', 'novel_food_name', 'synonyms'],
+      threshold: 0.2, // Much stricter: 0.0 = exact match, 1.0 = match anything (was 0.4)
+      includeScore: true,
+      minMatchCharLength: 4, // Require at least 4 characters to match (was 3)
+      ignoreLocation: true,
+      distance: 50 // Limit how far apart matches can be
+    };
+
+    const fuse = new Fuse(database, fuseOptions);
+    const results = fuse.search(searchTerm);
+
+    // Convert Fuse.js results to our format with confidence scores
+    // Filter out results below 80% confidence to avoid bad matches
+    const MIN_CONFIDENCE = 80;
+    return results
+      .map(result => ({
+        item: result.item,
+        score: result.score, // Lower is better in Fuse.js (0 = perfect match)
+        confidence: Math.round((1 - result.score) * 100), // Convert to percentage (100% = perfect)
+        matchType: 'fuzzy',
+        database: databaseType
+      }))
+      .filter(result => result.confidence >= MIN_CONFIDENCE) // Only keep high-quality matches
+      .slice(0, 5);
+  };
+
+  // Check for user-selected match
+  const checkUserMatch = async (searchTerm) => {
+    try {
+      const response = await fetch(`http://localhost:5000/user-matches/${encodeURIComponent(searchTerm)}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.selectedMatch;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error checking user match:', error);
+      return null;
+    }
+  };
+
+  // Save user-selected match
+  const saveUserMatch = async (ingredient, selectedMatch) => {
+    try {
+      const response = await fetch('http://localhost:5000/user-matches', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ingredient, selectedMatch })
+      });
+
+      if (response.ok) {
+        console.log(`Saved user match for "${ingredient}"`);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error saving user match:', error);
+      return false;
+    }
+  };
+
   // Analyze ingredients when user enters them
   const analyzeIngredients = async () => {
     if (ingredientsList.trim() === '') {
@@ -412,11 +528,20 @@ function App() {
     setAnalysisProgress({ step: 'Parsing ingredients...', current: 0, total: ingredients.length });
 
     const analyzed = await Promise.all(ingredients.map(async (ingredient, index) => {
+      console.log(`\n${'='.repeat(80)}`);
+      console.log(`🔍 ANALYZING INGREDIENT [${index + 1}/${ingredients.length}]: "${ingredient}"`);
+      console.log(`${'='.repeat(80)}`);
+
       setAnalysisProgress({ step: 'Analyzing ingredients...', current: index + 1, total: ingredients.length });
       // Parse ingredient to extract main name and parenthetical name
       const match = ingredient.match(/^([^(]+)(?:\(([^)]+)\))?/);
       const mainName = match ? match[1].trim() : ingredient;
       const parentheticalContent = match && match[2] ? match[2].trim() : null;
+
+      console.log(`📝 Parsed: mainName="${mainName}", parenthetical="${parentheticalContent}"`);
+
+      // Translation result - declare at top scope so it's accessible in fuzzy search tier
+      let translationResult = null;
 
       // Build search terms
       const searchTerms = [];
@@ -431,14 +556,17 @@ function App() {
             .map(item => item.trim())
             .filter(item => item.length > 0);
           searchTerms.push(...parentheticalItems);
+          console.log(`🔢 Multiple items in parentheses, using: [${searchTerms.join(', ')}]`);
         } else {
           // Single item in parentheses - search both main name and parenthetical
           searchTerms.push(mainName);
           searchTerms.push(parentheticalContent);
+          console.log(`🔢 Single item in parentheses, searching both: ["${mainName}", "${parentheticalContent}"]`);
         }
       } else {
         // No parentheses - just search the ingredient name
         searchTerms.push(mainName);
+        console.log(`🔢 No parentheses, using main name: "${mainName}"`);
       }
 
       // Collect all matches for both search terms
@@ -447,6 +575,7 @@ function App() {
         pharma: []
       };
 
+      console.log(`\n🎯 TIER 1: EXACT MATCH (Hash Map Lookup)`);
       searchTerms.forEach(term => {
         // Normalize search term the same way as database entries
         const normalizedTerm = term
@@ -459,10 +588,12 @@ function App() {
           .replace(/,/g, '');
 
         const cacheKey = normalizedTerm;
+        console.log(`  🔎 Searching term: "${term}" (normalized: "${normalizedTerm}")`);
 
         // Check cache first
         if (searchCacheRef.current.has(cacheKey)) {
           const cached = searchCacheRef.current.get(cacheKey);
+          console.log(`  💾 Cache hit!`);
           if (cached.novel) allMatches.novel.push({ term, ...cached.novel });
           if (cached.pharma) allMatches.pharma.push({ term, ...cached.pharma });
           return;
@@ -485,6 +616,7 @@ function App() {
           };
           allMatches.novel.push({ term, ...match });
           cacheEntry.novel = match;
+          console.log(`  ✅ Novel Food EXACT match: "${exactNovelMatches[0].novel_food_name}"`);
         }
 
         if (exactPharmaMatches && exactPharmaMatches.length > 0) {
@@ -494,6 +626,7 @@ function App() {
           };
           allMatches.pharma.push({ term, ...match });
           cacheEntry.pharma = match;
+          console.log(`  ✅ Substance Guide EXACT match: "${exactPharmaMatches[0].name}" (is_medicine: ${exactPharmaMatches[0].is_medicine})`);
         } else if (isKnownSafeMineral) {
           // If not in database but is a known safe mineral, add it as safe
           const match = {
@@ -510,6 +643,11 @@ function App() {
           };
           allMatches.pharma.push({ term, ...match });
           cacheEntry.pharma = match;
+          console.log(`  ✅ Known safe mineral/vitamin: "${term}"`);
+        }
+
+        if (!exactNovelMatches && !exactPharmaMatches && !isKnownSafeMineral) {
+          console.log(`  ❌ No exact match found`);
         }
 
         // Store in cache with size limit to prevent memory leaks
@@ -655,6 +793,457 @@ function App() {
         }
       }
 
+      // If still unknown and no matches, try translating from Swedish to English
+      // Only translate the main name (Swedish common name), not the Latin name in parentheses
+      if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel) {
+        console.log(`\n🌐 TIER 2: TRANSLATION + EXACT MATCH`);
+        console.log(`  📝 Translating "${mainName}"...`);
+
+        setAnalysisProgress({
+          step: `Translating "${mainName}"...`,
+          current: index + 1,
+          total: ingredients.length
+        });
+
+        translationResult = await translateText(mainName);
+
+        if (translationResult && translationResult.translatedText.toLowerCase() !== ingredient.toLowerCase()) {
+          console.log(`  ✅ Translated: "${mainName}" → "${translationResult.translatedText}"`);
+          console.log(`  🔎 Searching databases with translated term...`);
+          // Search again with translated term
+          const translatedNormalized = normalizeText(translationResult.translatedText);
+          const translatedCacheKey = translatedNormalized;
+
+          // Check cache first for translated term
+          let translatedCacheEntry = searchCacheRef.current.get(translatedCacheKey);
+
+          if (!translatedCacheEntry) {
+            translatedCacheEntry = {};
+
+            // Search databases with translated term using hash maps (same as original logic)
+            const exactNovelMatchesTranslated = novelFoodsMap ? novelFoodsMap.get(translatedNormalized) : null;
+            const exactPharmaMatchesTranslated = pharmaMap ? pharmaMap.get(translatedNormalized) : null;
+
+            // Check if translated term is a known safe mineral
+            const isKnownSafeMineralTranslated = knownSafeMinerals.current.has(translatedNormalized);
+
+            if (exactNovelMatchesTranslated && exactNovelMatchesTranslated.length > 0) {
+              const match = {
+                result: { item: exactNovelMatchesTranslated[0], score: 0 },
+                matchType: 'exact',
+                translatedFrom: ingredient,
+                translatedTo: translationResult.translatedText
+              };
+              allMatches.novel.push({ term: translationResult.translatedText, ...match });
+              translatedCacheEntry.novel = match;
+              console.log(`  ✅ Novel Food match found: "${exactNovelMatchesTranslated[0].novel_food_name}"`);
+            }
+
+            if (exactPharmaMatchesTranslated && exactPharmaMatchesTranslated.length > 0) {
+              const match = {
+                result: { item: exactPharmaMatchesTranslated[0], score: 0 },
+                matchType: 'exact',
+                translatedFrom: ingredient,
+                translatedTo: translationResult.translatedText
+              };
+              allMatches.pharma.push({ term: translationResult.translatedText, ...match });
+              translatedCacheEntry.pharma = match;
+              console.log(`  ✅ Substance Guide match found: "${exactPharmaMatchesTranslated[0].name}" (is_medicine: ${exactPharmaMatchesTranslated[0].is_medicine})`);
+            } else if (isKnownSafeMineralTranslated) {
+              const match = {
+                result: {
+                  item: {
+                    name: translationResult.translatedText,
+                    is_medicine: false,
+                    comment: 'Standard nutritional mineral/vitamin',
+                    synonyms: []
+                  },
+                  score: 0
+                },
+                matchType: 'known_safe',
+                translatedFrom: ingredient,
+                translatedTo: translationResult.translatedText
+              };
+              allMatches.pharma.push({ term: translationResult.translatedText, ...match });
+              translatedCacheEntry.pharma = match;
+              console.log(`  ✅ Known safe mineral/vitamin: "${translationResult.translatedText}"`);
+            }
+
+            if (!exactNovelMatchesTranslated && !exactPharmaMatchesTranslated && !isKnownSafeMineralTranslated) {
+              console.log(`  ❌ No match found with translated term`);
+            }
+
+            searchCacheRef.current.set(translatedCacheKey, translatedCacheEntry);
+          } else {
+            // Use cached results but mark as translated
+            if (translatedCacheEntry.novel) {
+              allMatches.novel.push({
+                term: translationResult.translatedText,
+                ...translatedCacheEntry.novel,
+                translatedFrom: ingredient,
+                translatedTo: translationResult.translatedText
+              });
+            }
+            if (translatedCacheEntry.pharma) {
+              allMatches.pharma.push({
+                term: translationResult.translatedText,
+                ...translatedCacheEntry.pharma,
+                translatedFrom: ingredient,
+                translatedTo: translationResult.translatedText
+              });
+            }
+          }
+
+          // Re-evaluate status with translated matches
+          if (allMatches.pharma.length > 0 || allMatches.novel.length > 0) {
+            const pharmaMatch = allMatches.pharma.find(m => m.result.item.is_medicine);
+            const safePharmaMatch = allMatches.pharma.find(m => !m.result.item.is_medicine);
+
+            if (pharmaMatch) {
+              status = 'danger';
+              statusText = `Non-Approved (Pharmaceutical Medicine) - Translated from "${ingredient}"`;
+              details = {
+                source: 'multiple',
+                matches: allMatches,
+                primaryMatch: pharmaMatch,
+                wasTranslated: true,
+                originalTerm: ingredient,
+                translatedTerm: translationResult.translatedText
+              };
+            } else if (safePharmaMatch) {
+              if (allMatches.novel.length > 0) {
+                const novelStatus = allMatches.novel[0].result.item.novel_food_status;
+                const isActuallyNovel = novelStatus === 'Novel food';
+                const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                     novelStatus === 'Not novel in food' ||
+                                     novelStatus === 'Not novel in food supplements';
+
+                if (isActuallyNovel) {
+                  status = 'danger';
+                  statusText = `Non-Approved (Novel Food) - Translated from "${ingredient}"`;
+                  details = {
+                    source: 'multiple',
+                    matches: allMatches,
+                    primaryMatch: safePharmaMatch,
+                    wasTranslated: true,
+                    originalTerm: ingredient,
+                    translatedTerm: translationResult.translatedText
+                  };
+                } else if (isAuthorized) {
+                  status = 'safe';
+                  statusText = `Approved - Translated from "${ingredient}"`;
+                  details = {
+                    source: 'multiple',
+                    matches: allMatches,
+                    primaryMatch: safePharmaMatch,
+                    wasTranslated: true,
+                    originalTerm: ingredient,
+                    translatedTerm: translationResult.translatedText
+                  };
+                } else {
+                  status = 'unknown';
+                  statusText = `Unknown (Novel Food Under Review) - Translated from "${ingredient}"`;
+                  details = {
+                    source: 'multiple',
+                    matches: allMatches,
+                    primaryMatch: safePharmaMatch,
+                    wasTranslated: true,
+                    originalTerm: ingredient,
+                    translatedTerm: translationResult.translatedText
+                  };
+                }
+              } else {
+                status = 'safe';
+                statusText = `Approved - Translated from "${ingredient}"`;
+                details = {
+                  source: 'multiple',
+                  matches: allMatches,
+                  primaryMatch: safePharmaMatch,
+                  wasTranslated: true,
+                  originalTerm: ingredient,
+                  translatedTerm: translationResult.translatedText
+                };
+              }
+            } else if (allMatches.novel.length > 0) {
+              const novelStatus = allMatches.novel[0].result.item.novel_food_status;
+              const isActuallyNovel = novelStatus === 'Novel food';
+              const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                   novelStatus === 'Not novel in food' ||
+                                   novelStatus === 'Not novel in food supplements';
+
+              if (isActuallyNovel) {
+                status = 'danger';
+                statusText = `Non-Approved (Novel Food) - Translated from "${ingredient}"`;
+                details = {
+                  source: 'multiple',
+                  matches: allMatches,
+                  primaryMatch: allMatches.novel[0],
+                  wasTranslated: true,
+                  originalTerm: ingredient,
+                  translatedTerm: translationResult.translatedText
+                };
+              } else {
+                status = 'unknown';
+                statusText = `Unknown (Not in Substance Guide) - Translated from "${ingredient}"`;
+                details = {
+                  source: 'multiple',
+                  matches: allMatches,
+                  primaryMatch: allMatches.novel[0],
+                  wasTranslated: true,
+                  originalTerm: ingredient,
+                  translatedTerm: translationResult.translatedText
+                };
+              }
+            }
+          } else {
+            // Translation succeeded but no NEW matches found
+            // Check if we already had matches from other search terms (e.g., Latin name)
+            if (allMatches.pharma.length > 0 || allMatches.novel.length > 0) {
+              // We already have matches, just add translation info to existing details
+              if (details && details.source === 'multiple') {
+                details.translationAttempted = true;
+                details.translatedTerm = translationResult.translatedText;
+              }
+            } else {
+              // No matches at all - show translation attempt
+              statusText = `No information (Tried translating to "${translationResult.translatedText}")`;
+              details = {
+                source: 'multiple',
+                matches: allMatches,
+                wasTranslated: true,
+                originalTerm: ingredient,
+                translatedTerm: translationResult.translatedText,
+                noMatchesFound: true
+              };
+            }
+          }
+        }
+      }
+
+      // TIER 3 & 4: Fuzzy search as last resort (after exact match and translation failed)
+      if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel) {
+        setAnalysisProgress({
+          step: `Fuzzy searching "${ingredient}"...`,
+          current: index + 1,
+          total: ingredients.length
+        });
+
+        // First check if user has previously selected a match for this ingredient
+        const userMatch = await checkUserMatch(ingredient);
+
+        if (userMatch) {
+          // Use the user-selected match
+          const matchedItem = userMatch.database === 'novel_food'
+            ? novelFoods.find(item => item.policy_item_code === userMatch.policy_item_code)
+            : pharmaceuticals.find(item => item.name === userMatch.matchedName);
+
+          if (matchedItem) {
+            const isNovel = userMatch.database === 'novel_food';
+            const match = {
+              result: { item: matchedItem, score: 0 },
+              matchType: 'user_selected',
+              confidence: 100,
+              database: userMatch.database
+            };
+
+            if (isNovel) {
+              allMatches.novel.push({ term: ingredient, ...match });
+            } else {
+              allMatches.pharma.push({ term: ingredient, ...match });
+            }
+
+            // Re-evaluate status with user match
+            if (isNovel) {
+              const novelStatus = matchedItem.novel_food_status;
+              const isActuallyNovel = novelStatus === 'Novel food';
+              const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                   novelStatus === 'Not novel in food' ||
+                                   novelStatus === 'Not novel in food supplements';
+
+              if (isActuallyNovel) {
+                status = 'danger';
+                statusText = 'Non-Approved (Novel Food) - User Match';
+              } else if (isAuthorized) {
+                status = 'safe';
+                statusText = 'Approved - User Match';
+              } else {
+                status = 'unknown';
+                statusText = 'Unknown (Novel Food Under Review) - User Match';
+              }
+            } else {
+              if (matchedItem.is_medicine) {
+                status = 'danger';
+                statusText = 'Non-Approved (Pharmaceutical Medicine) - User Match';
+              } else {
+                status = 'safe';
+                statusText = 'Approved - User Match';
+              }
+            }
+
+            details = {
+              source: 'user_match',
+              matches: allMatches,
+              userMatch: userMatch,
+              primaryMatch: match
+            };
+          }
+        } else {
+          // No user match - perform fuzzy search
+          console.log(`\n🔮 TIER 3 & 4: FUZZY SEARCH`);
+          const fuzzyMatches = [];
+
+          // Tier 3: Fuzzy search on original terms
+          console.log(`  🔎 Tier 3: Fuzzy searching original terms...`);
+          searchTerms.forEach(term => {
+            console.log(`    Searching: "${term}"`);
+            const pharmaFuzzy = fuzzySearch(term, pharmaceuticals, 'pharma');
+            const novelFuzzy = fuzzySearch(term, novelFoods, 'novel_food');
+
+            if (pharmaFuzzy.length > 0) {
+              console.log(`      Found ${pharmaFuzzy.length} pharma fuzzy matches (best: ${pharmaFuzzy[0].confidence}%)`);
+            }
+            if (novelFuzzy.length > 0) {
+              console.log(`      Found ${novelFuzzy.length} novel food fuzzy matches (best: ${novelFuzzy[0].confidence}%)`);
+            }
+
+            pharmaFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term, wasTranslated: false }));
+            novelFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term, wasTranslated: false }));
+          });
+
+          // Tier 4: Fuzzy search on translated term (if we translated earlier)
+          if (translationResult && translationResult.translatedText) {
+            console.log(`  🔎 Tier 4: Fuzzy searching translated term "${translationResult.translatedText}"...`);
+            const pharmaFuzzyTranslated = fuzzySearch(translationResult.translatedText, pharmaceuticals, 'pharma');
+            const novelFuzzyTranslated = fuzzySearch(translationResult.translatedText, novelFoods, 'novel_food');
+
+            if (pharmaFuzzyTranslated.length > 0) {
+              console.log(`    Found ${pharmaFuzzyTranslated.length} pharma fuzzy matches (best: ${pharmaFuzzyTranslated[0].confidence}%)`);
+            }
+            if (novelFuzzyTranslated.length > 0) {
+              console.log(`    Found ${novelFuzzyTranslated.length} novel food fuzzy matches (best: ${novelFuzzyTranslated[0].confidence}%)`);
+            }
+
+            pharmaFuzzyTranslated.forEach(match => fuzzyMatches.push({
+              term: translationResult.translatedText,
+              ...match,
+              searchedTerm: translationResult.translatedText,
+              wasTranslated: true,
+              translatedFrom: mainName
+            }));
+            novelFuzzyTranslated.forEach(match => fuzzyMatches.push({
+              term: translationResult.translatedText,
+              ...match,
+              searchedTerm: translationResult.translatedText,
+              wasTranslated: true,
+              translatedFrom: mainName
+            }));
+          }
+
+          // Sort by confidence (highest first) and remove duplicates
+          fuzzyMatches.sort((a, b) => b.confidence - a.confidence);
+          const uniqueMatches = [];
+          const seen = new Set();
+
+          for (const match of fuzzyMatches) {
+            const key = match.database === 'novel_food'
+              ? match.item.policy_item_code
+              : match.item.name;
+            if (!seen.has(key)) {
+              seen.add(key);
+              uniqueMatches.push(match);
+            }
+          }
+
+          if (uniqueMatches.length > 0) {
+            const topMatch = uniqueMatches[0];
+            console.log(`\n  📊 Fuzzy Match Results:`);
+            console.log(`    Total unique matches: ${uniqueMatches.length}`);
+            console.log(`    Top match: "${topMatch.database === 'novel_food' ? topMatch.item.novel_food_name : topMatch.item.name}"`);
+            console.log(`    Confidence: ${topMatch.confidence}%`);
+            console.log(`    Database: ${topMatch.database}`);
+
+            // Auto-accept if confidence >= 90%
+            if (topMatch.confidence >= 90) {
+              console.log(`  ✅ AUTO-ACCEPTING (confidence >= 90%)`);
+              const match = {
+                result: { item: topMatch.item, score: topMatch.score },
+                matchType: 'fuzzy_auto',
+                confidence: topMatch.confidence,
+                database: topMatch.database
+              };
+
+              if (topMatch.database === 'novel_food') {
+                allMatches.novel.push({ term: topMatch.searchedTerm, ...match });
+
+                const novelStatus = topMatch.item.novel_food_status;
+                const isActuallyNovel = novelStatus === 'Novel food';
+                const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                     novelStatus === 'Not novel in food' ||
+                                     novelStatus === 'Not novel in food supplements';
+
+                if (isActuallyNovel) {
+                  status = 'danger';
+                  statusText = `Non-Approved (Novel Food) - ${topMatch.confidence}% fuzzy match`;
+                } else if (isAuthorized) {
+                  status = 'safe';
+                  statusText = `Approved - ${topMatch.confidence}% fuzzy match`;
+                } else {
+                  status = 'unknown';
+                  statusText = `Unknown - ${topMatch.confidence}% fuzzy match`;
+                }
+              } else {
+                allMatches.pharma.push({ term: topMatch.searchedTerm, ...match });
+
+                if (topMatch.item.is_medicine) {
+                  status = 'danger';
+                  statusText = `Non-Approved (Pharmaceutical) - ${topMatch.confidence}% fuzzy match`;
+                } else {
+                  status = 'safe';
+                  statusText = `Approved - ${topMatch.confidence}% fuzzy match`;
+                }
+              }
+
+              details = {
+                source: 'fuzzy_auto',
+                matches: allMatches,
+                primaryMatch: match,
+                fuzzyMatches: uniqueMatches.slice(0, 5)
+              };
+            } else {
+              // Confidence < 90% - show matches for user selection
+              console.log(`  ⚠️ REQUIRES USER SELECTION (confidence < 90%)`);
+              console.log(`    Showing ${Math.min(uniqueMatches.length, 5)} matches for user to choose from`);
+              status = 'unknown';
+              statusText = 'Fuzzy matches found - Select correct match';
+              details = {
+                source: 'fuzzy_manual',
+                fuzzyMatches: uniqueMatches.slice(0, 5),
+                requiresUserSelection: true
+              };
+            }
+          } else {
+            console.log(`  ❌ No fuzzy matches found`);
+          }
+        }
+      }
+
+      // Ensure all ingredients have source: 'multiple' for consistent display
+      if (!details || !details.source) {
+        details = {
+          source: 'multiple',
+          matches: allMatches
+        };
+      }
+
+      console.log(`\n${'─'.repeat(80)}`);
+      console.log(`✨ FINAL RESULT: ${status.toUpperCase()}`);
+      console.log(`   Status Text: ${statusText}`);
+      console.log(`   Has Manual Label: ${hasManualLabel}`);
+      if (details?.source) {
+        console.log(`   Data Source: ${details.source}`);
+      }
+      console.log(`${'='.repeat(80)}\n`);
+
       return {
         name: ingredient,
         status,
@@ -781,19 +1370,19 @@ function App() {
 
               <div className="modal-body">
                 <section className="modal-section">
-                  <h3>📋 Verification Process</h3>
-                  <p>Each ingredient goes through a 2-step verification process based on Swedish food supplement regulations:</p>
+                  <h3>📋 How It Works</h3>
+                  <p>This tool automatically analyzes dietary supplement ingredients using a 2-step verification process based on Swedish and EU regulations:</p>
 
                   <div className="process-explanation">
                     <div className="process-step-explanation">
                       <div className="step-number-large">1</div>
                       <div>
                         <h4>Substance Guide Check (Ämnesguiden)</h4>
-                        <p>First, we check if the ingredient is in Läkemedelsverket's Substance Guide.</p>
+                        <p>Checks Läkemedelsverket's database to see if the ingredient is a pharmaceutical medicine.</p>
                         <ul>
                           <li>✓ If found and NOT a medicine → Continue to Step 2</li>
-                          <li>❌ If found and IS a medicine → <strong>NON-APPROVED</strong></li>
-                          <li>❓ If not found → <strong>UNKNOWN</strong></li>
+                          <li>❌ If IS a pharmaceutical medicine → <strong>NON-APPROVED</strong></li>
+                          <li>→ If not found → Continue to Step 2</li>
                         </ul>
                       </div>
                     </div>
@@ -801,11 +1390,12 @@ function App() {
                     <div className="process-step-explanation">
                       <div className="step-number-large">2</div>
                       <div>
-                        <h4>Novel Food Catalogue Check</h4>
-                        <p>If Step 1 passed, we check the EU Novel Food Catalogue.</p>
+                        <h4>EU Novel Food Catalogue Check</h4>
+                        <p>Checks if the ingredient requires special authorization.</p>
                         <ul>
-                          <li>✓ If NOT found → <strong>APPROVED</strong></li>
-                          <li>❌ If found → <strong>NON-APPROVED</strong></li>
+                          <li>✓ If "Not novel" or "Authorized" → <strong>APPROVED</strong></li>
+                          <li>❌ If "Novel food" (requires authorization) → <strong>NON-APPROVED</strong></li>
+                          <li>❓ If not found anywhere → <strong>UNKNOWN</strong></li>
                         </ul>
                       </div>
                     </div>
@@ -813,16 +1403,33 @@ function App() {
                 </section>
 
                 <section className="modal-section">
-                  <h3>🎨 Color Guide</h3>
+                  <h3>🌐 Automatic Translation</h3>
+                  <p>Swedish ingredient names are automatically translated to English using DeepL AI and searched again. Translations are cached to save resources.</p>
+                  <p className="info-note">Example: "gurkmeja" → "turmeric" → finds match in database</p>
+                </section>
+
+                <section className="modal-section">
+                  <h3>👥 Community Labels</h3>
+                  <p>Signed-in users can add community labels to ingredients marked as "Unknown". These labels:</p>
+                  <ul className="tips-list">
+                    <li>Override automatic results when voted on by the community</li>
+                    <li>Can have custom statuses with custom colors (e.g., "Conditional", "Sometimes")</li>
+                    <li>Include notes explaining the reasoning</li>
+                    <li>Update in real-time for all users</li>
+                  </ul>
+                </section>
+
+                <section className="modal-section">
+                  <h3>🎨 Status Colors</h3>
                   <div className="color-guide-grid">
                     <div className="color-guide-item">
                       <span className="help-badge ingredient-danger">Example</span>
                       <div>
                         <h4>🔴 Red - Non-Approved</h4>
-                        <p>This ingredient is <strong>NOT APPROVED</strong> for use in food supplements. It is either:</p>
+                        <p>Ingredient is <strong>NOT APPROVED</strong> because it's either:</p>
                         <ul>
-                          <li>A pharmaceutical medicine, OR</li>
-                          <li>Found in the Novel Food Catalogue</li>
+                          <li>A pharmaceutical medicine (Läkemedelsverket)</li>
+                          <li>A "Novel food" requiring authorization (EU)</li>
                         </ul>
                       </div>
                     </div>
@@ -831,10 +1438,10 @@ function App() {
                       <span className="help-badge ingredient-safe">Example</span>
                       <div>
                         <h4>🟢 Green - Approved</h4>
-                        <p>This ingredient is <strong>APPROVED</strong>. It:</p>
+                        <p>Ingredient is <strong>APPROVED</strong>:</p>
                         <ul>
-                          <li>Is in the Substance Guide as a non-medicine substance, AND</li>
-                          <li>Is NOT in the Novel Food Catalogue</li>
+                          <li>Found in Substance Guide as non-medicine, AND</li>
+                          <li>Either not in Novel Food Catalogue or marked "Not novel"/"Authorized"</li>
                         </ul>
                       </div>
                     </div>
@@ -842,8 +1449,8 @@ function App() {
                     <div className="color-guide-item">
                       <span className="help-badge ingredient-unknown">Example</span>
                       <div>
-                        <h4>⚪ Gray - Unknown</h4>
-                        <p>This ingredient is <strong>UNKNOWN</strong>. It is not found in the Substance Guide database, so we cannot determine its approval status.</p>
+                        <h4>⚪ Purple - Unknown</h4>
+                        <p><strong>No information</strong> found in databases (even after translation attempt). You can add a community label to help others!</p>
                       </div>
                     </div>
                   </div>
@@ -852,10 +1459,11 @@ function App() {
                 <section className="modal-section">
                   <h3>💡 Tips</h3>
                   <ul className="tips-list">
-                    <li>Click on any colored ingredient badge to see detailed verification results</li>
-                    <li>The system handles parenthetical ingredient names (e.g., "Vitamin E (DL-alfa-tokoferylacetat)")</li>
-                    <li>You can paste entire ingredient lists - separate with commas, semicolons, or line breaks</li>
-                    <li>Analysis time is shown for transparency</li>
+                    <li>Click any ingredient badge to see detailed analysis with step-by-step verification</li>
+                    <li>Paste full ingredient lists - the system handles Swedish names, Latin names, and parentheses</li>
+                    <li>Sign in to add community labels for unknown ingredients</li>
+                    <li>Look for the <span className="material-symbols-rounded" style={{fontSize: '1rem', verticalAlign: 'middle'}}>group</span> icon - it means there are community labels</li>
+                    <li>Translated ingredients show a 🌐 icon with the translation used</li>
                   </ul>
                 </section>
               </div>
@@ -895,9 +1503,6 @@ function App() {
                       </span>
                     )}
                   </span>
-                  {idx < analyzedIngredients.length - 1 && (
-                    <span className="comma">,</span>
-                  )}
                 </span>
               ))}
             </div>
@@ -941,19 +1546,15 @@ function App() {
                   <div className="process-flow">
                     {analyzedIngredients[selectedIngredient].details && (analyzedIngredients[selectedIngredient].details.source === 'multiple' || (analyzedIngredients[selectedIngredient].details.source === 'community' && analyzedIngredients[selectedIngredient].details.databaseMatches)) ? (
                       <>
-                        {/* Show process for each search term */}
-                        {(() => {
-                          const matches = analyzedIngredients[selectedIngredient].details.source === 'community'
-                            ? analyzedIngredients[selectedIngredient].details.databaseMatches
-                            : analyzedIngredients[selectedIngredient].details.matches;
-                          return matches && (matches.pharma.concat(matches.novel).length > 0);
-                        })() ? (
-                          <div>
-                            {/* Group by search term */}
-                            {(() => {
-                              const matches = analyzedIngredients[selectedIngredient].details.source === 'community'
-                                ? analyzedIngredients[selectedIngredient].details.databaseMatches
-                                : analyzedIngredients[selectedIngredient].details.matches;
+                        <div>
+                          {/* Group by search term */}
+                          {(() => {
+                            const matches = analyzedIngredients[selectedIngredient].details.source === 'community'
+                              ? analyzedIngredients[selectedIngredient].details.databaseMatches
+                              : analyzedIngredients[selectedIngredient].details.matches;
+
+                            // If we have matches, show them
+                            if (matches && (matches.pharma.concat(matches.novel).length > 0)) {
                               const allTerms = new Set();
                               matches.pharma.forEach(m => allTerms.add(m.term));
                               matches.novel.forEach(m => allTerms.add(m.term));
@@ -961,10 +1562,17 @@ function App() {
                               return Array.from(allTerms).map((searchTerm, termIdx) => {
                                 const pharmaForTerm = matches.pharma.find(m => m.term === searchTerm);
                                 const novelForTerm = matches.novel.find(m => m.term === searchTerm);
+                                const wasTranslated = pharmaForTerm?.translatedFrom || novelForTerm?.translatedFrom;
+                                const originalTerm = pharmaForTerm?.translatedFrom || novelForTerm?.translatedFrom;
 
                                 return (
                                   <div key={termIdx} className="term-process" style={{ marginBottom: termIdx < allTerms.size - 1 ? '2rem' : '0' }}>
                                     <h4 className="search-term-title">Search Term: "{searchTerm}"</h4>
+                                    {wasTranslated && (
+                                      <p className="translation-note" style={{ fontSize: '0.875rem', color: '#3b82f6', marginTop: '0.5rem', marginBottom: '0.5rem' }}>
+                                        🌐 Translated from "{originalTerm}"
+                                      </p>
+                                    )}
 
                                     {/* Step 1: Substance Guide (Pharmaceutical) Check */}
                                     <div className={`process-step ${pharmaForTerm ? (pharmaForTerm.result.item.is_medicine ? 'step-failed' : 'step-passed') : 'step-not-found'}`}>
@@ -1088,15 +1696,91 @@ function App() {
                                   </div>
                                 );
                               });
-                            })()}
+                            } else {
+                              // No matches found - show "Not Found" for all search terms
+                              const ingredient = analyzedIngredients[selectedIngredient].name;
+                              const match = ingredient.match(/^([^(]+)(?:\(([^)]+)\))?/);
+                              const mainName = match ? match[1].trim() : ingredient;
+
+                              return (
+                                <div className="term-process">
+                                  <h4 className="search-term-title">Search Term: "{mainName}"</h4>
+
+                                  {/* Step 1: Not found */}
+                                  <div className="process-step step-not-found">
+                                    <div className="step-header">
+                                      <span className="step-number">1</span>
+                                      <span className="step-title">Compare with Substance Guide (Ämnesguiden)</span>
+                                      <span className="step-status">✗ Not Found</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Step 2: Not found */}
+                                  <div className="process-step step-not-found">
+                                    <div className="step-header">
+                                      <span className="step-number">2</span>
+                                      <span className="step-title">Compare with EU Novel Food Catalogue</span>
+                                      <span className="step-status">✗ Not Found</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Final Result */}
+                                  <div className="final-result result-unknown">
+                                    <strong>Final Result:</strong> ❓ UNKNOWN (Not in Substance Guide)
+                                  </div>
+                                </div>
+                              );
+                            }
+                          })()}
+                        </div>
+
+                        {/* Show fuzzy match button if fuzzy matches are available */}
+                        {analyzedIngredients[selectedIngredient].details?.fuzzyMatches &&
+                         analyzedIngredients[selectedIngredient].details.fuzzyMatches.length > 0 && (
+                          <div style={{ textAlign: 'center', padding: '1rem', marginTop: '1rem' }}>
+                            <button
+                              className="btn-select-match"
+                              onClick={() => {
+                                setMatchSelectorData({
+                                  ingredient: analyzedIngredients[selectedIngredient].name,
+                                  fuzzyMatches: analyzedIngredients[selectedIngredient].details.fuzzyMatches
+                                });
+                                setShowMatchSelector(true);
+                              }}
+                            >
+                              🔍 {analyzedIngredients[selectedIngredient].details?.requiresUserSelection
+                                ? `Select from ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Fuzzy Matches`
+                                : `View ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Alternative Matches`}
+                            </button>
                           </div>
-                        ) : null}
+                        )}
                       </>
                     ) : (
                       <div>
                         <p style={{ color: '#6b7280', textAlign: 'center', padding: '1rem' }}>
                           ❓ No information found for this ingredient in either the Substance Guide or Novel Food Catalogue.
                         </p>
+
+                        {/* Show fuzzy match button if fuzzy matches are available */}
+                        {analyzedIngredients[selectedIngredient].details?.fuzzyMatches &&
+                         analyzedIngredients[selectedIngredient].details.fuzzyMatches.length > 0 && (
+                          <div style={{ textAlign: 'center', padding: '1rem' }}>
+                            <button
+                              className="btn-select-match"
+                              onClick={() => {
+                                setMatchSelectorData({
+                                  ingredient: analyzedIngredients[selectedIngredient].name,
+                                  fuzzyMatches: analyzedIngredients[selectedIngredient].details.fuzzyMatches
+                                });
+                                setShowMatchSelector(true);
+                              }}
+                            >
+                              🔍 {analyzedIngredients[selectedIngredient].details?.requiresUserSelection
+                                ? `Select from ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Fuzzy Matches`
+                                : `View ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Alternative Matches`}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1150,6 +1834,16 @@ function App() {
               setEditingLabel(null)
             }}
             onSuccess={handleLabelSuccess}
+          />
+        )}
+
+        {/* Match Selector Modal */}
+        {showMatchSelector && matchSelectorData && (
+          <MatchSelector
+            ingredient={matchSelectorData.ingredient}
+            fuzzyMatches={matchSelectorData.fuzzyMatches}
+            onSelectMatch={handleMatchSelection}
+            onCancel={handleMatchCancel}
           />
         )}
 

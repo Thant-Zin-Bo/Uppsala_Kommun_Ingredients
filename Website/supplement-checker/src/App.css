@@ -86,14 +86,14 @@ html, body {
 }
 
 .btn-login {
-  background: #4D2C5E;
+  background: #202e45;
   color: white;
   border: none;
   font-weight: 600;
 }
 
 .btn-login:hover {
-  background: #3A1F4A;
+  background: #172234;
 }
 
 .header h1 {
@@ -113,7 +113,7 @@ html, body {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: #4D2C5E;
+  background: #202e45;
   color: white;
   border: none;
   font-size: 1.25rem;
@@ -126,7 +126,7 @@ html, body {
 }
 
 .help-button:hover {
-  background: #3A1F4A;
+  background: #172234;
   transform: scale(1.05);
 }
 
@@ -189,7 +189,7 @@ html, body {
 .modal-header {
   position: sticky;
   top: 0;
-  background: linear-gradient(135deg, #4D2C5E 0%, #3A1F4A 100%);
+  background: linear-gradient(135deg, #202e45 0%, #172234 100%);
   color: white;
   padding: 2rem 2rem 1rem 2rem;
   border-bottom: 3px solid #FCD34D;
@@ -275,7 +275,7 @@ html, body {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: #4D2C5E;
+  background: #202e45;
   color: white;
   font-weight: bold;
   font-size: 1.5rem;
@@ -422,7 +422,7 @@ html, body {
 
 .textarea:focus {
   outline: none;
-  border-color: #4D2C5E;
+  border-color: #202e45;
   background: white;
   box-shadow: 0 0 0 3px rgba(77, 44, 94, 0.1);
 }
@@ -440,13 +440,13 @@ html, body {
 }
 
 .status-text strong {
-  color: #4D2C5E;
+  color: #202e45;
   font-weight: 600;
 }
 
 .btn-analyze {
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, #4D2C5E 0%, #3A1F4A 100%);
+  background: linear-gradient(135deg, #202e45 0%, #172234 100%);
   color: white;
   font-weight: 600;
   border-radius: 8px;
@@ -568,7 +568,7 @@ html, body {
 
 .ingredient-unknown {
   background: #F3E8FF;
-  color: #4D2C5E;
+  color: #202e45;
   border-color: #C084FC;
 }
 
@@ -748,7 +748,7 @@ html, body {
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  background: #4D2C5E;
+  background: #202e45;
   color: white;
   font-weight: bold;
   font-size: 0.875rem;
@@ -828,9 +828,9 @@ html, body {
   margin-top: 0.75rem;
   padding: 0.75rem;
   background: #F3E8FF;
-  border-left: 4px solid #4D2C5E;
+  border-left: 4px solid #202e45;
   border-radius: 4px;
-  color: #4D2C5E;
+  color: #202e45;
   font-weight: 500;
 }
 
@@ -857,7 +857,7 @@ html, body {
 
 .result-unknown {
   background: #F3E8FF;
-  color: #4D2C5E;
+  color: #202e45;
   border: 2px solid #C084FC;
 }
 
@@ -889,7 +889,7 @@ html, body {
 
 .btn-add-label {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #4D2C5E 0%, #3A1F4A 100%);
+  background: linear-gradient(135deg, #202e45 0%, #172234 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -903,6 +903,24 @@ html, body {
 .btn-add-label:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(77, 44, 94, 0.4);
+}
+
+.btn-select-match {
+  padding: 0.875rem 1.75rem;
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.938rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+.btn-select-match:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
 }
 
 .label-hint {
@@ -921,7 +939,7 @@ html, body {
   background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);
   border: 2px solid #C084FC;
   border-radius: 8px;
-  color: #4D2C5E;
+  color: #202e45;
   font-size: 0.875rem;
   font-weight: 600;
   text-align: center;
@@ -950,9 +968,20 @@ html, body {
   text-align: center;
 }
 
+.info-note {
+  padding: 0.75rem 1rem;
+  background: #EFF6FF;
+  border-left: 3px solid #3B82F6;
+  border-radius: 4px;
+  color: #1E40AF;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
 /* Footer Styles */
 .footer {
-  background: linear-gradient(135deg, #4D2C5E 0%, #3A1F4A 100%);
+  background: linear-gradient(135deg, #202e45 0%, #172234 100%);
   color: white;
   padding: 3rem 2.5rem 1.5rem;
   margin-top: auto;
@@ -979,7 +1008,7 @@ html, body {
 .footer-section p {
   font-size: 0.875rem;
   line-height: 1.7;
-  color: #E9D5FF;
+  color: #FFF;
   margin: 0;
 }
 
@@ -998,7 +1027,7 @@ html, body {
 
 .footer-bottom p {
   font-size: 0.875rem;
-  color: #E9D5FF;
+  color: #FFF;
   margin: 0;
 }
 

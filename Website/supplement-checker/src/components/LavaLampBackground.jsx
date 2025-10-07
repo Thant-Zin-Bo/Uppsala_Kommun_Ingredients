@@ -25,11 +25,11 @@ const LavaLampBackground = () => {
 
     // Initialize blobs with Uppsala colors (fewer blobs for better performance)
     const colors = [
-      { r: 77, g: 44, b: 94 },     // Purple
+      { r: 32, g: 46, b: 69 },     // Uppsala blue #202e45
       { r: 252, g: 211, b: 77 },   // Yellow
-      { r: 58, g: 31, b: 74 },     // Dark purple
-      { r: 192, g: 132, b: 252 },  // Light purple
-      { r: 233, g: 213, b: 255 },  // Very light purple
+      { r: 23, g: 34, b: 52 },     // Darker Uppsala blue
+      { r: 100, g: 130, b: 180 },  // Light blue
+      { r: 200, g: 215, b: 240 },  // Very light blue
     ];
 
     // Reduce to 8 blobs for better performance
