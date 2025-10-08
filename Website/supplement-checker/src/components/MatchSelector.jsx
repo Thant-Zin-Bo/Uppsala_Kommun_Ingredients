@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './MatchSelector.css';
 
 const MatchSelector = ({ ingredient, fuzzyMatches, onSelectMatch, onCancel }) => {
   const [selectedMatch, setSelectedMatch] = useState(null);
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const handleSelect = () => {
-    if (selectedMatch) {
+    console.log('handleSelect called, selectedMatch:', selectedMatch);
+    if (selectedMatch !== null) {
       const match = fuzzyMatches[selectedMatch];
+      console.log('Selected match:', match);
       onSelectMatch({
         database: match.database,
         matchedName: match.database === 'novel_food'
@@ -20,6 +30,8 @@ const MatchSelector = ({ ingredient, fuzzyMatches, onSelectMatch, onCancel }) =>
         fuzzyScore: match.confidence / 100,
         matchData: match
       });
+    } else {
+      console.log('No match selected');
     }
   };
 
@@ -27,9 +39,29 @@ const MatchSelector = ({ ingredient, fuzzyMatches, onSelectMatch, onCancel }) =>
     <div className="match-selector-overlay" onClick={onCancel}>
       <div className="match-selector-modal" onClick={(e) => e.stopPropagation()}>
         <div className="match-selector-header">
-          <h3>🔍 Select Correct Match for "{ingredient}"</h3>
+          <h3
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              margin: 0
+            }}
+          >
+            <span
+              className="material-symbols-rounded"
+              style={{
+                fontSize: '25px',
+                lineHeight: 1,
+                verticalAlign: 'middle'
+              }}
+            >
+              search
+            </span>
+            Select Correct Match for "{ingredient}"
+          </h3>
           <button onClick={onCancel} className="modal-close">×</button>
         </div>
+
 
         <div className="match-selector-body">
           <p className="match-selector-hint">
@@ -88,7 +120,7 @@ const MatchSelector = ({ ingredient, fuzzyMatches, onSelectMatch, onCancel }) =>
 
           <div className="match-selector-actions">
             <button onClick={onCancel} className="btn-secondary">
-              Mark as Unknown
+              Unknown
             </button>
             <button
               onClick={handleSelect}

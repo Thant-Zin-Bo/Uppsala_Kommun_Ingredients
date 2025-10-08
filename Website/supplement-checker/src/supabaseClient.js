@@ -97,12 +97,21 @@ export const updateManualLabel = async (labelId, status, notes, customStatusLabe
 }
 
 export const deleteManualLabel = async (labelId) => {
-  const { error } = await supabase
+  console.log('Attempting to delete label:', labelId);
+
+  const { data, error } = await supabase
     .from('manual_labels')
     .delete()
     .eq('id', labelId)
+    .select();
 
-  return { error }
+  if (error) {
+    console.error('Error deleting label:', error);
+  } else {
+    console.log('Label deleted successfully:', data);
+  }
+
+  return { data, error }
 }
 
 export const voteOnLabel = async (labelId, userId, vote) => {
