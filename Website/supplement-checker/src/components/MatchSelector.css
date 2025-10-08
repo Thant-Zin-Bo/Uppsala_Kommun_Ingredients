@@ -11,6 +11,7 @@
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
+  overflow: hidden;
 }
 
 .match-selector-modal {
@@ -36,6 +37,28 @@
 .match-selector-header h3 {
   margin: 0;
   font-size: 1.25rem;
+  color: #1F2937;
+}
+
+.match-selector-header .modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6B7280;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.match-selector-header .modal-close:hover {
+  background: #F3F4F6;
   color: #1F2937;
 }
 
@@ -166,8 +189,7 @@
 }
 
 .btn-secondary {
-  padding: 0.625rem 1.25rem;
-  height: 54;
+  padding: 0.75rem 1.5rem;
   background: white;
   color: #6B7280;
   border: 1px solid #D1D5DB;
@@ -175,6 +197,8 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .btn-secondary:hover {
@@ -183,15 +207,17 @@
 }
 
 .btn-primary {
-  padding: 0.625rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   background: #202e45;
-  height: 54;
   color: white;
   border: none;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-top: 0;
 }
 
 .btn-primary:hover:not(:disabled) {

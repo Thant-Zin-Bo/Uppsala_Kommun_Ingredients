@@ -6,6 +6,7 @@ import ManualLabelModal from './components/ManualLabelModal';
 import ManualLabelsDisplay from './components/ManualLabelsDisplay';
 import MatchSelector from './components/MatchSelector';
 import LavaLampBackground from './components/LavaLampBackground';
+import UserProfile from './components/UserProfile';
 import { supabase, getCurrentUser, signOut, getManualLabels } from './supabaseClient';
 
 // Smart normalization helper
@@ -46,6 +47,20 @@ function App() {
   const [analysisProgress, setAnalysisProgress] = useState({ step: '', current: 0, total: 0 });
   const [showMatchSelector, setShowMatchSelector] = useState(false);
   const [matchSelectorData, setMatchSelectorData] = useState(null);
+  const [enableTranslation, setEnableTranslation] = useState(() => {
+    const saved = localStorage.getItem('enableTranslation');
+    return saved !== null ? saved === 'true' : true; // Default to enabled
+  });
+  const [showProfile, setShowProfile] = useState(false);
+
+  // Smart detection of Swedish text
+  const detectSwedishText = (text) => {
+    if (!text) return false;
+
+    // Only check for Swedish-specific characters (å, ä, ö)
+    // This is the most reliable indicator of Swedish text
+    return /[åäöÅÄÖ]/.test(text);
+  };
 
   // Common safe minerals/vitamins that may not be in the pharmaceutical database
   // but are standard approved nutritional ingredients
@@ -145,10 +160,12 @@ function App() {
 
   // Refresh a single ingredient's status after label changes
   const refreshIngredientStatus = async (ingredientName) => {
+    console.log('Refreshing ingredient status for:', ingredientName);
     const normalizedName = ingredientName.toLowerCase().trim()
 
     // Reload labels for this ingredient
     const labels = await getManualLabels(ingredientName)
+    console.log('Fetched labels:', labels.length);
     setManualLabelsCache(prev => new Map(prev).set(normalizedName, labels))
 
     // Update the analyzed ingredients list
@@ -168,11 +185,18 @@ function App() {
       if (topLabel) {
         // Community label exists - override automatic results
         status = topLabel.status
-        statusText = topLabel.status === 'safe'
-          ? 'Approved (Community Override)'
-          : topLabel.status === 'danger'
-            ? 'Non-Approved (Community Override)'
-            : 'Unknown (Community Label)'
+
+        // Use custom status label if it exists, otherwise use standard labels
+        if (topLabel.custom_status_label) {
+          statusText = `${topLabel.custom_status_label} (Community Label)`
+        } else {
+          statusText = topLabel.status === 'safe'
+            ? 'Approved (Community Override)'
+            : topLabel.status === 'danger'
+              ? 'Non-Approved (Community Override)'
+              : 'Unknown (Community Label)'
+        }
+
         details = {
           source: 'community',
           topLabel,
@@ -247,14 +271,92 @@ function App() {
 
   // Handle match selection from MatchSelector
   const handleMatchSelection = async (selectedMatch) => {
+    console.log('handleMatchSelection called with:', selectedMatch);
+    console.log('matchSelectorData:', matchSelectorData);
+
     if (matchSelectorData) {
       const { ingredient } = matchSelectorData;
+      console.log('Processing match selection for ingredient:', ingredient);
 
-      // Save the user's match selection
-      await saveUserMatch(ingredient, selectedMatch);
+      // Try to save the user's match selection (optional - continue even if it fails)
+      try {
+        await saveUserMatch(ingredient, selectedMatch);
+        console.log('Match saved successfully');
+      } catch (error) {
+        console.log('Could not save match (backend not running), but continuing...');
+      }
 
-      // Re-analyze this specific ingredient to update its status
-      await refreshIngredientStatus(ingredient);
+      // Update the ingredient with the selected match
+      const normalizedName = ingredient.toLowerCase().trim();
+      const match = selectedMatch.matchData;
+
+      setAnalyzedIngredients(prev => prev.map(ing => {
+        if (ing.name.toLowerCase().trim() !== normalizedName) {
+          return ing;
+        }
+
+        // Determine status based on the selected match
+        let status, statusText;
+        const allMatches = { novel: [], pharma: [] };
+
+        if (match.database === 'novel_food') {
+          allMatches.novel.push({
+            result: { item: match.item, score: match.score },
+            matchType: 'user_selected',
+            confidence: match.confidence,
+            term: ingredient
+          });
+
+          const novelStatus = match.item.novel_food_status;
+          const isActuallyNovel = novelStatus === 'Novel food';
+          const isAuthorized = novelStatus === 'Authorised novel food' ||
+                               novelStatus === 'Not novel in food' ||
+                               novelStatus === 'Not novel in food supplements';
+
+          if (isActuallyNovel) {
+            status = 'danger';
+            statusText = 'Non-Approved (Novel Food) - User Selected';
+          } else if (isAuthorized) {
+            status = 'safe';
+            statusText = 'Approved - User Selected';
+          } else {
+            status = 'unknown';
+            statusText = 'Unknown - User Selected';
+          }
+        } else {
+          allMatches.pharma.push({
+            result: { item: match.item, score: match.score },
+            matchType: 'user_selected',
+            confidence: match.confidence,
+            term: ingredient
+          });
+
+          if (match.item.is_medicine) {
+            status = 'danger';
+            statusText = 'Non-Approved (Pharmaceutical) - User Selected';
+          } else {
+            status = 'safe';
+            statusText = 'Approved - User Selected';
+          }
+        }
+
+        return {
+          ...ing,
+          status,
+          statusText,
+          details: {
+            source: 'user_selected',
+            matches: allMatches,
+            primaryMatch: {
+              result: { item: match.item, score: match.score },
+              matchType: 'user_selected',
+              confidence: match.confidence
+            }
+          }
+        };
+      }));
+
+      console.log('Ingredient updated with selected match');
 
       // Close the match selector
       setShowMatchSelector(false);
@@ -412,33 +514,74 @@ function App() {
     }
   };
 
+  // AI semantic search helper (tries AI API first, falls back to fuzzy)
+  const aiSemanticSearch = async (searchTerm) => {
+    try {
+      const response = await fetch('http://localhost:5001/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: searchTerm, top_k: 10 })
+      });
+
+      if (!response.ok) {
+        console.log('AI search API not available, will use fuzzy search');
+        return null;
+      }
+
+      const data = await response.json();
+      console.log(`🤖 AI Search found ${data.results.length} results for "${searchTerm}"`);
+
+      // Convert AI results to our format
+      return data.results.map(result => ({
+        item: {
+          policy_item_code: result.policy_item_id,
+          novel_food_name: result.canonical,
+          novel_food_status: 'Authorised novel food' // We'll need to look this up
+        },
+        score: (100 - result.confidence) / 100, // Convert back to 0-1 scale (lower is better)
+        confidence: result.confidence,
+        matchType: 'ai_semantic',
+        database: 'novel_food',
+        matched_text: result.matched_text
+      }));
+    } catch (error) {
+      console.log('AI search error:', error.message);
+      return null;
+    }
+  };
+
   // Fuzzy search helper using Fuse.js
   const fuzzySearch = (searchTerm, database, databaseType) => {
     const fuseOptions = {
       keys: ['name', 'name_normalized', 'novel_food_name', 'synonyms'],
-      threshold: 0.2, // Much stricter: 0.0 = exact match, 1.0 = match anything (was 0.4)
+      threshold: 0.25, // 0.0 = exact match, 1.0 = match anything
       includeScore: true,
-      minMatchCharLength: 4, // Require at least 4 characters to match (was 3)
-      ignoreLocation: true,
-      distance: 50 // Limit how far apart matches can be
+      minMatchCharLength: 2,
+      ignoreLocation: false,
+      distance: 30
     };
 
     const fuse = new Fuse(database, fuseOptions);
     const results = fuse.search(searchTerm);
 
     // Convert Fuse.js results to our format with confidence scores
-    // Filter out results below 80% confidence to avoid bad matches
-    const MIN_CONFIDENCE = 80;
+    // Fuse.js score: 0.0 = perfect match, 1.0 = worst match
+    // Direct linear conversion for honest representation
     return results
-      .map(result => ({
-        item: result.item,
-        score: result.score, // Lower is better in Fuse.js (0 = perfect match)
-        confidence: Math.round((1 - result.score) * 100), // Convert to percentage (100% = perfect)
-        matchType: 'fuzzy',
-        database: databaseType
-      }))
-      .filter(result => result.confidence >= MIN_CONFIDENCE) // Only keep high-quality matches
-      .slice(0, 5);
+      .map(result => {
+        // Simple linear conversion: lower score = higher confidence
+        // Score 0.0 = 100%, 0.1 = 90%, 0.2 = 80%, etc.
+        const confidence = Math.max(0, Math.round((1 - result.score) * 100));
+        return {
+          item: result.item,
+          score: result.score,
+          confidence: confidence,
+          matchType: 'fuzzy',
+          database: databaseType
+        };
+      })
+      .filter(result => result.confidence >= 50) // Only show matches 50%+
+      .slice(0, 10);
   };
 
   // Check for user-selected match
@@ -528,10 +671,6 @@ function App() {
     setAnalysisProgress({ step: 'Parsing ingredients...', current: 0, total: ingredients.length });
 
     const analyzed = await Promise.all(ingredients.map(async (ingredient, index) => {
-      console.log(`\n${'='.repeat(80)}`);
-      console.log(`🔍 ANALYZING INGREDIENT [${index + 1}/${ingredients.length}]: "${ingredient}"`);
-      console.log(`${'='.repeat(80)}`);
-
       setAnalysisProgress({ step: 'Analyzing ingredients...', current: index + 1, total: ingredients.length });
       // Parse ingredient to extract main name and parenthetical name
       const match = ingredient.match(/^([^(]+)(?:\(([^)]+)\))?/);
@@ -665,6 +804,13 @@ function App() {
       const topLabel = manualLabels.length > 0 ? manualLabels[0] : null
       const hasManualLabel = manualLabels.length > 0;
 
+      if (allMatches.pharma.length > 0) {
+        allMatches.pharma.forEach(m => console.log(`     - Pharma: ${m.result.item.name} (is_medicine: ${m.result.item.is_medicine})`));
+      }
+      if (allMatches.novel.length > 0) {
+        allMatches.novel.forEach(m => console.log(`     - Novel: ${m.result.item.novel_food_name} (status: ${m.result.item.novel_food_status})`));
+      }
+
       // IMPORTANT: Community labels ALWAYS override automatic results
       // If there's a community label, use it regardless of database matches
       let status = 'unknown';
@@ -674,11 +820,18 @@ function App() {
       if (topLabel) {
         // Community label exists - use it and override any automatic results
         status = topLabel.status;
-        statusText = topLabel.status === 'safe'
-          ? 'Approved (Community Override)'
-          : topLabel.status === 'danger'
-            ? 'Non-Approved (Community Override)'
-            : 'Unknown (Community Label)';
+
+        // Use custom status label if it exists, otherwise use standard labels
+        if (topLabel.custom_status_label) {
+          statusText = `${topLabel.custom_status_label} (Community Label)`;
+        } else {
+          statusText = topLabel.status === 'safe'
+            ? 'Approved (Community Override)'
+            : topLabel.status === 'danger'
+              ? 'Non-Approved (Community Override)'
+              : 'Unknown (Community Label)';
+        }
+
         details = {
           source: 'community',
           topLabel,
@@ -772,9 +925,9 @@ function App() {
               primaryMatch: allMatches.novel[0]
             };
           } else if (isAuthorized) {
-            // Authorized or not novel → UNKNOWN (not in pharma guide, but novel food says OK)
-            status = 'unknown';
-            statusText = 'Unknown (Not in Substance Guide)';
+            // Authorized or not novel → APPROVED (Novel Food says OK)
+            status = 'safe';
+            statusText = 'Approved';
             details = {
               source: 'multiple',
               matches: allMatches,
@@ -795,10 +948,10 @@ function App() {
 
       // If still unknown and no matches, try translating from Swedish to English
       // Only translate the main name (Swedish common name), not the Latin name in parentheses
-      if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel) {
-        console.log(`\n🌐 TIER 2: TRANSLATION + EXACT MATCH`);
-        console.log(`  📝 Translating "${mainName}"...`);
+      // Check if translation is enabled and text appears to be Swedish
+      const shouldTranslate = enableTranslation && detectSwedishText(mainName);
 
+      if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel && shouldTranslate) {
         setAnalysisProgress({
           step: `Translating "${mainName}"...`,
           current: index + 1,
@@ -808,8 +961,6 @@ function App() {
         translationResult = await translateText(mainName);
 
         if (translationResult && translationResult.translatedText.toLowerCase() !== ingredient.toLowerCase()) {
-          console.log(`  ✅ Translated: "${mainName}" → "${translationResult.translatedText}"`);
-          console.log(`  🔎 Searching databases with translated term...`);
           // Search again with translated term
           const translatedNormalized = normalizeText(translationResult.translatedText);
           const translatedCacheKey = translatedNormalized;
@@ -1023,7 +1174,7 @@ function App() {
       // TIER 3 & 4: Fuzzy search as last resort (after exact match and translation failed)
       if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel) {
         setAnalysisProgress({
-          step: `Fuzzy searching "${ingredient}"...`,
+          step: `Fuzzy searching "${ingredient.slice(0, 10)}${ingredient.length > 10 ? "..." : ""}"`,
           current: index + 1,
           total: ingredients.length
         });
@@ -1088,27 +1239,39 @@ function App() {
             };
           }
         } else {
-          // No user match - perform fuzzy search
-          console.log(`\n🔮 TIER 3 & 4: FUZZY SEARCH`);
+          // No user match - try AI semantic search first, then fall back to fuzzy
+          console.log(`\n🔮 TIER 3: AI SEMANTIC SEARCH`);
           const fuzzyMatches = [];
 
-          // Tier 3: Fuzzy search on original terms
-          console.log(`  🔎 Tier 3: Fuzzy searching original terms...`);
-          searchTerms.forEach(term => {
-            console.log(`    Searching: "${term}"`);
-            const pharmaFuzzy = fuzzySearch(term, pharmaceuticals, 'pharma');
-            const novelFuzzy = fuzzySearch(term, novelFoods, 'novel_food');
+          // Try AI semantic search first
+          const aiResults = await aiSemanticSearch(mainName);
+          if (aiResults && aiResults.length > 0) {
+            console.log(`  🤖 AI Search found ${aiResults.length} matches`);
+            aiResults.forEach(match => fuzzyMatches.push({
+              term: mainName,
+              ...match,
+              searchedTerm: mainName,
+              wasTranslated: false
+            }));
+          } else {
+            // Fall back to traditional fuzzy search
+            console.log(`  🔎 Tier 3: Falling back to fuzzy search...`);
+            searchTerms.forEach(term => {
+              console.log(`    Searching: "${term}"`);
+              const pharmaFuzzy = fuzzySearch(term, pharmaceuticals, 'pharma');
+              const novelFuzzy = fuzzySearch(term, novelFoods, 'novel_food');
 
-            if (pharmaFuzzy.length > 0) {
-              console.log(`      Found ${pharmaFuzzy.length} pharma fuzzy matches (best: ${pharmaFuzzy[0].confidence}%)`);
-            }
-            if (novelFuzzy.length > 0) {
-              console.log(`      Found ${novelFuzzy.length} novel food fuzzy matches (best: ${novelFuzzy[0].confidence}%)`);
-            }
+              if (pharmaFuzzy.length > 0) {
+                console.log(`      Found ${pharmaFuzzy.length} pharma fuzzy matches (best: ${pharmaFuzzy[0].confidence}%)`);
+              }
+              if (novelFuzzy.length > 0) {
+                console.log(`      Found ${novelFuzzy.length} novel food fuzzy matches (best: ${novelFuzzy[0].confidence}%)`);
+              }
 
-            pharmaFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term, wasTranslated: false }));
-            novelFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term, wasTranslated: false }));
-          });
+              pharmaFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term, wasTranslated: false }));
+              novelFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term, wasTranslated: false }));
+            });
+          }
 
           // Tier 4: Fuzzy search on translated term (if we translated earlier)
           if (translationResult && translationResult.translatedText) {
@@ -1223,16 +1386,48 @@ function App() {
             }
           } else {
             console.log(`  ❌ No fuzzy matches found`);
+            // Still store empty fuzzyMatches array for UI to show "no matches" message
+            details = {
+              source: 'no_matches',
+              fuzzyMatches: [],
+              matches: allMatches
+            };
           }
         }
       }
 
-      // Ensure all ingredients have source: 'multiple' for consistent display
+      // Ensure all ingredients have source and fuzzyMatches
       if (!details || !details.source) {
         details = {
           source: 'multiple',
-          matches: allMatches
+          matches: allMatches,
+          fuzzyMatches: []
         };
+      }
+
+      // Always perform fuzzy search for ingredients with no exact match
+      // to provide fuzzyMatches for the button
+      if (!details.fuzzyMatches && (status === 'unknown' || !allMatches.pharma.length && !allMatches.novel.length)) {
+        const fuzzyMatches = [];
+        searchTerms.forEach(term => {
+          const pharmaFuzzy = fuzzySearch(term, pharmaceuticals, 'pharma');
+          const novelFuzzy = fuzzySearch(term, novelFoods, 'novel_food');
+          pharmaFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term }));
+          novelFuzzy.forEach(match => fuzzyMatches.push({ term, ...match, searchedTerm: term }));
+        });
+
+        fuzzyMatches.sort((a, b) => b.confidence - a.confidence);
+        const uniqueMatches = [];
+        const seen = new Set();
+        for (const match of fuzzyMatches) {
+          const key = match.database === 'novel_food' ? match.item.policy_item_code : match.item.name;
+          if (!seen.has(key)) {
+            seen.add(key);
+            uniqueMatches.push(match);
+          }
+        }
+
+        details.fuzzyMatches = uniqueMatches.slice(0, 10);
       }
 
       console.log(`\n${'─'.repeat(80)}`);
@@ -1263,6 +1458,22 @@ function App() {
     setAnalyzedIngredients(analyzed);
     setAnalysisTime(timeTaken);
     setAnalyzing(false);
+
+    // Save search history if user is logged in
+    if (user) {
+      try {
+        await supabase
+          .from('search_history')
+          .insert({
+            user_id: user.id,
+            ingredients_list: ingredients,
+            searched_at: new Date().toISOString()
+          });
+        console.log('Search history saved');
+      } catch (error) {
+        console.error('Error saving search history:', error);
+      }
+    }
   };
 
   // Safely strip HTML tags without using innerHTML (prevents XSS)
@@ -1280,15 +1491,21 @@ function App() {
         <div className="card header-input-combined">
           <div className="header-content">
             <div>
-              <h1>Ingredient Safety Checker</h1>
+              <h1>SupplementSafe - Supplement Safety Checker</h1>
               <p>
-                Search the EU Novel Foods Catalogue and Pharmaceutical Database for compliance checking
+                Searches the EU Novel Foods Catalogue and Ämnesguiden Database for compliance checking
               </p>
             </div>
             <div className="header-actions">
               {user ? (
                 <div className="user-info">
-                  <span className="user-email">{user.email}</span>
+                  <span
+                    className="user-email clickable"
+                    onClick={() => setShowProfile(true)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {user.email}
+                  </span>
                   <button
                     className="btn-logout"
                     onClick={async () => {
@@ -1307,20 +1524,40 @@ function App() {
                   Sign In
                 </button>
               )}
-              <button
-                className="help-button"
-                onClick={() => setShowHelp(true)}
-                title="Help - Color Guide"
-              >
-                ?
-              </button>
             </div>
           </div>
 
-          <div className="input-section">
-            <label className="label">
-              Enter Ingredients List
-            </label>
+          {showProfile ? (
+            <UserProfile
+              user={user}
+              onBack={() => setShowProfile(false)}
+              onEditLabel={handleEditLabel}
+            />
+          ) : (
+            <div className="input-section">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <label className="label" style={{ margin: 0 }}>
+                  Enter Ingredients List
+                </label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {/* Swedish detection indicator */}
+                  {detectSwedishText(ingredientsList) && (
+                    <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <span className="material-symbols-rounded" style={{ fontSize: '1rem', color: '#3b82f6' }}>
+                        info
+                      </span>
+                      Swedish text detected
+                    </span>
+                  )}
+                  <button
+                    className="help-button"
+                    onClick={() => setShowHelp(true)}
+                    title="Help - Color Guide"
+                  >
+                    ?
+                  </button>
+                </div>
+            </div>
             <textarea
               placeholder="Paste ingredients list here... (e.g., NAC, Vitamin C, Spirulina, Melatonin)"
               value={ingredientsList}
@@ -1340,23 +1577,45 @@ function App() {
                   </span>
                 )}
               </div>
-              <button
-                onClick={analyzeIngredients}
-                disabled={loading || !ingredientsList.trim() || analyzing}
-                className="btn-analyze"
-              >
-                {analyzing ? (
-                  <span className="analyzing-text">
-                    <span className="spinner"></span>
-                    {analysisProgress.step}
-                    {analysisProgress.total > 0 && ` (${analysisProgress.current}/${analysisProgress.total})`}
+
+              {/* Translation Toggle and Analyze Button */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                <button
+                  onClick={() => {
+                    const newValue = !enableTranslation;
+                    setEnableTranslation(newValue);
+                    localStorage.setItem('enableTranslation', newValue.toString());
+                  }}
+                  className={`btn-translation-toggle ${enableTranslation ? 'active' : ''}`}
+                  title={enableTranslation ? 'Translation enabled (click to disable)' : 'Translation disabled (click to enable)'}
+                >
+                  <span className="material-symbols-rounded" style={{ fontSize: '1.25rem' }}>
+                    {enableTranslation ? 'translate' : 'g_translate'}
                   </span>
-                ) : (
-                  'Analyze'
-                )}
-              </button>
+                  <span>
+                    {enableTranslation ? 'Auto-translate Swedish' : 'Translation disabled'}
+                  </span>
+                </button>
+
+                <button
+                  onClick={analyzeIngredients}
+                  disabled={loading || !ingredientsList.trim() || analyzing}
+                  className="btn-analyze"
+                >
+                  {analyzing ? (
+                    <span className="analyzing-text">
+                      <span className="spinner"></span>
+                      {analysisProgress.step}
+                      {analysisProgress.total > 0 && ` (${analysisProgress.current}/${analysisProgress.total})`}
+                    </span>
+                  ) : (
+                    'Analyze'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
+          )}
         </div>
 
         {/* Full Screen Help Modal */}
@@ -1364,7 +1623,7 @@ function App() {
           <div className="modal-overlay" onClick={() => setShowHelp(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h2>How to Use the Ingredient Safety Checker</h2>
+                <h2>How to Use the SupplementSafe</h2>
                 <button onClick={() => setShowHelp(false)} className="modal-close">×</button>
               </div>
 
@@ -1395,7 +1654,7 @@ function App() {
                         <ul>
                           <li>✓ If "Not novel" or "Authorized" → <strong>APPROVED</strong></li>
                           <li>❌ If "Novel food" (requires authorization) → <strong>NON-APPROVED</strong></li>
-                          <li>❓ If not found anywhere → <strong>UNKNOWN</strong></li>
+                          <li><span className="material-symbols-rounded">question_mark</span> If not found anywhere → <strong>UNKNOWN</strong></li>
                         </ul>
                       </div>
                     </div>
@@ -1449,7 +1708,7 @@ function App() {
                     <div className="color-guide-item">
                       <span className="help-badge ingredient-unknown">Example</span>
                       <div>
-                        <h4>⚪ Purple - Unknown</h4>
+                        <h4>⚪ Blue - Unknown</h4>
                         <p><strong>No information</strong> found in databases (even after translation attempt). You can add a community label to help others!</p>
                       </div>
                     </div>
@@ -1472,7 +1731,7 @@ function App() {
         )}
 
         {/* Results */}
-        {analyzedIngredients.length > 0 && (
+        {!showProfile && analyzedIngredients.length > 0 && (
           <div className="card results-card">
             <h2 className="results-header">
               Analysis Results ({analyzedIngredients.length} ingredients{analysisTime ? ` in ${analysisTime}s` : ''})
@@ -1492,6 +1751,11 @@ function App() {
                         ? 'ingredient-info'
                         : 'ingredient-unknown'
                     }`}
+                    style={ingredient.topLabel?.custom_status_color ? {
+                      backgroundColor: ingredient.topLabel.custom_status_color + '40',
+                      color: '#1f2937',
+                      borderColor: ingredient.topLabel.custom_status_color
+                    } : {}}
                     onClick={() => setSelectedIngredient(
                       selectedIngredient === idx ? null : idx
                     )}
@@ -1515,7 +1779,7 @@ function App() {
                     <span className="details-icon">
                       {analyzedIngredients[selectedIngredient].status === 'danger' ? '🔴' :
                        analyzedIngredients[selectedIngredient].status === 'safe' ? '🟢' :
-                       analyzedIngredients[selectedIngredient].status === 'info' ? 'ℹ️' : '❓'}
+                       analyzedIngredients[selectedIngredient].status === 'info' ? 'ℹ️' : <span className="material-symbols-rounded">question_mark</span>}
                     </span>
                     <h3>
                       {analyzedIngredients[selectedIngredient].name}
@@ -1529,21 +1793,36 @@ function App() {
                   </button>
                 </div>
 
-                <div className={`status-badge ${
-                  analyzedIngredients[selectedIngredient].status === 'danger'
-                    ? 'status-badge-danger'
-                    : analyzedIngredients[selectedIngredient].status === 'safe'
-                    ? 'status-badge-safe'
-                    : analyzedIngredients[selectedIngredient].status === 'info'
-                    ? 'status-badge-info'
-                    : 'status-badge-unknown'
-                }`}>
+                <div
+                  className={`status-badge ${
+                    analyzedIngredients[selectedIngredient].status === 'danger'
+                      ? 'status-badge-danger'
+                      : analyzedIngredients[selectedIngredient].status === 'safe'
+                      ? 'status-badge-safe'
+                      : analyzedIngredients[selectedIngredient].status === 'info'
+                      ? 'status-badge-info'
+                      : 'status-badge-unknown'
+                  }`}
+                  style={analyzedIngredients[selectedIngredient].topLabel?.custom_status_color ? {
+                    backgroundColor: analyzedIngredients[selectedIngredient].topLabel.custom_status_color + '40',
+                    color: '#1f2937',
+                    borderColor: analyzedIngredients[selectedIngredient].topLabel.custom_status_color
+                  } : {}}
+                >
                   {analyzedIngredients[selectedIngredient].statusText}
                 </div>
 
                 <div className="details-content">
                   {/* Process Flow Visualization */}
                   <div className="process-flow">
+                    {(() => {
+                      const ingredient = analyzedIngredients[selectedIngredient];
+                      console.log(`🔍 UI Display for "${ingredient.name}":`);
+                      console.log(`   details:`, ingredient.details);
+                      console.log(`   details.source:`, ingredient.details?.source);
+                      console.log(`   details.matches:`, ingredient.details?.matches);
+                      return null;
+                    })()}
                     {analyzedIngredients[selectedIngredient].details && (analyzedIngredients[selectedIngredient].details.source === 'multiple' || (analyzedIngredients[selectedIngredient].details.source === 'community' && analyzedIngredients[selectedIngredient].details.databaseMatches)) ? (
                       <>
                         <div>
@@ -1602,9 +1881,9 @@ function App() {
                                       )}
                                     </div>
 
-                                    {/* Step 2: Novel Food Check - Only if passed Step 1 */}
+                                    {/* Step 2: Novel Food Check */}
                                     <div className={`process-step ${
-                                      !pharmaForTerm || pharmaForTerm.result.item.is_medicine
+                                      pharmaForTerm && pharmaForTerm.result.item.is_medicine
                                         ? 'step-skipped'
                                         : novelForTerm
                                           ? (() => {
@@ -1615,14 +1894,14 @@ function App() {
                                                                    novelStatus === 'Not novel in food supplements';
                                               return isActuallyNovel ? 'step-failed' : isAuthorized ? 'step-passed' : 'step-warning';
                                             })()
-                                          : 'step-passed'
+                                          : 'step-not-found'
                                     }`}>
                                       <div className="step-header">
                                         <span className="step-number">2</span>
                                         <span className="step-title">Compare with EU Novel Food Catalogue</span>
                                         <span className="step-status">
-                                          {!pharmaForTerm || pharmaForTerm.result.item.is_medicine
-                                            ? '⊘ Skipped'
+                                          {pharmaForTerm && pharmaForTerm.result.item.is_medicine
+                                            ? '⊘ Skipped (Failed Step 1)'
                                             : novelForTerm
                                               ? (() => {
                                                   const novelStatus = novelForTerm.result.item.novel_food_status;
@@ -1630,12 +1909,12 @@ function App() {
                                                   const isAuthorized = novelStatus === 'Authorised novel food' ||
                                                                        novelStatus === 'Not novel in food' ||
                                                                        novelStatus === 'Not novel in food supplements';
-                                                  return isActuallyNovel ? '❌ Found (Non-Approved)' : isAuthorized ? '✓ Found (Approved)' : '❓ Found (Review Needed)';
+                                                  return isActuallyNovel ? '❌ Found (Non-Approved)' : isAuthorized ? '✓ Found (Approved)' : <><span className="material-symbols-rounded">question_mark</span> Found (Review Needed)</>;
                                                 })()
-                                              : '✓ Not Found (Approved)'}
+                                              : '✗ Not Found'}
                                         </span>
                                       </div>
-                                      {pharmaForTerm && !pharmaForTerm.result.item.is_medicine && novelForTerm && (
+                                      {novelForTerm && !(pharmaForTerm && pharmaForTerm.result.item.is_medicine) && (
                                         <div className="step-details">
                                           <p><strong>Matched as:</strong> {novelForTerm.result.item.novel_food_name}</p>
                                           {novelForTerm.result.item.common_name && (
@@ -1652,7 +1931,7 @@ function App() {
                                               ? <p className="error-note">❌ Novel Food found → Non-Approved</p>
                                               : isAuthorized
                                                 ? <p className="success-note">✓ Not novel / Authorized → Approved</p>
-                                                : <p className="warning-note">❓ Status unclear → Needs review</p>;
+                                                : <p className="warning-note"><span className="material-symbols-rounded">question_mark</span> Status unclear → Needs review</p>;
                                           })()}
                                         </div>
                                       )}
@@ -1670,7 +1949,13 @@ function App() {
                                             })()
                                           : pharmaForTerm && !novelForTerm
                                             ? 'result-approved'
-                                            : 'result-unknown'
+                                            : !pharmaForTerm && novelForTerm
+                                              ? (() => {
+                                                  const novelStatus = novelForTerm.result.item.novel_food_status;
+                                                  const isActuallyNovel = novelStatus === 'Novel food';
+                                                  return isActuallyNovel ? 'result-rejected' : 'result-unknown';
+                                                })()
+                                              : 'result-unknown'
                                     }`}>
                                       <strong>Final Result:</strong> {
                                         pharmaForTerm && pharmaForTerm.result.item.is_medicine
@@ -1686,11 +1971,22 @@ function App() {
                                                   ? '❌ NON-APPROVED (Novel Food - Requires Authorization)'
                                                   : isAuthorized
                                                     ? '✓ APPROVED'
-                                                    : '❓ UNKNOWN (Novel Food Under Review)';
+                                                    : <><span className="material-symbols-rounded">question_mark</span> UNKNOWN (Novel Food Under Review)</>;
                                               })()
                                             : pharmaForTerm && !novelForTerm
                                               ? '✓ APPROVED'
-                                              : '❓ UNKNOWN (Not in Substance Guide)'
+                                              : !pharmaForTerm && novelForTerm
+                                                ? (() => {
+                                                    const novelStatus = novelForTerm.result.item.novel_food_status;
+                                                    const isActuallyNovel = novelStatus === 'Novel food';
+                                                    const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                                                         novelStatus === 'Not novel in food' ||
+                                                                         novelStatus === 'Not novel in food supplements';
+                                                    return isActuallyNovel
+                                                      ? '❌ NON-APPROVED (Novel Food - Requires Authorization)'
+                                                      : <><span className="material-symbols-rounded">question_mark</span> UNKNOWN (Not in Substance Guide)</>;
+                                                  })()
+                                                : <><span className="material-symbols-rounded">question_mark</span> UNKNOWN (Not in Substance Guide)</>
                                       }
                                     </div>
                                   </div>
@@ -1726,7 +2022,7 @@ function App() {
 
                                   {/* Final Result */}
                                   <div className="final-result result-unknown">
-                                    <strong>Final Result:</strong> ❓ UNKNOWN (Not in Substance Guide)
+                                    <strong>Final Result:</strong> <span className="material-symbols-rounded">question_mark</span> UNKNOWN (Not in Substance Guide)
                                   </div>
                                 </div>
                               );
@@ -1734,37 +2030,41 @@ function App() {
                           })()}
                         </div>
 
-                        {/* Show fuzzy match button if fuzzy matches are available */}
-                        {analyzedIngredients[selectedIngredient].details?.fuzzyMatches &&
-                         analyzedIngredients[selectedIngredient].details.fuzzyMatches.length > 0 && (
+                        {/* Always show fuzzy match section for unknown ingredients */}
+                        {analyzedIngredients[selectedIngredient].status === 'unknown' && (
                           <div style={{ textAlign: 'center', padding: '1rem', marginTop: '1rem' }}>
-                            <button
-                              className="btn-select-match"
-                              onClick={() => {
-                                setMatchSelectorData({
-                                  ingredient: analyzedIngredients[selectedIngredient].name,
-                                  fuzzyMatches: analyzedIngredients[selectedIngredient].details.fuzzyMatches
-                                });
-                                setShowMatchSelector(true);
-                              }}
-                            >
-                              🔍 {analyzedIngredients[selectedIngredient].details?.requiresUserSelection
-                                ? `Select from ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Fuzzy Matches`
-                                : `View ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Alternative Matches`}
-                            </button>
+                            {analyzedIngredients[selectedIngredient].details?.fuzzyMatches?.length > 0 ? (
+                              <button
+                                className="btn-select-match"
+                                onClick={() => {
+                                  setMatchSelectorData({
+                                    ingredient: analyzedIngredients[selectedIngredient].name,
+                                    fuzzyMatches: analyzedIngredients[selectedIngredient].details.fuzzyMatches
+                                  });
+                                  setShowMatchSelector(true);
+                                }}
+                              >
+                                🔍 {analyzedIngredients[selectedIngredient].details?.requiresUserSelection
+                                  ? `Select from ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Fuzzy Matches`
+                                  : `View ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Similar Matches`}
+                              </button>
+                            ) : (
+                              <p style={{ color: '#6b7280', fontStyle: 'italic', fontSize: '0.875rem' }}>
+                                No similar ingredients found in our databases
+                              </p>
+                            )}
                           </div>
                         )}
                       </>
                     ) : (
                       <div>
                         <p style={{ color: '#6b7280', textAlign: 'center', padding: '1rem' }}>
-                          ❓ No information found for this ingredient in either the Substance Guide or Novel Food Catalogue.
+                          <span className="material-symbols-rounded">question_mark</span> No information found for this ingredient in either the Substance Guide or Novel Food Catalogue.
                         </p>
 
-                        {/* Show fuzzy match button if fuzzy matches are available */}
-                        {analyzedIngredients[selectedIngredient].details?.fuzzyMatches &&
-                         analyzedIngredients[selectedIngredient].details.fuzzyMatches.length > 0 && (
-                          <div style={{ textAlign: 'center', padding: '1rem' }}>
+                        {/* Always show fuzzy match section */}
+                        <div style={{ textAlign: 'center', padding: '1rem' }}>
+                          {analyzedIngredients[selectedIngredient].details?.fuzzyMatches?.length > 0 ? (
                             <button
                               className="btn-select-match"
                               onClick={() => {
@@ -1774,13 +2074,23 @@ function App() {
                                 });
                                 setShowMatchSelector(true);
                               }}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '0.4rem' // space between icon and text
+                              }}
                             >
-                              🔍 {analyzedIngredients[selectedIngredient].details?.requiresUserSelection
+                              <span className="material-symbols-rounded" style={{display: 'flex', fontSize: '20px', textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}>search</span> {analyzedIngredients[selectedIngredient].details?.requiresUserSelection
                                 ? `Select from ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Fuzzy Matches`
-                                : `View ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Alternative Matches`}
+                                : `View ${analyzedIngredients[selectedIngredient].details.fuzzyMatches.length} Similar Matches`}
                             </button>
-                          </div>
-                        )}
+                          ) : (
+                            <p style={{ color: '#6b7280', fontStyle: 'italic', fontSize: '0.875rem', margin: 0 }}>
+                              No similar ingredients found in our databases
+                            </p>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1798,15 +2108,15 @@ function App() {
 
                   {/* Add Label Button */}
                   <div className="add-label-section">
+                    {!user && (
+                      <p className="label-hint">Sign in to add labels and vote</p>
+                    )}
                     <button
                       className="btn-add-label"
                       onClick={() => handleCreateLabel(analyzedIngredients[selectedIngredient])}
                     >
                       + Add Community Label
                     </button>
-                    {!user && (
-                      <p className="label-hint">Sign in to add labels and vote</p>
-                    )}
                   </div>
                 </div>
               </div>
@@ -1861,21 +2171,50 @@ function App() {
             <div className="footer-section">
               <h3>The Solution</h3>
               <p>
-                This tool automatically analyzes ingredient lists from e-commerce sites and cross-checks them with official databases.
+                This tool automatically cross-checks ingredients with official databases.
                 It helps inspectors save time, reduce unsafe supplements on the market, and simplify their work.
                 Developed as part of a hackathon with <strong>UU AI Society</strong> for <strong>Uppsala Municipality</strong>.
               </p>
             </div>
             <div className="footer-section">
-              <h3>Disclaimer</h3>
-              <p>
-                This tool is for informational purposes only. Always consult official regulatory
-                sources for final compliance decisions.
-              </p>
+              <h3>Creators</h3>
+                <div className="creator">
+                  <p className="creator-name">Gustav Benkowski</p>
+                  <div className="creator-links">
+                    <a href="https://github.com/nicheen" target="_blank" rel="noopener noreferrer" title="GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="creator">
+                  <p className="creator-name">Thant Zin Bo</p>
+                  <div className="creator-links">
+                    <a href="https://github.com/Thant-Zin-Bo" target="_blank" rel="noopener noreferrer" title="GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="creator">
+                  <p className="creator-name">Jyo</p>
+                  <div className="creator-links">
+                    <a href="https://github.com/jyothiskb9" target="_blank" rel="noopener noreferrer" title="GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
             </div>
+
           </div>
           <div className="footer-bottom">
-            <p>&copy; {new Date().getFullYear()} UU AI Society Hackathon Project | Uppsala Municipality</p>
+            <p>&copy; 2025 UU AI Society Hackathon Project | Uppsala Municipality</p>
           </div>
         </footer>
       </div>

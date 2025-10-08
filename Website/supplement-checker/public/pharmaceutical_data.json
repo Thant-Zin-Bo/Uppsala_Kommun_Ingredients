@@ -49,6 +49,12 @@
     "comment": "Ämnet har funnits i läkemedel internationellt."
   },
   {
+    "name": "Aloe",
+    "synonyms": [],
+    "is_medicine": false,
+    "comment": "Aloe-produkter som innehåller antraquinoner kan vara läkemedel, då dessa ämnen kan ha en laxerande effekt."
+  },
+  {
     "name": "Aesculus hippocastanum",
     "synonyms": [],
     "is_medicine": false,

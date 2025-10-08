@@ -27,10 +27,13 @@ function ManualLabelModal({ ingredient, user, onClose, onSuccess, existingLabel 
     try {
       let data, error
 
+      // Map "custom" status to "unknown" for database storage
+      const dbStatus = isCustomStatus ? 'unknown' : status
+
       if (isEditing) {
         ({ data, error } = await updateManualLabel(
           existingLabel.id,
-          status,
+          dbStatus,
           notes,
           isCustomStatus ? customStatusLabel.trim() : null,
           isCustomStatus ? customStatusColor : null
@@ -38,7 +41,7 @@ function ManualLabelModal({ ingredient, user, onClose, onSuccess, existingLabel 
       } else {
         ({ data, error } = await createManualLabel(
           ingredient.name,
-          status,
+          dbStatus,
           notes,
           user.id,
           isCustomStatus ? customStatusLabel.trim() : null,
@@ -114,8 +117,8 @@ function ManualLabelModal({ ingredient, user, onClose, onSuccess, existingLabel 
                       placeholder="✨ Custom Status"
                       className="custom-status-input"
                       style={{
-                        backgroundColor: customStatusColor + '20',
-                        color: customStatusColor,
+                        backgroundColor: customStatusColor + '40',
+                        color: '#1f2937',
                         borderColor: customStatusColor
                       }}
                       maxLength={30}

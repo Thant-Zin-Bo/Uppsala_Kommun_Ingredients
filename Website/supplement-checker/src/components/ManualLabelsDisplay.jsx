@@ -39,10 +39,20 @@ function ManualLabelsDisplay({ labels, user, onVoteUpdate, onEditLabel }) {
 
     setLoading(true)
     try {
-      await deleteManualLabel(labelId)
-      if (onVoteUpdate) onVoteUpdate()
+      console.log('Deleting label with ID:', labelId);
+      const { error } = await deleteManualLabel(labelId)
+      if (error) {
+        console.error('Delete failed:', error);
+        alert('Failed to delete label: ' + error.message);
+      } else {
+        console.log('Delete successful, calling onVoteUpdate');
+        if (onVoteUpdate) {
+          await onVoteUpdate();
+        }
+      }
     } catch (error) {
       console.error('Error deleting label:', error)
+      alert('Failed to delete label');
     } finally {
       setLoading(false)
     }
