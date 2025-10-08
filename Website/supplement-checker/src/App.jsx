@@ -1491,7 +1491,7 @@ function App() {
         <div className="card header-input-combined">
           <div className="header-content">
             <div>
-              <h1>SupplementSafe - Supplement Safety Checker</h1>
+              <h1>LabelSafe - Supplement Safety Checker</h1>
               <p>
                 Searches the EU Novel Foods Catalogue and Ämnesguiden Database for compliance checking
               </p>
@@ -1623,7 +1623,7 @@ function App() {
           <div className="modal-overlay" onClick={() => setShowHelp(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h2>How to Use the SupplementSafe</h2>
+                <h2>How to Use the LabelSafe</h2>
                 <button onClick={() => setShowHelp(false)} className="modal-close">×</button>
               </div>
 
