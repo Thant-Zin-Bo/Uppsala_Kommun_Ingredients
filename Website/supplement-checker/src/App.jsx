@@ -46,6 +46,19 @@ function App() {
   const [analysisProgress, setAnalysisProgress] = useState({ step: '', current: 0, total: 0 });
   const [showMatchSelector, setShowMatchSelector] = useState(false);
   const [matchSelectorData, setMatchSelectorData] = useState(null);
+  const [enableTranslation, setEnableTranslation] = useState(() => {
+    const saved = localStorage.getItem('enableTranslation');
+    return saved !== null ? saved === 'true' : true; // Default to enabled
+  });
+
+  // Smart detection of Swedish text
+  const detectSwedishText = (text) => {
+    if (!text) return false;
+
+    // Only check for Swedish-specific characters (å, ä, ö)
+    // This is the most reliable indicator of Swedish text
+    return /[åäöÅÄÖ]/.test(text);
+  };
 
   // Common safe minerals/vitamins that may not be in the pharmaceutical database
   // but are standard approved nutritional ingredients
@@ -168,11 +181,18 @@ function App() {
       if (topLabel) {
         // Community label exists - override automatic results
         status = topLabel.status
-        statusText = topLabel.status === 'safe'
-          ? 'Approved (Community Override)'
-          : topLabel.status === 'danger'
-            ? 'Non-Approved (Community Override)'
-            : 'Unknown (Community Label)'
+
+        // Use custom status label if it exists, otherwise use standard labels
+        if (topLabel.custom_status_label) {
+          statusText = `${topLabel.custom_status_label} (Community Label)`
+        } else {
+          statusText = topLabel.status === 'safe'
+            ? 'Approved (Community Override)'
+            : topLabel.status === 'danger'
+              ? 'Non-Approved (Community Override)'
+              : 'Unknown (Community Label)'
+        }
+
         details = {
           source: 'community',
           topLabel,
@@ -665,6 +685,16 @@ function App() {
       const topLabel = manualLabels.length > 0 ? manualLabels[0] : null
       const hasManualLabel = manualLabels.length > 0;
 
+      console.log(`\n📊 Match Summary:`);
+      console.log(`   Pharma matches: ${allMatches.pharma.length}`);
+      console.log(`   Novel Food matches: ${allMatches.novel.length}`);
+      if (allMatches.pharma.length > 0) {
+        allMatches.pharma.forEach(m => console.log(`     - Pharma: ${m.result.item.name} (is_medicine: ${m.result.item.is_medicine})`));
+      }
+      if (allMatches.novel.length > 0) {
+        allMatches.novel.forEach(m => console.log(`     - Novel: ${m.result.item.novel_food_name} (status: ${m.result.item.novel_food_status})`));
+      }
+
       // IMPORTANT: Community labels ALWAYS override automatic results
       // If there's a community label, use it regardless of database matches
       let status = 'unknown';
@@ -674,11 +704,18 @@ function App() {
       if (topLabel) {
         // Community label exists - use it and override any automatic results
         status = topLabel.status;
-        statusText = topLabel.status === 'safe'
-          ? 'Approved (Community Override)'
-          : topLabel.status === 'danger'
-            ? 'Non-Approved (Community Override)'
-            : 'Unknown (Community Label)';
+
+        // Use custom status label if it exists, otherwise use standard labels
+        if (topLabel.custom_status_label) {
+          statusText = `${topLabel.custom_status_label} (Community Label)`;
+        } else {
+          statusText = topLabel.status === 'safe'
+            ? 'Approved (Community Override)'
+            : topLabel.status === 'danger'
+              ? 'Non-Approved (Community Override)'
+              : 'Unknown (Community Label)';
+        }
+
         details = {
           source: 'community',
           topLabel,
@@ -755,7 +792,9 @@ function App() {
         }
         else if (allMatches.novel.length > 0) {
           // Not in Substance Guide but found in Novel Food
+          console.log(`⚠️ Novel Food ONLY match (not in Ämnesguiden)`);
           const novelStatus = allMatches.novel[0].result.item.novel_food_status;
+          console.log(`   Novel Food Status: "${novelStatus}"`);
           const isActuallyNovel = novelStatus === 'Novel food';
           const needsConsultation = novelStatus === 'Subject to a consultation request';
           const isAuthorized = novelStatus === 'Authorised novel food' ||
@@ -764,6 +803,7 @@ function App() {
 
           if (isActuallyNovel) {
             // Novel food requiring authorization → NOT APPROVED (RED)
+            console.log(`   → Setting status: DANGER (Novel food requires authorization)`);
             status = 'danger';
             statusText = 'Non-Approved (Novel Food - Requires Authorization)';
             details = {
@@ -772,9 +812,10 @@ function App() {
               primaryMatch: allMatches.novel[0]
             };
           } else if (isAuthorized) {
-            // Authorized or not novel → UNKNOWN (not in pharma guide, but novel food says OK)
-            status = 'unknown';
-            statusText = 'Unknown (Not in Substance Guide)';
+            // Authorized or not novel → APPROVED (Novel Food says OK)
+            console.log(`   → Setting status: APPROVED (Authorized/Not novel in Novel Food Catalogue)`);
+            status = 'safe';
+            statusText = 'Approved';
             details = {
               source: 'multiple',
               matches: allMatches,
@@ -782,6 +823,7 @@ function App() {
             };
           } else {
             // Under consultation or unknown
+            console.log(`   → Setting status: UNKNOWN (Under review/consultation)`);
             status = 'unknown';
             statusText = 'Unknown (Novel Food Under Review)';
             details = {
@@ -795,9 +837,13 @@ function App() {
 
       // If still unknown and no matches, try translating from Swedish to English
       // Only translate the main name (Swedish common name), not the Latin name in parentheses
-      if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel) {
+      // Check if translation is enabled and text appears to be Swedish
+      const shouldTranslate = enableTranslation && detectSwedishText(mainName);
+
+      if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel && shouldTranslate) {
         console.log(`\n🌐 TIER 2: TRANSLATION + EXACT MATCH`);
         console.log(`  📝 Translating "${mainName}"...`);
+        console.log(`  ✅ Swedish text detected, translation enabled`);
 
         setAnalysisProgress({
           step: `Translating "${mainName}"...`,
@@ -1280,7 +1326,7 @@ function App() {
         <div className="card header-input-combined">
           <div className="header-content">
             <div>
-              <h1>Ingredient Safety Checker</h1>
+              <h1>SupplementSafe - Ingredient Safety Checker</h1>
               <p>
                 Search the EU Novel Foods Catalogue and Pharmaceutical Database for compliance checking
               </p>
@@ -1318,9 +1364,20 @@ function App() {
           </div>
 
           <div className="input-section">
-            <label className="label">
-              Enter Ingredients List
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <label className="label" style={{ margin: 0 }}>
+                Enter Ingredients List
+              </label>
+              {/* Swedish detection indicator */}
+              {detectSwedishText(ingredientsList) && (
+                <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <span className="material-symbols-rounded" style={{ fontSize: '1rem', color: '#3b82f6' }}>
+                    info
+                  </span>
+                  Swedish text detected
+                </span>
+              )}
+            </div>
             <textarea
               placeholder="Paste ingredients list here... (e.g., NAC, Vitamin C, Spirulina, Melatonin)"
               value={ingredientsList}
@@ -1340,21 +1397,42 @@ function App() {
                   </span>
                 )}
               </div>
-              <button
-                onClick={analyzeIngredients}
-                disabled={loading || !ingredientsList.trim() || analyzing}
-                className="btn-analyze"
-              >
-                {analyzing ? (
-                  <span className="analyzing-text">
-                    <span className="spinner"></span>
-                    {analysisProgress.step}
-                    {analysisProgress.total > 0 && ` (${analysisProgress.current}/${analysisProgress.total})`}
+
+              {/* Translation Toggle and Analyze Button */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                <button
+                  onClick={() => {
+                    const newValue = !enableTranslation;
+                    setEnableTranslation(newValue);
+                    localStorage.setItem('enableTranslation', newValue.toString());
+                  }}
+                  className={`btn-translation-toggle ${enableTranslation ? 'active' : ''}`}
+                  title={enableTranslation ? 'Translation enabled (click to disable)' : 'Translation disabled (click to enable)'}
+                >
+                  <span className="material-symbols-rounded" style={{ fontSize: '1.25rem' }}>
+                    {enableTranslation ? 'translate' : 'g_translate'}
                   </span>
-                ) : (
-                  'Analyze'
-                )}
-              </button>
+                  <span>
+                    {enableTranslation ? 'Auto-translate Swedish' : 'Translation disabled'}
+                  </span>
+                </button>
+
+                <button
+                  onClick={analyzeIngredients}
+                  disabled={loading || !ingredientsList.trim() || analyzing}
+                  className="btn-analyze"
+                >
+                  {analyzing ? (
+                    <span className="analyzing-text">
+                      <span className="spinner"></span>
+                      {analysisProgress.step}
+                      {analysisProgress.total > 0 && ` (${analysisProgress.current}/${analysisProgress.total})`}
+                    </span>
+                  ) : (
+                    'Analyze'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1492,6 +1570,11 @@ function App() {
                         ? 'ingredient-info'
                         : 'ingredient-unknown'
                     }`}
+                    style={ingredient.topLabel?.custom_status_color ? {
+                      backgroundColor: ingredient.topLabel.custom_status_color + '40',
+                      color: '#1f2937',
+                      borderColor: ingredient.topLabel.custom_status_color
+                    } : {}}
                     onClick={() => setSelectedIngredient(
                       selectedIngredient === idx ? null : idx
                     )}
@@ -1529,21 +1612,36 @@ function App() {
                   </button>
                 </div>
 
-                <div className={`status-badge ${
-                  analyzedIngredients[selectedIngredient].status === 'danger'
-                    ? 'status-badge-danger'
-                    : analyzedIngredients[selectedIngredient].status === 'safe'
-                    ? 'status-badge-safe'
-                    : analyzedIngredients[selectedIngredient].status === 'info'
-                    ? 'status-badge-info'
-                    : 'status-badge-unknown'
-                }`}>
+                <div
+                  className={`status-badge ${
+                    analyzedIngredients[selectedIngredient].status === 'danger'
+                      ? 'status-badge-danger'
+                      : analyzedIngredients[selectedIngredient].status === 'safe'
+                      ? 'status-badge-safe'
+                      : analyzedIngredients[selectedIngredient].status === 'info'
+                      ? 'status-badge-info'
+                      : 'status-badge-unknown'
+                  }`}
+                  style={analyzedIngredients[selectedIngredient].topLabel?.custom_status_color ? {
+                    backgroundColor: analyzedIngredients[selectedIngredient].topLabel.custom_status_color + '40',
+                    color: '#1f2937',
+                    borderColor: analyzedIngredients[selectedIngredient].topLabel.custom_status_color
+                  } : {}}
+                >
                   {analyzedIngredients[selectedIngredient].statusText}
                 </div>
 
                 <div className="details-content">
                   {/* Process Flow Visualization */}
                   <div className="process-flow">
+                    {(() => {
+                      const ingredient = analyzedIngredients[selectedIngredient];
+                      console.log(`🔍 UI Display for "${ingredient.name}":`);
+                      console.log(`   details:`, ingredient.details);
+                      console.log(`   details.source:`, ingredient.details?.source);
+                      console.log(`   details.matches:`, ingredient.details?.matches);
+                      return null;
+                    })()}
                     {analyzedIngredients[selectedIngredient].details && (analyzedIngredients[selectedIngredient].details.source === 'multiple' || (analyzedIngredients[selectedIngredient].details.source === 'community' && analyzedIngredients[selectedIngredient].details.databaseMatches)) ? (
                       <>
                         <div>
@@ -1602,9 +1700,9 @@ function App() {
                                       )}
                                     </div>
 
-                                    {/* Step 2: Novel Food Check - Only if passed Step 1 */}
+                                    {/* Step 2: Novel Food Check */}
                                     <div className={`process-step ${
-                                      !pharmaForTerm || pharmaForTerm.result.item.is_medicine
+                                      pharmaForTerm && pharmaForTerm.result.item.is_medicine
                                         ? 'step-skipped'
                                         : novelForTerm
                                           ? (() => {
@@ -1615,14 +1713,14 @@ function App() {
                                                                    novelStatus === 'Not novel in food supplements';
                                               return isActuallyNovel ? 'step-failed' : isAuthorized ? 'step-passed' : 'step-warning';
                                             })()
-                                          : 'step-passed'
+                                          : 'step-not-found'
                                     }`}>
                                       <div className="step-header">
                                         <span className="step-number">2</span>
                                         <span className="step-title">Compare with EU Novel Food Catalogue</span>
                                         <span className="step-status">
-                                          {!pharmaForTerm || pharmaForTerm.result.item.is_medicine
-                                            ? '⊘ Skipped'
+                                          {pharmaForTerm && pharmaForTerm.result.item.is_medicine
+                                            ? '⊘ Skipped (Failed Step 1)'
                                             : novelForTerm
                                               ? (() => {
                                                   const novelStatus = novelForTerm.result.item.novel_food_status;
@@ -1632,10 +1730,10 @@ function App() {
                                                                        novelStatus === 'Not novel in food supplements';
                                                   return isActuallyNovel ? '❌ Found (Non-Approved)' : isAuthorized ? '✓ Found (Approved)' : '❓ Found (Review Needed)';
                                                 })()
-                                              : '✓ Not Found (Approved)'}
+                                              : '✗ Not Found'}
                                         </span>
                                       </div>
-                                      {pharmaForTerm && !pharmaForTerm.result.item.is_medicine && novelForTerm && (
+                                      {novelForTerm && !(pharmaForTerm && pharmaForTerm.result.item.is_medicine) && (
                                         <div className="step-details">
                                           <p><strong>Matched as:</strong> {novelForTerm.result.item.novel_food_name}</p>
                                           {novelForTerm.result.item.common_name && (
@@ -1670,7 +1768,13 @@ function App() {
                                             })()
                                           : pharmaForTerm && !novelForTerm
                                             ? 'result-approved'
-                                            : 'result-unknown'
+                                            : !pharmaForTerm && novelForTerm
+                                              ? (() => {
+                                                  const novelStatus = novelForTerm.result.item.novel_food_status;
+                                                  const isActuallyNovel = novelStatus === 'Novel food';
+                                                  return isActuallyNovel ? 'result-rejected' : 'result-unknown';
+                                                })()
+                                              : 'result-unknown'
                                     }`}>
                                       <strong>Final Result:</strong> {
                                         pharmaForTerm && pharmaForTerm.result.item.is_medicine
@@ -1690,7 +1794,18 @@ function App() {
                                               })()
                                             : pharmaForTerm && !novelForTerm
                                               ? '✓ APPROVED'
-                                              : '❓ UNKNOWN (Not in Substance Guide)'
+                                              : !pharmaForTerm && novelForTerm
+                                                ? (() => {
+                                                    const novelStatus = novelForTerm.result.item.novel_food_status;
+                                                    const isActuallyNovel = novelStatus === 'Novel food';
+                                                    const isAuthorized = novelStatus === 'Authorised novel food' ||
+                                                                         novelStatus === 'Not novel in food' ||
+                                                                         novelStatus === 'Not novel in food supplements';
+                                                    return isActuallyNovel
+                                                      ? '❌ NON-APPROVED (Novel Food - Requires Authorization)'
+                                                      : '❓ UNKNOWN (Not in Substance Guide)';
+                                                  })()
+                                                : '❓ UNKNOWN (Not in Substance Guide)'
                                       }
                                     </div>
                                   </div>
@@ -1861,18 +1976,77 @@ function App() {
             <div className="footer-section">
               <h3>The Solution</h3>
               <p>
-                This tool automatically analyzes ingredient lists from e-commerce sites and cross-checks them with official databases.
+                This tool automatically cross-checks ingredients with official databases.
                 It helps inspectors save time, reduce unsafe supplements on the market, and simplify their work.
                 Developed as part of a hackathon with <strong>UU AI Society</strong> for <strong>Uppsala Municipality</strong>.
               </p>
             </div>
             <div className="footer-section">
-              <h3>Disclaimer</h3>
-              <p>
-                This tool is for informational purposes only. Always consult official regulatory
-                sources for final compliance decisions.
-              </p>
+              <h3>Creators</h3>
+                <div className="creator">
+                  <p className="creator-name">Gustav Benkowski</p>
+                  <div className="creator-links">
+                    <a href="mailto:gustav.benkowski@gmail.com" target="_blank" rel="noopener noreferrer" title="Email">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                      </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/gustav-benkowski" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                    </a>
+                    <a href="https://github.com/nicheen" target="_blank" rel="noopener noreferrer" title="GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="creator">
+                  <p className="creator-name">Thant Zin Bo</p>
+                  <div className="creator-links">
+                    <a href="mailto:thantzinbo@gmail.com" target="_blank" rel="noopener noreferrer" title="Email">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                      </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/thantzinbo" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                    </a>
+                    <a href="https://github.com/thantzinbo" target="_blank" rel="noopener noreferrer" title="GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="creator">
+                  <p className="creator-name">Jyo</p>
+                  <div className="creator-links">
+                    <a href="mailto:jyo@gmail.com" target="_blank" rel="noopener noreferrer" title="Email">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                      </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jyo" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                    </a>
+                    <a href="https://github.com/jyo" target="_blank" rel="noopener noreferrer" title="GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
             </div>
+
           </div>
           <div className="footer-bottom">
             <p>&copy; {new Date().getFullYear()} UU AI Society Hackathon Project | Uppsala Municipality</p>
