@@ -1539,22 +1539,24 @@ function App() {
                 <label className="label" style={{ margin: 0 }}>
                   Enter Ingredients List
                 </label>
-                <button
-                className="help-button"
-                onClick={() => setShowHelp(true)}
-                title="Help - Color Guide"
-              >
-                ?
-              </button>
-              {/* Swedish detection indicator */}
-              {detectSwedishText(ingredientsList) && (
-                <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <span className="material-symbols-rounded" style={{ fontSize: '1rem', color: '#3b82f6' }}>
-                    info
-                  </span>
-                  Swedish text detected
-                </span>
-              )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {/* Swedish detection indicator */}
+                  {detectSwedishText(ingredientsList) && (
+                    <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <span className="material-symbols-rounded" style={{ fontSize: '1rem', color: '#3b82f6' }}>
+                        info
+                      </span>
+                      Swedish text detected
+                    </span>
+                  )}
+                  <button
+                    className="help-button"
+                    onClick={() => setShowHelp(true)}
+                    title="Help - Color Guide"
+                  >
+                    ?
+                  </button>
+                </div>
             </div>
             <textarea
               placeholder="Paste ingredients list here... (e.g., NAC, Vitamin C, Spirulina, Melatonin)"
