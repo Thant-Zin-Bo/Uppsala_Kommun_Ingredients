@@ -554,11 +554,11 @@ function App() {
   const fuzzySearch = (searchTerm, database, databaseType) => {
     const fuseOptions = {
       keys: ['name', 'name_normalized', 'novel_food_name', 'synonyms'],
-      threshold: 0.4, // 0.0 = exact match, 1.0 = match anything
+      threshold: 0.25, // 0.0 = exact match, 1.0 = match anything
       includeScore: true,
-      minMatchCharLength: 3,
-      ignoreLocation: true,
-      distance: 100
+      minMatchCharLength: 2,
+      ignoreLocation: false,
+      distance: 30
     };
 
     const fuse = new Fuse(database, fuseOptions);
@@ -671,10 +671,6 @@ function App() {
     setAnalysisProgress({ step: 'Parsing ingredients...', current: 0, total: ingredients.length });
 
     const analyzed = await Promise.all(ingredients.map(async (ingredient, index) => {
-      console.log(`\n${'='.repeat(80)}`);
-      console.log(`🔍 ANALYZING INGREDIENT [${index + 1}/${ingredients.length}]: "${ingredient}"`);
-      console.log(`${'='.repeat(80)}`);
-
       setAnalysisProgress({ step: 'Analyzing ingredients...', current: index + 1, total: ingredients.length });
       // Parse ingredient to extract main name and parenthetical name
       const match = ingredient.match(/^([^(]+)(?:\(([^)]+)\))?/);
@@ -808,9 +804,6 @@ function App() {
       const topLabel = manualLabels.length > 0 ? manualLabels[0] : null
       const hasManualLabel = manualLabels.length > 0;
 
-      console.log(`\n📊 Match Summary:`);
-      console.log(`   Pharma matches: ${allMatches.pharma.length}`);
-      console.log(`   Novel Food matches: ${allMatches.novel.length}`);
       if (allMatches.pharma.length > 0) {
         allMatches.pharma.forEach(m => console.log(`     - Pharma: ${m.result.item.name} (is_medicine: ${m.result.item.is_medicine})`));
       }
@@ -915,9 +908,7 @@ function App() {
         }
         else if (allMatches.novel.length > 0) {
           // Not in Substance Guide but found in Novel Food
-          console.log(`⚠️ Novel Food ONLY match (not in Ämnesguiden)`);
           const novelStatus = allMatches.novel[0].result.item.novel_food_status;
-          console.log(`   Novel Food Status: "${novelStatus}"`);
           const isActuallyNovel = novelStatus === 'Novel food';
           const needsConsultation = novelStatus === 'Subject to a consultation request';
           const isAuthorized = novelStatus === 'Authorised novel food' ||
@@ -926,7 +917,6 @@ function App() {
 
           if (isActuallyNovel) {
             // Novel food requiring authorization → NOT APPROVED (RED)
-            console.log(`   → Setting status: DANGER (Novel food requires authorization)`);
             status = 'danger';
             statusText = 'Non-Approved (Novel Food - Requires Authorization)';
             details = {
@@ -936,7 +926,6 @@ function App() {
             };
           } else if (isAuthorized) {
             // Authorized or not novel → APPROVED (Novel Food says OK)
-            console.log(`   → Setting status: APPROVED (Authorized/Not novel in Novel Food Catalogue)`);
             status = 'safe';
             statusText = 'Approved';
             details = {
@@ -946,7 +935,6 @@ function App() {
             };
           } else {
             // Under consultation or unknown
-            console.log(`   → Setting status: UNKNOWN (Under review/consultation)`);
             status = 'unknown';
             statusText = 'Unknown (Novel Food Under Review)';
             details = {
@@ -964,10 +952,6 @@ function App() {
       const shouldTranslate = enableTranslation && detectSwedishText(mainName);
 
       if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel && shouldTranslate) {
-        console.log(`\n🌐 TIER 2: TRANSLATION + EXACT MATCH`);
-        console.log(`  📝 Translating "${mainName}"...`);
-        console.log(`  ✅ Swedish text detected, translation enabled`);
-
         setAnalysisProgress({
           step: `Translating "${mainName}"...`,
           current: index + 1,
@@ -977,8 +961,6 @@ function App() {
         translationResult = await translateText(mainName);
 
         if (translationResult && translationResult.translatedText.toLowerCase() !== ingredient.toLowerCase()) {
-          console.log(`  ✅ Translated: "${mainName}" → "${translationResult.translatedText}"`);
-          console.log(`  🔎 Searching databases with translated term...`);
           // Search again with translated term
           const translatedNormalized = normalizeText(translationResult.translatedText);
           const translatedCacheKey = translatedNormalized;
@@ -1192,7 +1174,7 @@ function App() {
       // TIER 3 & 4: Fuzzy search as last resort (after exact match and translation failed)
       if (status === 'unknown' && allMatches.pharma.length === 0 && allMatches.novel.length === 0 && !topLabel) {
         setAnalysisProgress({
-          step: `Fuzzy searching "${ingredient}"...`,
+          step: `Fuzzy searching "${ingredient.slice(0, 10)}${ingredient.length > 10 ? "..." : ""}"`,
           current: index + 1,
           total: ingredients.length
         });
